@@ -14,6 +14,31 @@ interface ClientWithId extends WebSocket {
     username?: string;
 }
 
+const onlineUsers = new Map<string, ClientWithId>();
+
+function broadcastUserList() {
+    const users = Array.from(onlineUsers.values()).map(u => ({
+        uin: u.id,
+        username: u.username
+    }));
+    const listMsg = JSON.stringify({ type: 'user_list', users });
+    wss.clients.forEach(client => {
+        if (client.readyState === WebSocket.OPEN) {
+            client.send(listMsg);
+        }
+    });
+}
+
+function generateUIN(): string {
+    const min = 100000;
+    const max = 999999999;
+    let uin = Math.floor(Math.random() * (max - min + 1) + min).toString();
+    while (onlineUsers.has(uin)) {
+        uin = Math.floor(Math.random() * (max - min + 1) + min).toString();
+    }
+    return uin;
+}
+
 wss.on('connection', (ws: ClientWithId) => {
     console.log('New client connected');
 
@@ -23,22 +48,39 @@ wss.on('connection', (ws: ClientWithId) => {
             console.log('Received:', data);
 
             if (data.type === 'register') {
-                ws.username = data.username;
-                ws.id = Math.floor(Math.random() * 1000000).toString(); // Simple UIN for now
+                const uin = generateUIN();
+                ws.id = uin;
+                ws.username = data.username || `User_${uin}`;
+                onlineUsers.set(uin, ws);
+
                 ws.send(JSON.stringify({
                     type: 'registered',
                     uin: ws.id,
                     username: ws.username
                 }));
+
+                broadcastUserList();
+            }
+
+            if (data.type === 'direct_message') {
+                const target = onlineUsers.get(data.to);
+                if (target && target.readyState === WebSocket.OPEN) {
+                    target.send(JSON.stringify({
+                        type: 'direct_message',
+                        from: ws.id,
+                        fromUsername: ws.username,
+                        text: data.text
+                    }));
+                }
             }
 
             if (data.type === 'message') {
-                // Broadcast to all
                 wss.clients.forEach((client: ClientWithId) => {
-                    if (client !== ws && client.readyState === WebSocket.OPEN) {
+                    if (client.readyState === WebSocket.OPEN) {
                         client.send(JSON.stringify({
                             type: 'message',
-                            from: ws.username || ws.id,
+                            from: ws.id,
+                            fromUsername: ws.username,
                             text: data.text
                         }));
                     }
@@ -51,6 +93,10 @@ wss.on('connection', (ws: ClientWithId) => {
 
     ws.on('close', () => {
         console.log('Client disconnected');
+        if (ws.id) {
+            onlineUsers.delete(ws.id);
+            broadcastUserList();
+        }
     });
 });
 
