@@ -1,0 +1,14 @@
+{
+  "name": "nostachat",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "npm run build --workspaces",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start:server": "npm run start --workspace=@nostachat/server",
+    "dev:server": "npm run dev --workspace=@nostachat/server"
+  }
+}
