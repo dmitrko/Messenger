@@ -2,6 +2,7 @@
     "name": "@nostachat/shared",
     "version": "1.0.0",
     "private": true,
+    "type": "module",
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
     "scripts": {
@@ -9,6 +10,8 @@
         "watch": "tsc -w"
     },
     "dependencies": {
+        "crystals-kyber-js": "^2.7.0",
+        "libsodium-wrappers": "^0.8.2",
         "typescript": "^6.0.2"
     }
 }
