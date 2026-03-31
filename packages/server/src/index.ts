@@ -1,13 +1,24 @@
 import express from 'express';
 import { createServer } from 'http';
 import { WebSocketServer, WebSocket } from 'ws';
-import { User } from '@nostachat/shared';
+import { User, CryptoService } from '@nostachat/shared';
+import sodium_ from 'libsodium-wrappers';
 
 const app = express();
 const server = createServer(app);
 const wss = new WebSocketServer({ server });
 
 const PORT = process.env.PORT || 3002;
+
+const sodiumReady = sodium_.ready;
+// --- Global Room Configuration ---
+let PUBLIC_ROOM_KEY: Uint8Array;
+async function initRoom() {
+    await sodiumReady;
+    PUBLIC_ROOM_KEY = sodium_.randombytes_buf(32);
+    console.log('Public Room Key generated.');
+}
+initRoom();
 
 interface ClientWithId extends WebSocket {
     id?: string;
@@ -43,16 +54,24 @@ function generateUIN(): string {
     return uin;
 }
 
-wss.on('connection', (ws: ClientWithId) => {
+wss.on('connection', async (ws: ClientWithId) => {
     console.log('New client connected');
 
-    ws.on('message', (rawData: any) => {
+    ws.on('message', async (rawData: any) => {
         try {
             const message = rawData.toString();
             const data = JSON.parse(message);
-            console.log('--- Incoming Message ---');
-            console.log('Type:', data.type);
-            console.log('Data:', data);
+            
+            if (data.type === 'direct_message') {
+                console.log(`--- Incoming Private Message ---`);
+                console.log(`To: ${data.to} | Content: ${data.isEncrypted ? '[Encrypted E2EE Content]' : data.text}`);
+            } else if (data.type === 'message') {
+                console.log(`--- Incoming Public Message ---`);
+                console.log(`From: ${ws.id} | Text: ${data.isEncrypted ? '[Encrypted Public Content]' : data.text}`);
+            } else {
+                console.log('--- Incoming System Message ---');
+                console.log('Type:', data.type);
+            }
 
             if (data.type === 'register') {
                 console.log('Processing registration for:', data.username);
@@ -65,13 +84,20 @@ wss.on('connection', (ws: ClientWithId) => {
 
                 console.log('Assigning UIN:', uin);
 
+                // Seal the Room Key for the user
+                const sealedRoomKey = await CryptoService.sealRoomKey(
+                    PUBLIC_ROOM_KEY, 
+                    sodium_.from_base64(data.publicKey)
+                );
+
                 const response = JSON.stringify({
                     type: 'registered',
                     uin: ws.id,
-                    username: ws.username
+                    username: ws.username,
+                    sealedRoomKey
                 });
 
-                console.log('Sending confirmation to client:', response);
+                console.log('Sending confirmation to client (with sealed key)');
                 ws.send(response);
 
                 broadcastUserList();
@@ -92,10 +118,9 @@ wss.on('connection', (ws: ClientWithId) => {
                 const target = onlineUsers.get(data.to);
                 if (target && target.readyState === WebSocket.OPEN) {
                     target.send(JSON.stringify({
-                        type: 'direct_message',
+                        ...data,
                         from: ws.id,
-                        fromUsername: ws.username,
-                        text: data.text
+                        fromUsername: ws.username
                     }));
                 }
             }
@@ -104,10 +129,9 @@ wss.on('connection', (ws: ClientWithId) => {
                 wss.clients.forEach((client: ClientWithId) => {
                     if (client.readyState === WebSocket.OPEN) {
                         client.send(JSON.stringify({
-                            type: 'message',
+                            ...data,
                             from: ws.id,
-                            fromUsername: ws.username,
-                            text: data.text
+                            fromUsername: ws.username
                         }));
                     }
                 });

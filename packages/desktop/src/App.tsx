@@ -8,6 +8,7 @@ import { Buffer } from 'buffer';
 if (typeof window !== 'undefined') {
     (window as any).Buffer = Buffer;
     (window as any).global = window;
+    (window as any).process = { env: {}, browser: true };
 }
 
 interface OnlineUser {
@@ -34,6 +35,8 @@ function App() {
     const [onlineUsers, setOnlineUsers] = useState<OnlineUser[]>([]);
     const [selectedUser, setSelectedUser] = useState<OnlineUser | null>(null);
     const [unreadCounts, setUnreadCounts] = useState<{ [uin: string]: number }>({});
+    const [buzzingUsers, setBuzzingUsers] = useState<{ [uin: string]: boolean }>({});
+    const [roomKey, setRoomKey] = useState<Uint8Array | null>(null);
     const [initError, setInitError] = useState<string | null>(null);
 
     // UI state
@@ -52,19 +55,42 @@ function App() {
         return () => window.removeEventListener('error', handleError);
     }, []);
 
-    // Crypto & services state
+    // State
     const [myKeys, setMyKeys] = useState<any>(null);
-    const ws = useRef<WebSocket | null>(null);
+
+    // Global refs to avoid stale closures in callbacks
+    const onlineUsersRef = useRef<OnlineUser[]>([]);
+    const myKeysRef = useRef<any>(null);
+    const roomKeyRef = useRef<Uint8Array | null>(null);
+    const uinRef = useRef<string>('');
     const selectedUserRef = useRef<OnlineUser | null>(null);
+    const ws = useRef<WebSocket | null>(null);
     const rtc = useRef<WebRTCService | null>(null);
 
-    // Sync ref
+    // Sync refs with state
+    useEffect(() => {
+        onlineUsersRef.current = onlineUsers;
+    }, [onlineUsers]);
+
+    useEffect(() => {
+        myKeysRef.current = myKeys;
+    }, [myKeys]);
+
+    useEffect(() => {
+        uinRef.current = uin;
+    }, [uin]);
+
+    useEffect(() => {
+        roomKeyRef.current = roomKey;
+    }, [roomKey]);
+
     useEffect(() => {
         selectedUserRef.current = selectedUser;
     }, [selectedUser]);
 
     const triggerBuzz = () => {
         setIsShaking(true);
+        // TODO: playSound('buzz');
         setTimeout(() => setIsShaking(false), 800);
     };
 
@@ -76,16 +102,42 @@ function App() {
         if (data.type === 'registered') {
             setUin(data.uin);
             setUsername(data.username);
+            if (data.sealedRoomKey && myKeysRef.current) {
+                try {
+                    const decryptedKey = await CryptoService.unsealRoomKey(
+                        data.sealedRoomKey,
+                        myKeysRef.current.classic.publicKey,
+                        myKeysRef.current.classic.privateKey
+                    );
+                    roomKeyRef.current = decryptedKey; // Update synchronously
+                    setRoomKey(decryptedKey);
+                    console.log('Room Key decrypted and stored.');
+                } catch (e) {
+                    console.error('Failed to decrypt room key', e);
+                }
+            }
         } else if (data.type === 'user_list') {
             setOnlineUsers(data.users);
         } else if (data.type === 'signal') {
             rtc.current?.handleSignal(data.from, data.signal);
         } else if (data.type === 'message') {
+            if (data.from === uinRef.current) return; // Ignore echo from server
+            let text = data.text;
+            let isSecure = false;
+            if (data.isEncrypted && roomKeyRef.current) {
+                try {
+                    text = await CryptoService.decryptSymmetric(data.text, roomKeyRef.current);
+                    isSecure = true;
+                } catch (e) {
+                    text = '[Ошибка расшифровки группы]';
+                }
+            }
             setMessages((prev) => [...prev, {
                 type: 'public',
                 from: data.fromUsername,
                 fromUin: data.from,
-                text: data.text
+                text,
+                isSecure
             }]);
         } else if (data.type === 'direct_message') {
             let messageText = data.text;
@@ -94,16 +146,17 @@ function App() {
             if (data.isBuzz) {
                 triggerBuzz();
                 messageText = '🔔 BUZZ! (Гудок)';
+                setBuzzingUsers(prev => ({ ...prev, [data.from]: true }));
             } else {
-                const sender = onlineUsers.find(u => u.uin === data.from);
-                if (data.isEncrypted && sender && myKeys) {
+                const sender = onlineUsersRef.current.find(u => u.uin === data.from);
+                if (data.isEncrypted && sender && myKeysRef.current) {
                     try {
                         messageText = await CryptoService.hybridDecrypt(
                             data.text,
                             data.kyberCT,
                             sodium.from_base64(sender.publicKey!),
-                            myKeys.kyber.secretKey,
-                            myKeys.classic.privateKey
+                            myKeysRef.current.kyber.secretKey,
+                            myKeysRef.current.classic.privateKey
                         );
                         isSecure = true;
                     } catch (e) {
@@ -138,29 +191,41 @@ function App() {
             async (peerId, encryptedData) => {
                 try {
                     const parsed = JSON.parse(encryptedData);
+                    console.log(`[P2P] Incoming message from ${peerId}:`, parsed);
 
                     if (parsed.type === 'buzz') {
                         triggerBuzz();
-                        return;
+                        setBuzzingUsers(prev => ({ ...prev, [peerId]: true }));
+                    } else {
+                        const sender = onlineUsersRef.current.find(u => u.uin === peerId);
+                        if (sender && myKeysRef.current) {
+                            const decrypted = await CryptoService.hybridDecrypt(
+                                parsed.ciphertext,
+                                parsed.kyberCT,
+                                sodium.from_base64(sender.publicKey!),
+                                myKeysRef.current.kyber.secretKey,
+                                myKeysRef.current.classic.privateKey
+                            );
+
+                            console.log(`[P2P] Decrypted message: ${decrypted}`);
+                            setMessages(prev => [...prev, {
+                                type: 'private',
+                                from: sender.username,
+                                fromUin: peerId,
+                                text: decrypted,
+                                isSecure: true
+                            }]);
+                        } else {
+                            console.warn('[P2P] Sender or Keys not found for', peerId);
+                        }
                     }
 
-                    const sender = onlineUsers.find(u => u.uin === peerId);
-                    if (sender && myKeys) {
-                        const decrypted = await CryptoService.hybridDecrypt(
-                            parsed.ciphertext,
-                            parsed.kyberCT,
-                            sodium.from_base64(sender.publicKey!),
-                            myKeys.kyber.secretKey,
-                            myKeys.classic.privateKey
-                        );
-
-                        setMessages(prev => [...prev, {
-                            type: 'private',
-                            from: sender.username,
-                            fromUin: peerId,
-                            text: decrypted,
-                            isSecure: true
-                        }]);
+                    // Update notifications for P2P
+                    if (!selectedUserRef.current || selectedUserRef.current.uin !== peerId) {
+                        setUnreadCounts(prev => ({
+                            ...prev,
+                            [peerId]: (prev[peerId] || 0) + 1
+                        }));
                     }
                 } catch (e) {
                     console.error('Failed to handle P2P data', e);
@@ -251,6 +316,11 @@ function App() {
                 delete updated[user.uin];
                 return updated;
             });
+            setBuzzingUsers(prev => {
+                const updated = { ...prev };
+                delete updated[user.uin];
+                return updated;
+            });
             if (user.publicKey) rtc.current?.getOrCreatePeer(user.uin, true);
         }
     };
@@ -284,7 +354,19 @@ function App() {
                 }]);
             }
         } else {
-            ws.current.send(JSON.stringify({ type: 'message', text: input }));
+            if (roomKey) {
+                const encrypted = await CryptoService.encryptSymmetric(input, roomKey);
+                ws.current.send(JSON.stringify({ 
+                    type: 'message', 
+                    text: encrypted.ciphertext,
+                    isEncrypted: true 
+                }));
+                setMessages((prev) => [...prev, {
+                    type: 'public', from: 'Я', fromUin: uin, text: input, isSecure: true
+                }]);
+            } else {
+                ws.current.send(JSON.stringify({ type: 'message', text: input }));
+            }
         }
         setInput('');
     };
@@ -315,13 +397,17 @@ function App() {
 
                     {/* Sidebar */}
                     <div style={{ width: '200px', display: 'flex', flexDirection: 'column' }}>
-                        <div className="section-content" style={{ marginBottom: '2px', padding: '5px' }}>
-                            <div className="icon-uin">UIN: {uin}</div>
-                            <div style={{ fontSize: '11px', color: '#555' }}>🔒 E2EE Active</div>
+                        <div className="section-content" style={{ marginBottom: '2px', padding: '5px', display: 'flex', alignItems: 'center', gap: '5px' }}>
+                            <div style={{ fontSize: '20px' }}>🌼</div>
+                            <div>
+                                <div className="icon-uin" style={{ fontWeight: 'bold' }}>{uin}</div>
+                                <div style={{ fontSize: '10px', color: '#008000' }}>Online</div>
+                            </div>
                         </div>
 
+                        {/* Sections */}
                         <div className="section-header" onClick={() => setContactsOpen(!contactsOpen)}>
-                            {contactsOpen ? '▼' : '▶'} КОНТАКТЫ ({onlineUsers.length > 0 ? onlineUsers.length - 1 : 0})
+                            {contactsOpen ? '▼' : '▶'} ДРУЗЬЯ ({onlineUsers.length > 0 ? onlineUsers.length - 1 : 0})
                         </div>
                         {contactsOpen && (
                             <div className="section-content" style={{ flex: 1, overflowY: 'auto' }}>
@@ -331,7 +417,10 @@ function App() {
                                 {onlineUsers.filter(u => u.uin !== uin).map(user => (
                                     <div key={user.uin} onClick={() => handleSelectUser(user)} style={{ padding: '3px 5px', cursor: 'pointer', backgroundColor: selectedUser?.uin === user.uin ? '#e0f0ff' : 'transparent', borderBottom: '1px solid #eee' }}>
                                         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                                            <span>👤 {user.username} {rtc.current?.isConnected(user.uin) && '⚡'}</span>
+                                            <span>
+                                                👤 {user.username} 
+                                                {buzzingUsers[user.uin] && <span title="Buzz!" style={{ marginLeft: '3px' }}>🔔</span>}
+                                            </span>
                                             {unreadCounts[user.uin] > 0 && <span style={{ color: 'red', fontWeight: 'bold' }}>[{unreadCounts[user.uin]}]</span>}
                                         </div>
                                     </div>
@@ -339,8 +428,15 @@ function App() {
                             </div>
                         )}
 
+                        <div className="section-header" style={{ marginTop: '2px' }}>
+                            ▶ СЕМЬЯ (0)
+                        </div>
+                        <div className="section-header" style={{ marginTop: '2px' }}>
+                            ▶ РАБОТА (0)
+                        </div>
+
                         <div className="section-header" onClick={() => setGroupsOpen(!groupsOpen)} style={{ marginTop: '2px' }}>
-                            {groupsOpen ? '▼' : '▶'} ГРУППЫ И КАНАЛЫ (0)
+                            {groupsOpen ? '▼' : '▶'} КАНАЛЫ И ГРУППЫ (0)
                         </div>
                         {groupsOpen && (
                             <div className="section-content" style={{ padding: '10px', color: '#999' }}>

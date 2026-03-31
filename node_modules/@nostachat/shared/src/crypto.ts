@@ -16,6 +16,44 @@ export class CryptoService {
         };
     }
 
+    // --- Symmetric Encryption (XSalsa20-Poly1305) for Groups ---
+    
+    static async encryptSymmetric(message: string, key: Uint8Array) {
+        await sodium.ready;
+        const nonce = sodium.randombytes_buf(24);
+        const encrypted = sodium.crypto_secretbox_easy(message, nonce, key);
+        return {
+            ciphertext: sodium.to_base64(new Uint8Array([...nonce, ...encrypted]))
+        };
+    }
+
+    static async decryptSymmetric(ciphertextBase64: string, key: Uint8Array) {
+        await sodium.ready;
+        const data = sodium.from_base64(ciphertextBase64);
+        if (data.length < 24 + 16) throw new Error('Invalid symmetric ciphertext');
+        const nonce = data.slice(0, 24);
+        const ciphertext = data.slice(24);
+        const decrypted = sodium.crypto_secretbox_open_easy(ciphertext, nonce, key);
+        if (decrypted) return sodium.to_string(decrypted);
+        throw new Error('Symmetric decryption failed');
+    }
+
+    // --- Anonymous Encryption (Seal) for Key Distribution ---
+
+    static async sealRoomKey(key: Uint8Array, recipientPK: Uint8Array) {
+        await sodium.ready;
+        const sealed = sodium.crypto_box_seal(key, recipientPK);
+        return sodium.to_base64(sealed);
+    }
+
+    static async unsealRoomKey(sealedBase64: string, recipientPK: Uint8Array, recipientSK: Uint8Array) {
+        await sodium.ready;
+        const sealed = sodium.from_base64(sealedBase64);
+        const unsealed = sodium.crypto_box_seal_open(sealed, recipientPK, recipientSK);
+        if (unsealed) return unsealed;
+        throw new Error('Unsealing room key failed');
+    }
+
     static async hybridEncrypt(
         message: string,
         recipientClassicPK: Uint8Array,
@@ -29,7 +67,7 @@ export class CryptoService {
 
         // Kyber encapsulation
         const kyberImpl = new MlKem768();
-        const [kyberSS, kyberCT] = await kyberImpl.encap(recipientKyberPK);
+        const [kyberCT, kyberSS] = await kyberImpl.encap(recipientKyberPK);
 
         // XOR + BLAKE2b -> мастер-ключ
         const combined = new Uint8Array([...classicSS, ...kyberSS]);
@@ -64,6 +102,13 @@ export class CryptoService {
         const data = sodium.from_base64(ciphertextBase64);
         const nonce = data.slice(0, 24);
         const actualCiphertext = data.slice(24);
+
+        console.log(`[Crypto] Decrypting: data_len=${data.length}, ct_len=${actualCiphertext.length}`);
+        
+        if (actualCiphertext.length < 16) {
+             console.error('[Crypto] Ciphertext too short! Data:', ciphertextBase64);
+             throw new Error('Invalid ciphertext size');
+        }
 
         const decrypted = sodium.crypto_secretbox_open_easy(actualCiphertext, nonce, masterKey);
 

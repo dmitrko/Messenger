@@ -6,6 +6,12 @@ export declare class CryptoService {
             secretKey: Uint8Array<ArrayBufferLike>;
         };
     }>;
+    static encryptSymmetric(message: string, key: Uint8Array): Promise<{
+        ciphertext: any;
+    }>;
+    static decryptSymmetric(ciphertextBase64: string, key: Uint8Array): Promise<any>;
+    static sealRoomKey(key: Uint8Array, recipientPK: Uint8Array): Promise<any>;
+    static unsealRoomKey(sealedBase64: string, recipientPK: Uint8Array, recipientSK: Uint8Array): Promise<any>;
     static hybridEncrypt(message: string, recipientClassicPK: Uint8Array, recipientKyberPK: Uint8Array, senderClassicSK: Uint8Array): Promise<{
         ciphertext: any;
         kyberCT: any;

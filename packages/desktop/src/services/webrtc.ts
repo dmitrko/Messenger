@@ -1,4 +1,4 @@
-import Peer from 'simple-peer';
+import Peer from 'simple-peer/simplepeer.min.js';
 import { Buffer } from 'buffer';
 
 if (typeof window !== 'undefined') {
