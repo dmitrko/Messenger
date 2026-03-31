@@ -1,0 +1,249 @@
+<field><name=code><type=int></field>
+<field><name=region><type=int></field>
+<field><name=name><type=string></field>
+<field><name=type><type=int></field>
+<item><code=-1><region=-1><name=""><type=3></item>
+<item><code=1><region=1><name="USA"><type=3></item>
+<item><code=101><region=1><name="Anguilla"><type=3></item>
+<item><code=102><region=1><name="Antigua"><type=6></item>
+<item><code=1021><region=1><name="Antigua and Barbuda"><type=3></item>
+<item><code=103><region=1><name="Bahamas"><type=3></item>
+<item><code=104><region=1><name="Barbados"><type=3></item>
+<item><code=105><region=1><name="Bermuda"><type=3></item>
+<item><code=106><region=1><name="British Virgin Islands"><type=3></item>
+<item><code=107><region=1><name="Canada"><type=3></item>
+<item><code=108><region=1><name="Cayman Islands"><type=3></item>
+<item><code=109><region=1><name="Dominica"><type=3></item>
+<item><code=110><region=1><name="Dominican Republic"><type=3></item>
+<item><code=111><region=1><name="Grenada"><type=3></item>
+<item><code=112><region=1><name="Jamaica"><type=3></item>
+<item><code=113><region=1><name="Montserrat"><type=3></item>
+<item><code=114><region=1><name="Nevis"><type=6></item>
+<item><code=115><region=1><name="St. Kitts"><type=6></item>
+<item><code=1141><region=1><name="Saint Kitts and Nevis"><type=3></item>
+<item><code=116><region=1><name="St. Vincent and the Grenadines"><type=3></item>
+<item><code=117><region=1><name="Trinidad and Tobago"><type=3></item>
+<item><code=118><region=1><name="Turks and Caicos Islands"><type=3></item>
+<item><code=120><region=1><name="Barbuda"><type=6></item>
+<item><code=121><region=1><name="Puerto Rico, Common Wealth of"><type=3></item>
+<item><code=122><region=1><name="Saint Lucia"><type=3></item>
+<item><code=123><region=1><name="Virgin Islands of the United States"><type=3></item>
+<item><code=178><region=1><name="Canary Islands"><type=3></item>
+<item><code=20><region=20><name="Egypt"><type=3></item>
+<item><code=212><region=212><name="Morocco"><type=3></item>
+<item><code=213><region=213><name="Algeria"><type=3></item>
+<item><code=216><region=216><name="Tunisia"><type=3></item>
+<item><code=218><region=218><name="Libyan Arab Jamahiriya"><type=3></item>
+<item><code=220><region=220><name="Gambia"><type=3></item>
+<item><code=221><region=221><name="Senegal"><type=3></item>
+<item><code=222><region=222><name="Mauritania"><type=3></item>
+<item><code=223><region=223><name="Mali"><type=3></item>
+<item><code=224><region=224><name="Guinea"><type=3></item>
+<item><code=225><region=225><name="Cote d'Ivoire"><type=3></item>
+<item><code=226><region=226><name="Burkina Faso"><type=3></item>
+<item><code=227><region=227><name="Niger"><type=3></item>
+<item><code=228><region=228><name="Togo"><type=3></item>
+<item><code=229><region=229><name="Benin"><type=3></item>
+<item><code=230><region=230><name="Mauritius"><type=3></item>
+<item><code=231><region=231><name="Liberia"><type=3></item>
+<item><code=232><region=232><name="Sierra Leone"><type=3></item>
+<item><code=233><region=233><name="Ghana"><type=3></item>
+<item><code=234><region=234><name="Nigeria"><type=3></item>
+<item><code=235><region=235><name="Chad"><type=3></item>
+<item><code=236><region=236><name="Central African Republic"><type=3></item>
+<item><code=237><region=237><name="Cameroon"><type=3></item>
+<item><code=238><region=238><name="Cape Verde Islands"><type=3></item>
+<item><code=239><region=239><name="Sao Tome & Principe"><type=3></item>
+<item><code=240><region=240><name="Equatorial Guinea"><type=3></item>
+<item><code=241><region=241><name="Gabon"><type=3></item>
+<item><code=242><region=242><name="Congo, (Republic of the)"><type=3></item>
+<item><code=243><region=243><name="Congo, Democratic Republic of (Zaire)"><type=3></item>
+<item><code=244><region=244><name="Angola"><type=3></item>
+<item><code=245><region=245><name="Guinea-Bissau"><type=3></item>
+<item><code=246><region=246><name="Diego Garcia"><type=3></item>
+<item><code=247><region=247><name="Ascension Island"><type=3></item>
+<item><code=248><region=248><name="Seychelles"><type=3></item>
+<item><code=249><region=249><name="Sudan"><type=3></item>
+<item><code=250><region=250><name="Rwanda"><type=3></item>
+<item><code=251><region=251><name="Ethiopia"><type=3></item>
+<item><code=252><region=252><name="Somalia"><type=3></item>
+<item><code=253><region=253><name="Djibouti"><type=3></item>
+<item><code=254><region=254><name="Kenya"><type=3></item>
+<item><code=255><region=255><name="Tanzania, United Republic of"><type=3></item>
+<item><code=256><region=256><name="Uganda"><type=3></item>
+<item><code=257><region=257><name="Burundi"><type=3></item>
+<item><code=258><region=258><name="Mozambique"><type=3></item>
+<item><code=260><region=260><name="Zambia"><type=3></item>
+<item><code=261><region=261><name="Madagascar"><type=3></item>
+<item><code=262><region=262><name="Reunion Island"><type=3></item>
+<item><code=263><region=263><name="Zimbabwe"><type=3></item>
+<item><code=264><region=264><name="Namibia"><type=3></item>
+<item><code=265><region=265><name="Malawi"><type=3></item>
+<item><code=266><region=266><name="Lesotho"><type=3></item>
+<item><code=267><region=267><name="Botswana"><type=3></item>
+<item><code=268><region=268><name="Swaziland"><type=3></item>
+<item><code=269><region=269><name="Mayotte Island"><type=3></item>
+<item><code=2691><region=269><name="Comoros"><type=3></item>
+<item><code=27><region=27><name="South Africa"><type=3></item>
+<item><code=290><region=290><name="St. Helena"><type=3></item>
+<item><code=291><region=291><name="Eritrea"><type=3></item>
+<item><code=297><region=297><name="Aruba"><type=3></item>
+<item><code=298><region=298><name="Faeroe Islands"><type=3></item>
+<item><code=299><region=299><name="Greenland"><type=3></item>
+<item><code=30><region=30><name="Greece"><type=3></item>
+<item><code=31><region=31><name="Netherlands"><type=3></item>
+<item><code=32><region=32><name="Belgium"><type=3></item>
+<item><code=33><region=33><name="France"><type=3></item>
+<item><code=34><region=34><name="Spain"><type=3></item>
+<item><code=350><region=350><name="Gibraltar"><type=3></item>
+<item><code=351><region=351><name="Portugal"><type=3></item>
+<item><code=352><region=352><name="Luxembourg"><type=3></item>
+<item><code=353><region=353><name="Ireland"><type=3></item>
+<item><code=354><region=354><name="Iceland"><type=3></item>
+<item><code=355><region=355><name="Albania"><type=3></item>
+<item><code=356><region=356><name="Malta"><type=3></item>
+<item><code=357><region=357><name="Cyprus"><type=3></item>
+<item><code=358><region=358><name="Finland"><type=3></item>
+<item><code=359><region=359><name="Bulgaria"><type=3></item>
+<item><code=36><region=36><name="Hungary"><type=3></item>
+<item><code=370><region=370><name="Lithuania"><type=3></item>
+<item><code=371><region=371><name="Latvia"><type=3></item>
+<item><code=372><region=372><name="Estonia"><type=3></item>
+<item><code=373><region=373><name="Moldova, Republic of"><type=3></item>
+<item><code=374><region=374><name="Armenia"><type=3></item>
+<item><code=375><region=375><name="Belarus"><type=3></item>
+<item><code=376><region=376><name="Andorra"><type=3></item>
+<item><code=377><region=377><name="Monaco"><type=3></item>
+<item><code=378><region=378><name="San Marino"><type=3></item>
+<item><code=379><region=39><name="Vatican City"><type=3></item>
+<item><code=380><region=380><name="Ukraine"><type=3></item>
+<item><code=3811><region=381><name="Yugoslavia - Serbia"><type=3></item>
+<item><code=382><region=381><name="Yugoslavia - Montenegro"><type=3></item>
+<item><code=381><region=381><name="Yugoslavia"><type=6></item>
+<item><code=385><region=385><name="Croatia"><type=3></item>
+<item><code=386><region=386><name="Slovenia"><type=3></item>
+<item><code=387><region=387><name="Bosnia and Herzegovina"><type=3></item>
+<item><code=389><region=389><name="Macedonia (F.Y.R.O.M.)"><type=3></item>
+<item><code=39><region=39><name="Italy"><type=3></item>
+<item><code=40><region=40><name="Romania"><type=3></item>
+<item><code=41><region=41><name="Switzerland"><type=3></item>
+<item><code=4101><region=41><name="Liechtenstein"><type=3></item>
+<item><code=42><region=420><name="Czech Republic"><type=3></item>
+<item><code=4201><region=421><name="Slovakia"><type=3></item>
+<item><code=43><region=43><name="Austria"><type=3></item>
+<item><code=44><region=44><name="United Kingdom of Great Britain"><type=3></item>
+<item><code=441><region=44><name="Wales"><type=6></item>
+<item><code=442><region=44><name="Scotland"><type=6></item>
+<item><code=45><region=45><name="Denmark"><type=3></item>
+<item><code=46><region=46><name="Sweden"><type=3></item>
+<item><code=47><region=47><name="Norway"><type=3></item>
+<item><code=48><region=48><name="Poland"><type=3></item>
+<item><code=49><region=49><name="Germany"><type=3></item>
+<item><code=500><region=500><name="Falkland Islands"><type=3></item>
+<item><code=501><region=501><name="Belize"><type=3></item>
+<item><code=502><region=502><name="Guatemala"><type=3></item>
+<item><code=503><region=503><name="El Salvador"><type=3></item>
+<item><code=504><region=504><name="Honduras"><type=3></item>
+<item><code=505><region=505><name="Nicaragua"><type=3></item>
+<item><code=506><region=506><name="Costa Rica"><type=3></item>
+<item><code=507><region=507><name="Panama"><type=3></item>
+<item><code=508><region=508><name="St. Pierre and Miquelon"><type=3></item>
+<item><code=509><region=509><name="Haiti"><type=3></item>
+<item><code=51><region=51><name="Peru"><type=3></item>
+<item><code=52><region=52><name="Mexico"><type=3></item>
+<item><code=53><region=53><name="Cuba"><type=3></item>
+<item><code=54><region=54><name="Argentina"><type=3></item>
+<item><code=55><region=55><name="Brazil"><type=3></item>
+<item><code=56><region=56><name="Chile, Republic of"><type=3></item>
+<item><code=57><region=57><name="Colombia"><type=3></item>
+<item><code=58><region=58><name="Venezuela"><type=3></item>
+<item><code=590><region=590><name="Guadeloupe"><type=3></item>
+<item><code=5901><region=590><name="French Antilles"><type=6></item>
+<item><code=5902><region=590><name="Antilles"><type=3></item>
+<item><code=591><region=591><name="Bolivia"><type=3></item>
+<item><code=592><region=592><name="Guyana"><type=3></item>
+<item><code=593><region=593><name="Ecuador"><type=3></item>
+<item><code=594><region=594><name="French Guiana"><type=3></item>
+<item><code=595><region=595><name="Paraguay"><type=3></item>
+<item><code=596><region=596><name="Martinique"><type=3></item>
+<item><code=597><region=597><name="Suriname"><type=3></item>
+<item><code=598><region=598><name="Uruguay"><type=3></item>
+<item><code=599><region=599><name="Netherlands Antilles"><type=3></item>
+<item><code=60><region=60><name="Malaysia"><type=3></item>
+<item><code=61><region=61><name="Australia"><type=3></item>
+<item><code=6101><region=61><name="Cocos-Keeling Islands"><type=6></item>
+<item><code=6102><region=61><name="Cocos (Keeling) Islands"><type=3></item>
+<item><code=62><region=62><name="Indonesia"><type=3></item>
+<item><code=63><region=63><name="Philippines"><type=3></item>
+<item><code=64><region=64><name="New Zealand"><type=3></item>
+<item><code=65><region=65><name="Singapore"><type=3></item>
+<item><code=66><region=66><name="Thailand"><type=3></item>
+<item><code=670><region=670><name="Saipan Island"><type=3></item>
+<item><code=6701><region=670><name="Rota Island"><type=3></item>
+<item><code=6702><region=670><name="Tinian Island"><type=3></item>
+<item><code=671><region=671><name="Guam, US Territory of"><type=3></item>
+<item><code=672><region=672><name="Christmas Island"><type=3></item>
+<item><code=6722><region=672><name="Norfolk Island"><type=3></item>
+<item><code=673><region=673><name="Brunei"><type=3></item>
+<item><code=674><region=674><name="Nauru"><type=3></item>
+<item><code=675><region=675><name="Papua New Guinea"><type=3></item>
+<item><code=676><region=676><name="Tonga"><type=3></item>
+<item><code=677><region=677><name="Solomon Islands"><type=3></item>
+<item><code=678><region=678><name="Vanuatu"><type=3></item>
+<item><code=679><region=679><name="Fiji"><type=3></item>
+<item><code=680><region=680><name="Palau"><type=3></item>
+<item><code=681><region=681><name="Wallis and Futuna Islands"><type=3></item>
+<item><code=682><region=682><name="Cook Islands"><type=3></item>
+<item><code=683><region=683><name="Niue"><type=3></item>
+<item><code=684><region=684><name="American Samoa"><type=3></item>
+<item><code=685><region=685><name="Western Samoa"><type=3></item>
+<item><code=686><region=686><name="Kiribati"><type=3></item>
+<item><code=687><region=687><name="New Caledonia"><type=3></item>
+<item><code=688><region=688><name="Tuvalu"><type=3></item>
+<item><code=689><region=689><name="French Polynesia"><type=3></item>
+<item><code=690><region=690><name="Tokelau"><type=3></item>
+<item><code=691><region=691><name="Micronesia, Federated States of"><type=3></item>
+<item><code=692><region=692><name="Marshall Islands"><type=3></item>
+<item><code=7><region=7><name="Russia"><type=3></item>
+<item><code=705><region=7><name="Kazakhstan"><type=3></item>
+<item><code=706><region=7><name="Kyrgyzstan"><type=3></item>
+<item><code=708><region=7><name="Tajikistan"><type=3></item>
+<item><code=709><region=993><name="Turkmenistan"><type=3></item>
+<item><code=711><region=998><name="Uzbekistan"><type=3></item>
+<item><code=81><region=81><name="Japan"><type=3></item>
+<item><code=82><region=82><name="Korea (South Korea), Republic of"><type=3></item>
+<item><code=84><region=84><name="Viet Nam"><type=3></item>
+<item><code=850><region=850><name="Korea (North Korea), Democratic People's Republic of"><type=3></item>
+<item><code=852><region=852><name="Hong Kong"><type=3></item>
+<item><code=853><region=853><name="Macau"><type=3></item>
+<item><code=855><region=855><name="Cambodia"><type=3></item>
+<item><code=856><region=856><name="Lao People's Democratic Republic"><type=3></item>
+<item><code=86><region=86><name="China"><type=3></item>
+<item><code=880><region=880><name="Bangladesh"><type=3></item>
+<item><code=886><region=886><name="Taiwan"><type=3></item>
+<item><code=90><region=90><name="Turkey"><type=3></item>
+<item><code=91><region=91><name="India"><type=3></item>
+<item><code=92><region=92><name="Pakistan"><type=3></item>
+<item><code=93><region=93><name="Afghanistan"><type=3></item>
+<item><code=94><region=94><name="Sri Lanka"><type=3></item>
+<item><code=95><region=95><name="Myanmar"><type=3></item>
+<item><code=960><region=960><name="Maldives"><type=3></item>
+<item><code=961><region=961><name="Lebanon"><type=3></item>
+<item><code=962><region=962><name="Jordan"><type=3></item>
+<item><code=963><region=963><name="Syrian Arab Republic"><type=3></item>
+<item><code=964><region=964><name="Iraq"><type=3></item>
+<item><code=965><region=965><name="Kuwait"><type=3></item>
+<item><code=966><region=966><name="Saudi Arabia"><type=3></item>
+<item><code=967><region=967><name="Yemen"><type=3></item>
+<item><code=968><region=968><name="Oman"><type=3></item>
+<item><code=971><region=971><name="United Arab Emirates"><type=3></item>
+<item><code=972><region=972><name="Israel"><type=3></item>
+<item><code=973><region=973><name="Bahrain"><type=3></item>
+<item><code=974><region=974><name="Qatar"><type=3></item>
+<item><code=975><region=975><name="Bhutan"><type=3></item>
+<item><code=976><region=976><name="Mongolia"><type=3></item>
+<item><code=977><region=977><name="Nepal"><type=3></item>
+<item><code=98><region=98><name="Iran (Islamic Republic of)"><type=3></item>
+<item><code=994><region=994><name="Azerbaijan"><type=3></item>
+<item><code=995><region=995><name="Georgia"><type=3></item>
+<item><code=9999><region=0><name="Unknown"><type=3></item>

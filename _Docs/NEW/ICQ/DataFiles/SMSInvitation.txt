@@ -1,0 +1,11 @@
+Hello!  
+%C 
+ 
+I want to invite you to use this cool ICQ service: send text messages to my cell phone with ICQ SMS! . 
+All you need to do is click my name on your Contact List, click SMS Message, fill in my cell phone number and send! 
+Once you start using it, we can stay connected always, wherever we are! 
+     
+See you on ICQ 
+%X 
+ICQ #: %U 
+

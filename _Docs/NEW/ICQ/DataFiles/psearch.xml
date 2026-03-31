@@ -1,0 +1,12 @@
+<root>
+	<item>
+		<use>1</use>
+	 	<title></title>
+	 	<tip>Google</tip>
+		<url>http://google.icq.com/search/results/?q==REPLACEME&amp;ie=utf-8&amp;oe=utf-8</url>
+	 	<bitmap></bitmap>
+		<size>17</size>
+	 	<editbitmap>goognew</editbitmap>
+		<editsize>76</editsize>
+	</item>
+</root>

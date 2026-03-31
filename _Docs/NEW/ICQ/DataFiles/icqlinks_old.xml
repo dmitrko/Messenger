@@ -1,0 +1,270 @@
+<root>
+   <item>
+      <name>BookmarkDir</name>
+      <url>%icqdir%\Bookmark</url>
+   </item>
+   <item>
+      <name>Menu</name>
+      <url>%icqdir%\Bookmark\ICQBMMenu.html</url>
+   </item>
+   <item>
+      <name>User</name>
+      <url>%icqdir%\Bookmark\ICQBMUser.html</url>
+   </item>
+   <item>
+      <tip>Help Menu</tip>
+      <name>Dest</name>
+      <url>%icqdir%\Bookmark\Bookmark.html</url>
+   </item>
+   <item>
+      <tip>Default Page</tip>
+      <name>StartPage</name>
+      <url>http://web.icq.com/today/?icquin=%icquin%&amp;icqsl=%icqsl%&amp;icqc=%icqc%&amp;icqver=%icqver%</url>
+   </item>
+   <item>
+      <tip>the button on the messages windows</tip>
+      <name>WWP</name>
+      <url>http://wwp.icq.com/wwp/1,,cluin,00.html?Uin=%d</url>
+   </item>
+  <item>
+      <tip>File Sharing</tip>
+      <name>File Sharing Help</name>
+      <url>http://web.icq.com/help/quickhelp/1,,109,00.html</url>
+   </item>
+   <item>
+      <tip>SMS Confirmation Dialog</tip>
+      <name>SMS Available Networks</name>
+      <url>http://cf.icq.com/cf/2003/sms_nw.html</url>
+   </item>
+   <item>
+      <tip>ICQL</tip>
+      <name>ICQL</name>
+      <url>http://www.icq.com/download</url>
+   </item>
+
+   <item>
+      <tip>ICQ Help Center</tip>
+      <name>Help Center</name>
+      <url>http://web.icq.com/help/</url>
+   </item>
+   <item>
+      <tip>cant connect</tip>
+      <name>Password</name>
+      <url>http://cf.icq.com/cf/2003/lost_password.html</url>
+   </item>
+   <item>
+      <tip>cant connect</tip>
+      <name>PasswordR</name>
+      <url>http://cf.icq.com/cf/2003/lost_password.html</url>
+   </item>
+   <item>
+      <tip>Reconnect Dialog</tip>
+      <name>Connection</name>
+      <url>http://cf.icq.com/cf/2003/network_status.html</url>
+   </item>
+   <item>
+      <tip>Register Existing User</tip>
+      <name>Whitepages</name>
+      <url>http://cf.icq.com/cf/2003/white_pages.html</url>
+   </item>
+   <item>
+      <tip>Add Find user</tip>
+      <name>Users Lists</name>
+      <url>http://cf.icq.com/cf/2003/user_list.html</url>
+   </item>
+   <item>
+      <tip>Add Find Chat room</tip>
+      <name>Chat Rooms</name>
+      <url>http://cf.icq.com/cf/2003/chat_rooms.html</url>
+   </item>
+   <item>
+      <tip>WWP Help menu</tip>
+      <name>WWP Help</name>
+      <url>http://cf.icq.com/cf/2003/wwpager_help.html</url>
+   </item>
+   <item>
+      <tip>EmailExpress Help Menu</tip>
+      <name>EmailExpress Help</name>
+      <url>http://cf.icq.com/cf/2003/emailexpress_help.html</url>
+   </item>
+   <item>
+      <tip>Registration Fail Register</tip>
+      <name>Fail Register</name>
+      <url>http://cf.icq.com/cf/2003/fail_register.html</url>
+   </item>
+   <item>
+      <tip>Add Find People</tip>
+      <name>Main Page</name>
+      <url>http://cf.icq.com/cf/2003/make_friend.html</url>
+   </item>
+   <item>
+      <tip>Registration Firewall help</tip>
+      <name>Firewall Help</name>
+      <url>http://cf.icq.com/cf/2003/firewall_help.html</url>
+   </item>
+   <item>
+      <tip>About Security</tip>
+      <name>About Security</name>
+      <url>http://cf.icq.com/cf/2003/about_security.html</url>
+   </item>
+   <item>
+      <tip>Help Menu Books</tip>
+      <name>ICQ Book</name>
+      <url>http://cf.icq.com/cf/2003/icq_book.html</url>
+   </item>
+   <item>
+      <tip>Help Menu</tip>
+      <name>Help</name>
+      <url>http://cf.icq.com/cf/2003/help.html</url>
+   </item>
+   <item>
+      <tip>Phone web Help</tip>
+      <name>Phone Help</name>
+      <url>http://cf.icq.com/cf/2003/phone_help.html</url>
+   </item>
+   <item>
+      <tip>Random Chat</tip>
+      <name>About Chat</name>
+      <url>http://cf.icq.com/cf/2003/free_chat_help.html</url>
+   </item>
+   <item>
+      <tip>User Info</tip>
+      <name>Web Directories Update</name>
+      <url>http://cf.icq.com/cf/2003/white_pages_directories.html</url>
+   </item>
+   <item>
+      <tip>Birthday Center</tip>
+      <name>Birthday Center</name>
+      <url>http://cf.icq.com/cf/2003/birthday_center.html</url>
+   </item>
+   <item>
+      <tip>Homepage Directory</tip>
+      <name>Homepage Directory</name>
+      <url>http://cf.icq.com/cf/2003/homepage_directory.html</url>
+   </item>
+   <item>
+      <tip>Plugins Center</tip>
+      <name>Plugins Center</name>
+      <url>http://www.icq.com/icqtour/advanced/services.html</url>
+   </item>
+   <item>
+      <tip>User Info</tip>
+      <name>Map</name>
+      <url>http://web.icq.com/cf/icqmap</url>
+   </item>
+   <item>
+      <tip>User Info</tip>
+      <name>Zodiac</name>
+      <url>http://cf.icq.com/cf/2003/zodiac.html</url>
+   </item>
+   <item>
+      <tip>ICQ SoundSchemes</tip>
+      <name>ICQ SoundSchemes</name>
+      <url>http://cf.icq.com/cf/2003/sound_schemes.html</url>
+   </item>
+   <item>
+      <tip>SMTP Help</tip>
+      <name>SMTP Help</name>
+      <url>http://cf.icq.com/cf/2003/smtp_help.html</url>
+   </item>
+   <item>
+      <tip>POP3 Help</tip>
+      <name>POP3 Help</name>
+      <url>http://cf.icq.com/cf/2003/pop3_help.html</url>
+   </item>
+   <item>
+      <tip>Info Phone</tip>
+      <name>Phone Center</name>
+      <url>http://cf.icq.com/cf/2003/phone_center.html</url>
+   </item>
+   <item>
+      <tip>Info Phone Guides</tip>
+      <name>Phone Guides</name>
+      <url>http://cf.icq.com/cf/2003/phone_guides.html</url>
+   </item>
+   <item>
+      <tip>Web Front</tip>
+      <name>Webfront Help</name>
+      <url>http://cf.icq.com/cf/2003/webfront_help.html</url>
+   </item>
+   <item>
+      <tip>Random Chat</tip>
+      <name>About Random</name>
+      <url>http://cf.icq.com/cf/2003/random_chat_help.html</url>
+   </item>
+   <item>
+      <tip>Mail Plugin</tip>
+      <name>Email Center</name>
+      <url>http://cf.icq.com/cf/2003/email_center.html</url>
+   </item>
+   <item>
+      <tip>Email Signature</tip>
+      <name>Email Signature</name>
+      <url>http://cf.icq.com/cf/2003/email_signature.html</url>
+   </item>
+   <item>
+      <tip>Web Front</tip>
+      <name>WebFrontSecurityURL</name>
+      <url>http://cf.icq.com/cf/2003/webfront_security.html</url>
+   </item>
+   <item>
+      <tip>Web Aware</tip>
+      <name>WebAwareSecurityURL</name>
+      <url>http://cf.icq.com/cf/2003/webaware_security.html</url>
+   </item>
+   <item>
+      <tip>WebSearch Help</tip>
+      <name>WebSearch Help</name>
+      <url>http://cf.icq.com/cf/2003/websearch_help.html</url>
+   </item>
+   <item>
+      <tip>Words List</tip>
+      <name>About WordsList</name>
+      <url>http://cf.icq.com/cf/2003/filter_wordlist.html</url>
+   </item>
+   <item>
+      <tip>TermsOfService</tip>
+      <name>TermsOfService</name>
+      <url>http://cf.icq.com/cf/2003/legal.html</url>
+   </item>
+   <item>
+      <tip>Phone</tip>
+      <name>Phone Settings</name>
+      <url>http://cf.icq.com/cf/2003/phone_guides.html</url>
+   </item>
+   <item>
+      <tip>ICQMail</tip>
+      <name>ICQmail signup</name>
+      <url>http://www.icq.com/icqmail/client.html</url>
+   </item>
+   <item>
+      <tip>ICQMail</tip>
+      <name>ICQmail Help</name>
+      <url>http://public.icq.com/public/icqmail/help/english/</url>
+   </item>
+   <item>
+      <tip>Preferences</tip>
+      <name>Preferences</name>
+      <url>http://cf.icq.com/cf/2003/preferences.html</url>
+   </item>
+   <item>
+      <tip>Basic Help</tip>
+      <name>HowTo</name>
+      <url>http://cf.icq.com/cf/2003/howto.html</url>
+   </item>
+   <item>
+      <tip>Connection Site</tip>
+      <name>Connection Site</name>
+      <url>http://www.icq.com/icqtour/connection.html</url>
+   </item>
+   <item>
+      <tip>Connection Error</tip>
+      <name>Connection Error</name>
+      <url>http://www.icq.com/icqtour/connection.html</url>
+   </item>
+   <item>
+      <tip>Delete User</tip>
+      <name>Delete User</name>
+      <url>http://cf.icq.com/cf/2003/unregister.html</url>
+   </item>
+</root>

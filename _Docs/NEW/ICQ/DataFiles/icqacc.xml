@@ -1,0 +1,27 @@
+<root>
+	<item>
+		<Caption>Newsletter</Caption>
+	 	<Enable>No</Enable>
+	 	<Path>newletr.ico</Path>
+		<menu>
+			<submenu0>
+				<Caption>Back Issues</Caption>
+			 	<Browser>Yes</Browser>
+		 		<Enable>No</Enable>
+				<URL>http://cf.icq.com/cf/2003b/newsletter.html</URL>
+			</submenu0>
+			<submenu1>
+				<Caption>Subscribe</Caption>
+			 	<Browser>Yes</Browser>
+		 		<Enable>No</Enable>
+				<URL>http://cf.icq.com/cf/2003b/newsletter.html?USER_EMAIL</URL>
+			</submenu1>
+			<submenu2>
+				<Caption>Unsubscribe</Caption>
+			 	<Browser>Yes</Browser>
+		 		<Enable>No</Enable>
+				<URL>http://cf.icq.com/cf/2003b/newsletterunsubscribe.html?USER_EMAIL</URL>
+			</submenu2>
+		</menu>
+	</item>
+</root> 

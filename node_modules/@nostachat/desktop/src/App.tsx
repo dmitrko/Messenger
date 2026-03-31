@@ -4,488 +4,352 @@ import { WebRTCService } from './services/webrtc';
 import sodium_ from 'libsodium-wrappers';
 const sodium = (sodium_ as any).default || sodium_;
 import { Buffer } from 'buffer';
+import logo from './assets/logo.png';
+import { db, ChatMessage, Contact } from './db';
+import ChatWindow from './ChatWindow';
+import { useLiveQuery } from 'dexie-react-hooks';
 
 if (typeof window !== 'undefined') {
-    (window as any).Buffer = Buffer;
-    (window as any).global = window;
-    (window as any).process = { env: {}, browser: true };
+    (window as any).Buffer = Buffer; (window as any).global = window; (window as any).process = { env: {}, browser: true };
 }
 
-interface OnlineUser {
-    uin: string;
-    username: string;
-    publicKey?: string;
-    kyberPublicKey?: string;
-}
-
-interface Message {
-    type: 'public' | 'private';
-    from: string;
-    fromUin: string;
-    text: string;
-    to?: string;
-    isSecure?: boolean;
-}
+interface OnlineUser { uin: string; username: string; publicKey?: string; kyberPublicKey?: string; }
+interface WindowData { uin: string; zIndex: number; position: { x: number; y: number }; }
+type ZoneName = 'family' | 'work' | 'friends' | 'other';
 
 function App() {
-    const [messages, setMessages] = useState<Message[]>([]);
-    const [input, setInput] = useState('');
     const [username, setUsername] = useState('');
     const [uin, setUin] = useState('');
     const [onlineUsers, setOnlineUsers] = useState<OnlineUser[]>([]);
-    const [selectedUser, setSelectedUser] = useState<OnlineUser | null>(null);
     const [unreadCounts, setUnreadCounts] = useState<{ [uin: string]: number }>({});
-    const [buzzingUsers, setBuzzingUsers] = useState<{ [uin: string]: boolean }>({});
     const [roomKey, setRoomKey] = useState<Uint8Array | null>(null);
-    const [initError, setInitError] = useState<string | null>(null);
-
-    // UI state
-    const [contactsOpen, setContactsOpen] = useState(true);
-    const [groupsOpen, setGroupsOpen] = useState(false);
+    const [loginNickname, setLoginNickname] = useState('');
+    const [isRegistering, setIsRegistering] = useState(false);
     const [isShaking, setIsShaking] = useState(false);
     const [buzzCooldown, setBuzzCooldown] = useState(false);
 
-    // Global error handler
-    useEffect(() => {
-        const handleError = (e: any) => {
-            console.error('JS Error:', e);
-            setInitError(e.message || String(e));
-        };
-        window.addEventListener('error', handleError);
-        return () => window.removeEventListener('error', handleError);
-    }, []);
+    // Authorization Dialogs states
+    const [showAddDialog, setShowAddDialog] = useState(false);
+    const [addFormUin, setAddFormUin] = useState('');
+    const [addFormMsg, setAddFormMsg] = useState('Hi, I\'d like to add you to my contact list!');
+    const [pendingRequest, setPendingRequest] = useState<{ fromUin: string, fromUsername: string, reason: string } | null>(null);
 
-    // State
+    const [zoneModes, setZoneModes] = useState<{ [K in ZoneName]: 'active' | 'archive' }>({ family: 'active', work: 'active', friends: 'active', other: 'active' });
+    const [zoneCollapsed, setZoneCollapsed] = useState<{ [K in ZoneName]: boolean }>({ family: true, work: true, friends: false, other: false });
+    const [windows, setWindows] = useState<WindowData[]>([]);
+    const [maxZIndex, setMaxZIndex] = useState(100);
+
+    const allStoredMessages = useLiveQuery<ChatMessage[]>(() => uin ? db.messages.where('ownerUin').equals(uin).toArray() : Promise.resolve([]), [uin]) || [];
+    const allContacts = useLiveQuery<Contact[]>(() => uin ? db.contacts.where('ownerUin').equals(uin).toArray() : Promise.resolve([]), [uin]) || [];
+
     const [myKeys, setMyKeys] = useState<any>(null);
-
-    // Global refs to avoid stale closures in callbacks
     const onlineUsersRef = useRef<OnlineUser[]>([]);
     const myKeysRef = useRef<any>(null);
     const roomKeyRef = useRef<Uint8Array | null>(null);
     const uinRef = useRef<string>('');
-    const selectedUserRef = useRef<OnlineUser | null>(null);
     const ws = useRef<WebSocket | null>(null);
     const rtc = useRef<WebRTCService | null>(null);
-
-    // Sync refs with state
-    useEffect(() => {
-        onlineUsersRef.current = onlineUsers;
-    }, [onlineUsers]);
+    const prevOnlineUinsRef = useRef<Set<string>>(new Set());
 
     useEffect(() => {
-        myKeysRef.current = myKeys;
-    }, [myKeys]);
-
-    useEffect(() => {
-        uinRef.current = uin;
-    }, [uin]);
-
-    useEffect(() => {
-        roomKeyRef.current = roomKey;
-    }, [roomKey]);
-
-    useEffect(() => {
-        selectedUserRef.current = selectedUser;
-    }, [selectedUser]);
-
-    const triggerBuzz = () => {
-        setIsShaking(true);
-        // TODO: playSound('buzz');
-        setTimeout(() => setIsShaking(false), 800);
-    };
-
-    // Stable message handler using ref to avoid reconnecting on state changes
-    const onMessageRef = useRef<((msg: any) => void) | null>(null);
-    onMessageRef.current = async (data: any) => {
-        console.log('--- Incoming WS Message ---', data);
-
-        if (data.type === 'registered') {
-            setUin(data.uin);
-            setUsername(data.username);
-            if (data.sealedRoomKey && myKeysRef.current) {
-                try {
-                    const decryptedKey = await CryptoService.unsealRoomKey(
-                        data.sealedRoomKey,
-                        myKeysRef.current.classic.publicKey,
-                        myKeysRef.current.classic.privateKey
-                    );
-                    roomKeyRef.current = decryptedKey; // Update synchronously
-                    setRoomKey(decryptedKey);
-                    console.log('Room Key decrypted and stored.');
-                } catch (e) {
-                    console.error('Failed to decrypt room key', e);
-                }
-            }
-        } else if (data.type === 'user_list') {
-            setOnlineUsers(data.users);
-        } else if (data.type === 'signal') {
-            rtc.current?.handleSignal(data.from, data.signal);
-        } else if (data.type === 'message') {
-            if (data.from === uinRef.current) return; // Ignore echo from server
-            let text = data.text;
-            let isSecure = false;
-            if (data.isEncrypted && roomKeyRef.current) {
-                try {
-                    text = await CryptoService.decryptSymmetric(data.text, roomKeyRef.current);
-                    isSecure = true;
-                } catch (e) {
-                    text = '[Ошибка расшифровки группы]';
-                }
-            }
-            setMessages((prev) => [...prev, {
-                type: 'public',
-                from: data.fromUsername,
-                fromUin: data.from,
-                text,
-                isSecure
-            }]);
-        } else if (data.type === 'direct_message') {
-            let messageText = data.text;
-            let isSecure = false;
-
-            if (data.isBuzz) {
-                triggerBuzz();
-                messageText = '🔔 BUZZ! (Гудок)';
-                setBuzzingUsers(prev => ({ ...prev, [data.from]: true }));
-            } else {
-                const sender = onlineUsersRef.current.find(u => u.uin === data.from);
-                if (data.isEncrypted && sender && myKeysRef.current) {
-                    try {
-                        messageText = await CryptoService.hybridDecrypt(
-                            data.text,
-                            data.kyberCT,
-                            sodium.from_base64(sender.publicKey!),
-                            myKeysRef.current.kyber.secretKey,
-                            myKeysRef.current.classic.privateKey
-                        );
-                        isSecure = true;
-                    } catch (e) {
-                        messageText = '[Ошибка декодирования]';
-                    }
-                }
-            }
-
-            setMessages((prev) => [...prev, {
-                type: 'private',
-                from: data.fromUsername || 'User',
-                fromUin: data.from,
-                text: messageText,
-                isSecure
-            }]);
-
-            if (!selectedUserRef.current || selectedUserRef.current.uin !== data.from) {
-                setUnreadCounts(prev => ({
-                    ...prev,
-                    [data.from]: (prev[data.from] || 0) + 1
-                }));
-            }
+        onlineUsersRef.current = onlineUsers; myKeysRef.current = myKeys; uinRef.current = uin; roomKeyRef.current = roomKey;
+        if (uin && onlineUsers.length > 0) {
+            const newlyOnline = onlineUsers.filter(u => u.uin !== uin && !prevOnlineUinsRef.current.has(u.uin));
+            if (newlyOnline.length > 0 && prevOnlineUinsRef.current.size > 0) { playSound('Global'); }
+            prevOnlineUinsRef.current = new Set(onlineUsers.map(u => u.uin));
         }
-    };
+    }, [onlineUsers, uin]);
 
-    useEffect(() => {
-        // Init WebRTC once
-        rtc.current = new WebRTCService(
-            (peerId, signal) => {
-                ws.current?.send(JSON.stringify({ type: 'signal', to: peerId, signal }));
-            },
-            async (peerId, encryptedData) => {
-                try {
-                    const parsed = JSON.parse(encryptedData);
-                    console.log(`[P2P] Incoming message from ${peerId}:`, parsed);
+    const playSound = (name: string) => { const audio = new Audio(`/sounds/${name}.wav`); audio.play().catch(() => { }); };
+    const triggerBuzz = () => { setIsShaking(true); playSound('ChatBeep'); setTimeout(() => setIsShaking(false), 800); };
 
-                    if (parsed.type === 'buzz') {
-                        triggerBuzz();
-                        setBuzzingUsers(prev => ({ ...prev, [peerId]: true }));
-                    } else {
-                        const sender = onlineUsersRef.current.find(u => u.uin === peerId);
-                        if (sender && myKeysRef.current) {
-                            const decrypted = await CryptoService.hybridDecrypt(
-                                parsed.ciphertext,
-                                parsed.kyberCT,
-                                sodium.from_base64(sender.publicKey!),
-                                myKeysRef.current.kyber.secretKey,
-                                myKeysRef.current.classic.privateKey
-                            );
-
-                            console.log(`[P2P] Decrypted message: ${decrypted}`);
-                            setMessages(prev => [...prev, {
-                                type: 'private',
-                                from: sender.username,
-                                fromUin: peerId,
-                                text: decrypted,
-                                isSecure: true
-                            }]);
-                        } else {
-                            console.warn('[P2P] Sender or Keys not found for', peerId);
-                        }
-                    }
-
-                    // Update notifications for P2P
-                    if (!selectedUserRef.current || selectedUserRef.current.uin !== peerId) {
-                        setUnreadCounts(prev => ({
-                            ...prev,
-                            [peerId]: (prev[peerId] || 0) + 1
-                        }));
-                    }
-                } catch (e) {
-                    console.error('Failed to handle P2P data', e);
-                }
-            }
-        );
-
-        // Init WebSocket once
-        console.log('Connecting to WebSocket server...');
-        const socket = new WebSocket('ws://localhost:3002');
-        ws.current = socket;
-
-        socket.onopen = () => console.log('WebSocket Connected');
-        socket.onclose = () => console.warn('WebSocket Disconnected');
-        socket.onerror = (e) => console.error('WebSocket Error:', e);
-
-        socket.onmessage = (event) => {
-            const data = JSON.parse(event.data);
-            onMessageRef.current?.(data);
-        };
-
-        return () => {
-            console.log('Cleaning up WebSocket...');
-            socket.close();
-        };
-    }, []); // Only on mount
-
-    const sendBuzz = () => {
-        if (!selectedUser || buzzCooldown) return;
-
-        const buzzMsg = JSON.stringify({ type: 'buzz' });
-        if (rtc.current?.isConnected(selectedUser.uin)) {
-            rtc.current.sendMessage(selectedUser.uin, buzzMsg);
-        } else {
-            ws.current?.send(JSON.stringify({
-                type: 'direct_message',
-                to: selectedUser.uin,
-                text: 'buzz',
-                isBuzz: true
-            }));
-        }
-
-        setBuzzCooldown(true);
-        setTimeout(() => setBuzzCooldown(false), 5000);
-    };
-
-    const register = async () => {
-        console.log('Register process started...');
-        const name = prompt('Введите ваш никнейм:');
-        if (!name) return;
+    const onAuthRequestReceived = async (fromUin: string, fromUsername: string, reason: string) => {
+        console.log('--- Incoming Auth Request ---', { fromUin, fromUsername, reason });
+        if (!uinRef.current) return;
 
         try {
-            console.log('Initializing sodium...');
-            await sodium.ready;
+            const contact = await db.contacts.get([uinRef.current, fromUin]);
+            if (contact && contact.isBlocked) {
+                console.log('Blocked user request ignored:', fromUin);
+                return;
+            }
+        } catch (e) { console.error('Dexie error during block check', e); }
 
-            console.log('Generating key pairs...');
-            const keys = await CryptoService.generateKeyPairs();
-            console.log('Keys generated successfully');
-            setMyKeys(keys);
+        setPendingRequest({ fromUin, fromUsername, reason });
+        playSound('Contact');
+    };
 
-            if (!ws.current || ws.current.readyState !== WebSocket.OPEN) {
-                alert('Ошибка: Соединение с сервером не установлено. Пожалуйста, подождите или обновите страницу.');
-                console.error('WS State:', ws.current?.readyState);
+    const handleAuthAction = async (action: 'authorize' | 'decline' | 'block') => {
+        if (!pendingRequest || !uin) return;
+        const { fromUin, fromUsername } = pendingRequest;
+
+        if (action === 'authorize') {
+            const online = onlineUsers.find(u => u.uin === fromUin);
+            await db.contacts.put({ ownerUin: uin, uin: fromUin, username: online?.username || fromUsername, publicKey: online?.publicKey, kyberPublicKey: online?.kyberPublicKey, zone: 'friends', isArchived: false, isBlocked: false, lastSeen: Date.now() });
+            ws.current?.send(JSON.stringify({ type: 'direct_message', to: fromUin, isAuthResponse: true, authorized: true, fromUsername: username }));
+            alert('User authorized!');
+        } else if (action === 'block') {
+            await db.contacts.put({ ownerUin: uin, uin: fromUin, username: fromUsername, zone: 'friends', isArchived: false, isBlocked: true, lastSeen: Date.now() });
+            alert('User blocked.');
+        }
+        setPendingRequest(null);
+    };
+
+    const submitAddRequest = () => {
+        const target = addFormUin.trim();
+        if (!target || !uin || target === uin) return;
+        console.log('Sending Add Request to:', target);
+        ws.current?.send(JSON.stringify({ type: 'direct_message', to: target, isAuthRequest: true, fromUsername: username, reason: addFormMsg }));
+        setShowAddDialog(false); setAddFormUin(''); setAddFormMsg('Hi, I\'d like to add you!');
+    };
+
+    const saveMessageToDB = async (msg: Omit<ChatMessage, 'id' | 'ownerUin'>) => {
+        if (!uinRef.current) return;
+        const owner = uinRef.current;
+        await db.messages.add({ ...msg, ownerUin: owner } as ChatMessage);
+        const contact = await db.contacts.get([owner, msg.fromUin]);
+        if (contact && contact.isArchived) { await db.contacts.update([owner, msg.fromUin], { isArchived: false }); }
+    };
+
+    const onMessageRef = useRef<((msg: any) => void) | null>(null);
+    onMessageRef.current = async (data: any) => {
+        // console.log('WS Message:', data.type); // Debug all packets
+        if (data.type === 'registered') {
+            setUin(data.uin); setUsername(data.username); setIsRegistering(false); playSound('Auth');
+            if (data.sealedRoomKey && myKeysRef.current) {
+                try {
+                    const decryptedKey = await CryptoService.unsealRoomKey(data.sealedRoomKey, myKeysRef.current.classic.publicKey, myKeysRef.current.classic.privateKey);
+                    roomKeyRef.current = decryptedKey; setRoomKey(decryptedKey);
+                } catch (e) { console.error('Key decryption failed', e); }
+            }
+        } else if (data.type === 'user_list') { setOnlineUsers(data.users); }
+        else if (data.type === 'direct_message') {
+            console.log('Incoming Private Message Data:', data);
+
+            const blocked = await db.contacts.get([uinRef.current, data.from]);
+            if (blocked && blocked.isBlocked) {
+                console.log('Message from blocked user ignored:', data.from);
                 return;
             }
 
-            const regData = {
-                type: 'register',
-                username: name,
-                publicKey: sodium.to_base64(keys.classic.publicKey),
-                kyberPublicKey: sodium.to_base64(keys.kyber.publicKey)
-            };
+            if (data.isAuthRequest) {
+                console.log('Auth request detected from:', data.from);
+                onAuthRequestReceived(data.from, data.fromUsername, data.reason);
+                return;
+            }
+            if (data.isAuthResponse && data.authorized) {
+                const online = onlineUsersRef.current.find(u => u.uin === data.from);
+                await db.contacts.put({ ownerUin: uinRef.current, uin: data.from, username: online?.username || data.fromUsername, publicKey: online?.publicKey, kyberPublicKey: online?.kyberPublicKey, zone: 'friends', isArchived: false, isBlocked: false, lastSeen: Date.now() });
+                alert(`User ${data.fromUsername} authorized you!`); return;
+            }
 
-            console.log('Sending registration data:', regData);
-            ws.current.send(JSON.stringify(regData));
-        } catch (err: any) {
-            console.error('Registration error:', err);
-            alert('Критическая ошибка при регистрации: ' + err.message);
-            setInitError('Registration failed: ' + err.message);
-        }
-    };
-
-    const handleSelectUser = (user: OnlineUser | null) => {
-        setSelectedUser(user);
-        if (user) {
-            setUnreadCounts(prev => {
-                const updated = { ...prev };
-                delete updated[user.uin];
-                return updated;
-            });
-            setBuzzingUsers(prev => {
-                const updated = { ...prev };
-                delete updated[user.uin];
-                return updated;
-            });
-            if (user.publicKey) rtc.current?.getOrCreatePeer(user.uin, true);
-        }
-    };
-
-    const sendMessage = async () => {
-        if (!input || !ws.current) return;
-
-        if (selectedUser) {
-            const useP2P = rtc.current?.isConnected(selectedUser.uin);
-            if (selectedUser.publicKey && selectedUser.kyberPublicKey && myKeys) {
-                const encrypted = await CryptoService.hybridEncrypt(
-                    input,
-                    sodium.from_base64(selectedUser.publicKey),
-                    sodium.from_base64(selectedUser.kyberPublicKey),
-                    myKeys.classic.privateKey
-                );
-
-                if (useP2P) {
-                    rtc.current?.sendMessage(selectedUser.uin, JSON.stringify({ ...encrypted, type: 'message' }));
-                } else {
-                    ws.current.send(JSON.stringify({
-                        type: 'direct_message',
-                        to: selectedUser.uin,
-                        text: encrypted.ciphertext,
-                        kyberCT: encrypted.kyberCT,
-                        isEncrypted: true
-                    }));
+            if (data.text) {
+                let messageText = data.text;
+                if (data.isBuzz) { triggerBuzz(); messageText = '🔔 BUZZ!'; }
+                else {
+                    const sender = onlineUsersRef.current.find(u => u.uin === data.from);
+                    if (data.isEncrypted && sender && myKeysRef.current) {
+                        try { messageText = await CryptoService.hybridDecrypt(data.text, data.kyberCT, sodium.from_base64(sender.publicKey!), myKeysRef.current.kyber.secretKey, myKeysRef.current.classic.privateKey); }
+                        catch (e) { messageText = '[Decrypted Error]'; }
+                    }
                 }
-                setMessages((prev) => [...prev, {
-                    type: 'private', from: 'Я', fromUin: uin, text: input, to: selectedUser.username, isSecure: true
-                }]);
+                saveMessageToDB({ chatId: data.from, fromUin: data.from, fromUsername: data.fromUsername || 'User', text: messageText, timestamp: Date.now(), isSecure: true, type: 'private' });
+                handleIncomingChat(data.from); if (!data.isBuzz) playSound('Message');
             }
+        } else if (data.type === 'message') {
+            if (data.from === uinRef.current) return;
+            let text = data.text; let isSecure = false;
+            if (data.isEncrypted && roomKeyRef.current) { try { text = await CryptoService.decryptSymmetric(data.text, roomKeyRef.current); isSecure = true; } catch (e) { text = '[Decrypted Error]'; } }
+            saveMessageToDB({ chatId: 'public', fromUin: data.from, fromUsername: data.fromUsername, text, timestamp: Date.now(), isSecure, type: 'public' });
+            playSound('Message');
+        } else if (data.type === 'signal') { rtc.current?.handleSignal(data.from, data.signal); }
+    };
+
+    useEffect(() => {
+        rtc.current = new WebRTCService(
+            (peerId, signal) => ws.current?.send(JSON.stringify({ type: 'signal', to: peerId, signal })),
+            async (peerId, encryptedData) => {
+                try {
+                    const parsed = JSON.parse(encryptedData);
+                    if (parsed.type === 'buzz') { triggerBuzz(); }
+                    else if (myKeysRef.current) {
+                        const sender = onlineUsersRef.current.find(u => u.uin === peerId);
+                        if (sender) {
+                            const decrypted = await CryptoService.hybridDecrypt(parsed.ciphertext, parsed.kyberCT, sodium.from_base64(sender.publicKey!), myKeysRef.current.kyber.secretKey, myKeysRef.current.classic.privateKey);
+                            saveMessageToDB({ chatId: peerId, fromUin: peerId, fromUsername: sender.username, text: decrypted, timestamp: Date.now(), isSecure: true, type: 'private' });
+                            playSound('Message');
+                        }
+                    }
+                    handleIncomingChat(peerId);
+                } catch (e) { console.error('P2P Error', e); }
+            }
+        );
+        const socket = new WebSocket('ws://localhost:3002'); ws.current = socket; socket.onmessage = (event) => onMessageRef.current?.(JSON.parse(event.data)); return () => socket.close();
+    }, []);
+
+    const sendMessage = async (toUin: string, text: string) => {
+        if (!ws.current || !uin) return;
+        if (toUin === 'public') {
+            if (roomKey) { const encrypted = await CryptoService.encryptSymmetric(text, roomKey); ws.current.send(JSON.stringify({ type: 'message', text: encrypted.ciphertext, isEncrypted: true })); } else { ws.current.send(JSON.stringify({ type: 'message', text })); }
+            saveMessageToDB({ chatId: 'public', fromUin: uin, fromUsername: 'Me', text, timestamp: Date.now(), isSecure: !!roomKey, type: 'public' });
         } else {
-            if (roomKey) {
-                const encrypted = await CryptoService.encryptSymmetric(input, roomKey);
-                ws.current.send(JSON.stringify({ 
-                    type: 'message', 
-                    text: encrypted.ciphertext,
-                    isEncrypted: true 
-                }));
-                setMessages((prev) => [...prev, {
-                    type: 'public', from: 'Я', fromUin: uin, text: input, isSecure: true
-                }]);
-            } else {
-                ws.current.send(JSON.stringify({ type: 'message', text: input }));
+            const target = onlineUsers.find(u => u.uin === toUin);
+            if (target?.publicKey && target?.kyberPublicKey && myKeys) {
+                const encrypted = await CryptoService.hybridEncrypt(text, sodium.from_base64(target.publicKey), sodium.from_base64(target.kyberPublicKey), myKeys.classic.privateKey);
+                if (rtc.current?.isConnected(toUin)) { rtc.current.sendMessage(toUin, JSON.stringify({ ...encrypted, type: 'message' })); } else { ws.current.send(JSON.stringify({ type: 'direct_message', to: toUin, text: encrypted.ciphertext, kyberCT: encrypted.kyberCT, isEncrypted: true })); }
+                saveMessageToDB({ chatId: toUin, fromUin: uin, fromUsername: 'Me', text, timestamp: Date.now(), isSecure: true, type: 'private' });
             }
         }
-        setInput('');
+        playSound('MsgSent');
     };
+
+    const sendBuzz = (toUin: string) => {
+        if (buzzCooldown || toUin === 'public') return;
+        if (rtc.current?.isConnected(toUin)) { rtc.current.sendMessage(toUin, JSON.stringify({ type: 'buzz' })); } else { ws.current?.send(JSON.stringify({ type: 'direct_message', to: toUin, text: 'buzz', isBuzz: true })); }
+        setBuzzCooldown(true); setTimeout(() => setBuzzCooldown(false), 5000);
+    };
+
+    const handleIncomingChat = (remoteUin: string) => {
+        setWindows(prev => { if (prev.some(w => w.uin === remoteUin)) return prev; return [...prev, { uin: remoteUin, zIndex: maxZIndex + 1, position: { x: 250 + prev.length * 20, y: 50 + prev.length * 20 } }]; });
+        setMaxZIndex(prev => prev + 1); setUnreadCounts(prev => ({ ...prev, [remoteUin]: (prev[remoteUin] || 0) + 1 }));
+    };
+
+    const register = async () => {
+        if (!loginNickname.trim()) { alert('Enter nickname!'); return; }
+        setIsRegistering(true); try { await sodium.ready; const keys = await CryptoService.generateKeyPairs(); setMyKeys(keys); ws.current?.send(JSON.stringify({ type: 'register', username: loginNickname, publicKey: sodium.to_base64(keys.classic.publicKey), kyberPublicKey: sodium.to_base64(keys.kyber.publicKey) })); } catch (err: any) { alert('Auth failed'); setIsRegistering(false); }
+    };
+
+    const [dragUin, setDragUin] = useState<string | null>(null);
+
+    const SidebarZone = ({ name, title }: { name: ZoneName, title: string }) => {
+        const mode = zoneModes[name]; const collapsed = zoneCollapsed[name];
+        const zoneContacts = allContacts.filter(c => c.zone === name && c.isArchived === (mode === 'archive') && !c.isBlocked);
+
+        return (
+            <div
+                style={{ display: 'flex', flexDirection: 'column' }}
+                onDragOver={(e) => e.preventDefault()}
+                onDrop={async (e) => {
+                    e.preventDefault();
+                    if (dragUin) { await db.contacts.update([uin, dragUin], { zone: name }); setDragUin(null); }
+                }}
+            >
+                <div className="section-header" onClick={() => setZoneCollapsed(prev => ({ ...prev, [name]: !prev[name] }))}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}><span>{collapsed ? '▶' : '▼'}</span><span>{title} ({zoneContacts.length})</span></div>
+                    <div onClick={(e) => { e.stopPropagation(); setZoneModes(prev => ({ ...prev, [name]: prev[name] === 'active' ? 'archive' : 'active' })) }} style={{ fontSize: '9px', background: mode === 'archive' ? '#808080' : '#4DBF00', padding: '0px 4px', borderRadius: '2px', border: '1px solid #fff', cursor: 'pointer' }}>{mode.toUpperCase()}</div>
+                </div>
+                {!collapsed && (
+                    <div style={{ backgroundColor: '#fff', borderBottom: '1px solid #808080', minHeight: '10px' }}>
+                        {zoneContacts.map(contact => {
+                            const isOnline = onlineUsers.some(u => u.uin === contact.uin);
+                            return (
+                                <div
+                                    key={contact.uin}
+                                    draggable
+                                    onDragStart={() => setDragUin(contact.uin)}
+                                    onDragEnd={() => setDragUin(null)}
+                                    onClick={() => openChat(contact.uin)}
+                                    className="sidebar-contact-item"
+                                >
+                                    <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}><img src="/assets/icq-classic/flower.BMP" style={{ width: '12px', height: '12px', filter: isOnline ? 'none' : 'grayscale(100%)' }} /><span style={{ color: isOnline ? '#000' : '#808080' }}>{contact.username}</span></div>
+                                    {unreadCounts[contact.uin] > 0 && <span style={{ color: 'red', fontWeight: 'bold' }}>[{unreadCounts[contact.uin]}]</span>}
+                                </div>
+                            );
+                        })}
+                    </div>
+                )}
+            </div>
+        );
+    };
+
+    const openChat = (remoteUin: string) => {
+        setWindows(prev => {
+            const exists = prev.find(w => w.uin === remoteUin); if (exists) return prev.map(w => w.uin === remoteUin ? { ...w, zIndex: maxZIndex + 1 } : w);
+            return [...prev, { uin: remoteUin, zIndex: maxZIndex + 1, position: { x: 300, y: 100 } }];
+        });
+        setMaxZIndex(prev => prev + 1); setUnreadCounts(prev => { const updated = { ...prev }; delete updated[remoteUin]; return updated; });
+    };
+
+    const closeWindow = (uin: string) => setWindows(prev => prev.filter(w => w.uin !== uin));
+    const focusWindow = (uin: string) => { setWindows(prev => prev.map(w => w.uin === uin ? { ...w, zIndex: maxZIndex + 1 } : w)); setMaxZIndex(prev => prev + 1); };
+
+    if (!uin) {
+        return (
+            <div className="login-container">
+                <div className="login-header"><img src="/assets/icq-classic/flower.BMP" style={{ width: '12px', height: '12px' }} /><span>ICQ</span></div>
+                <div className="login-body">
+                    {isRegistering ? (<div style={{ textAlign: 'center', margin: '20px' }}><img src="/assets/icq-classic/connecting_01.gif" style={{ width: '80px' }} /><div style={{ marginTop: '10px', fontSize: '10px' }}>Connecting...</div></div>) : (<img src={logo} className="login-logo" />)}
+                    <div className="login-fields">
+                        <div className="login-input-group"><label>UIN / Account:</label><input type="text" value={loginNickname} onChange={(e) => setLoginNickname(e.target.value)} disabled={isRegistering} onKeyDown={(e) => e.key === 'Enter' && register()} /></div>
+                    </div>
+                </div>
+                <div className="login-footer"><button className="btn-login" onClick={register} disabled={loginNickname.length < 2 || isRegistering}>{isRegistering ? 'Signing On...' : 'Login / Sign On'}</button></div>
+            </div>
+        );
+    }
 
     return (
-        <div style={{ height: '100vh', display: 'flex', flexDirection: 'column', padding: '2px', boxSizing: 'border-box' }} className={isShaking ? 'shake-animation' : ''}>
-            {initError && (
-                <div style={{ backgroundColor: '#fee', color: 'red', padding: '20px', border: '5px solid red', margin: '20px', fontSize: '14px', zIndex: 9999 }}>
-                    <h2>Критическая ошибка запуска</h2>
-                    <pre>{initError}</pre>
-                    <p>Попробуйте нажать Ctrl+F5 или проверьте консоль.</p>
+        <div style={{ height: '100vh', display: 'flex', flexDirection: 'column', position: 'relative' }} className={isShaking ? 'shake-animation' : ''}>
+            {/* Main ICQ Sidebar */}
+            <div style={{ width: '220px', height: '100%', display: 'flex', flexDirection: 'column', borderRight: '2px solid #808080', backgroundColor: '#d4d0c8', zIndex: 50, overflowY: 'auto' }}>
+                <div className="section-header">ICQ v0.5 - [{uin}]</div>
+                <div style={{ padding: '8px', display: 'flex', alignItems: 'center', gap: '10px', borderBottom: '1px solid #808080' }}>
+                    <img src="/assets/icq-classic/flower.BMP" style={{ width: '24px', height: '24px' }} />
+                    <div><div style={{ fontWeight: 'bold' }}>{username}</div><div style={{ color: 'green', fontSize: '10px' }}>Online</div></div>
                 </div>
-            )}
-            {/* Title Bar (Classic style) */}
-            <div className="section-header" style={{ marginBottom: '2px' }}>
-                <div>NostaChat v0.4 - [{uin || 'Offline'}]</div>
-                <div style={{ fontSize: '10px' }}>X</div>
+                <div onClick={() => openChat('public')} className="sidebar-contact-item" style={{ backgroundColor: '#fff', borderBottom: '1px solid #eee' }}>📢 Main Channel</div>
+                <SidebarZone name="family" title="FAMILY" />
+                <SidebarZone name="friends" title="FRIENDS" />
+                <SidebarZone name="work" title="WORK" />
+                <SidebarZone name="other" title="OTHER" />
+                <div style={{ marginTop: 'auto', padding: '10px', borderTop: '1px solid #808080', backgroundColor: '#d4d0c8' }}>
+                    <button onClick={() => setShowAddDialog(true)} style={{ width: '100%', fontWeight: 'bold' }}>Add Contact</button>
+                </div>
             </div>
 
-            {!uin ? (
-                <div style={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center', backgroundColor: '#fff', border: '1px solid #808080' }}>
-                    <button onClick={register} style={{ padding: '20px 40px', fontSize: '12px' }}>
-                        ВКЛЮЧИТЬ NOSTACHAT (SECURE)
-                    </button>
+            {/* Content Area / Windows */}
+            <div style={{ position: 'absolute', top: 0, left: 220, right: 0, bottom: 0, overflow: 'hidden' }}>
+                {windows.map(win => {
+                    const targetUser = (win.uin === 'public' ? { uin: 'public', username: 'Main Channel' } : (allContacts.find(u => u.uin === win.uin) || { uin: win.uin, username: 'Unknown' })) as any;
+                    const winMessages = allStoredMessages.filter(m => m.chatId === win.uin);
+                    return (<ChatWindow key={win.uin} user={targetUser} messages={winMessages} onSendMessage={(txt) => sendMessage(win.uin, txt)} onBuzz={() => sendBuzz(win.uin)} buzzCooldown={win.uin === 'public' || buzzCooldown} onClose={() => closeWindow(win.uin)} onFocus={() => focusWindow(win.uin)} zIndex={win.zIndex} initialPosition={win.position} />);
+                })}
+            </div>
+
+            {/* Custom Dialog: Add Contact Form */}
+            {showAddDialog && (
+                <div className="overlay" style={{ pointerEvents: 'auto' }} onClick={() => setShowAddDialog(false)}>
+                    <div className="auth-dialog-window" onClick={e => e.stopPropagation()}>
+                        <div className="chat-titlebar"><span>Add New Contact</span></div>
+                        <div style={{ padding: '15px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                            <div className="login-input-group"><label>Target UIN:</label><input type="text" value={addFormUin} onChange={e => setAddFormUin(e.target.value)} placeholder="Enter #UIN" /></div>
+                            <div className="login-input-group"><label>Introduction Message:</label>
+                                <textarea style={{ height: '80px', fontSize: '11px', resize: 'none' }} value={addFormMsg} onChange={e => setAddFormMsg(e.target.value)} />
+                            </div>
+                            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px', marginTop: '10px' }}>
+                                <button onClick={() => setShowAddDialog(false)}>Cancel</button>
+                                <button className="btn-talk" onClick={submitAddRequest}>Send Request</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            ) : (
-                <div style={{ display: 'flex', flex: 1, gap: '2px', overflow: 'hidden' }}>
+            )}
 
-                    {/* Sidebar */}
-                    <div style={{ width: '200px', display: 'flex', flexDirection: 'column' }}>
-                        <div className="section-content" style={{ marginBottom: '2px', padding: '5px', display: 'flex', alignItems: 'center', gap: '5px' }}>
-                            <div style={{ fontSize: '20px' }}>🌼</div>
-                            <div>
-                                <div className="icon-uin" style={{ fontWeight: 'bold' }}>{uin}</div>
-                                <div style={{ fontSize: '10px', color: '#008000' }}>Online</div>
+            {/* Custom Dialog: Incoming Request */}
+            {pendingRequest && (
+                <div className="overlay" style={{ pointerEvents: 'auto' }}>
+                    <div className="auth-dialog-window" style={{ borderColor: 'red' }}>
+                        <div className="chat-titlebar" style={{ background: 'darkred' }}><span>Incoming Authorization Request!</span></div>
+                        <div style={{ padding: '15px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                            <div style={{ fontSize: '12px', fontWeight: 'bold' }}>UIN #{pendingRequest.fromUin} ({pendingRequest.fromUsername}) wants to add you!</div>
+                            <div style={{ backgroundColor: '#fff', border: '1px inset #808080', padding: '8px', minHeight: '60px', fontSize: '11px' }}>{pendingRequest.reason}</div>
+                            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '5px', marginTop: '10px' }}>
+                                <button style={{ flex: 1, backgroundColor: '#90ee90' }} onClick={() => handleAuthAction('authorize')}>Authorize</button>
+                                <button style={{ flex: 1 }} onClick={() => handleAuthAction('decline')}>Decline</button>
+                                <button style={{ flex: 1, color: 'white', backgroundColor: '#555' }} onClick={() => handleAuthAction('block')}>Block / Ignore</button>
                             </div>
-                        </div>
-
-                        {/* Sections */}
-                        <div className="section-header" onClick={() => setContactsOpen(!contactsOpen)}>
-                            {contactsOpen ? '▼' : '▶'} ДРУЗЬЯ ({onlineUsers.length > 0 ? onlineUsers.length - 1 : 0})
-                        </div>
-                        {contactsOpen && (
-                            <div className="section-content" style={{ flex: 1, overflowY: 'auto' }}>
-                                <div onClick={() => handleSelectUser(null)} style={{ padding: '3px 5px', cursor: 'pointer', backgroundColor: !selectedUser ? '#e0f0ff' : 'transparent', borderBottom: '1px solid #eee' }}>
-                                    📢 Общий канал
-                                </div>
-                                {onlineUsers.filter(u => u.uin !== uin).map(user => (
-                                    <div key={user.uin} onClick={() => handleSelectUser(user)} style={{ padding: '3px 5px', cursor: 'pointer', backgroundColor: selectedUser?.uin === user.uin ? '#e0f0ff' : 'transparent', borderBottom: '1px solid #eee' }}>
-                                        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                                            <span>
-                                                👤 {user.username} 
-                                                {buzzingUsers[user.uin] && <span title="Buzz!" style={{ marginLeft: '3px' }}>🔔</span>}
-                                            </span>
-                                            {unreadCounts[user.uin] > 0 && <span style={{ color: 'red', fontWeight: 'bold' }}>[{unreadCounts[user.uin]}]</span>}
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
-                        )}
-
-                        <div className="section-header" style={{ marginTop: '2px' }}>
-                            ▶ СЕМЬЯ (0)
-                        </div>
-                        <div className="section-header" style={{ marginTop: '2px' }}>
-                            ▶ РАБОТА (0)
-                        </div>
-
-                        <div className="section-header" onClick={() => setGroupsOpen(!groupsOpen)} style={{ marginTop: '2px' }}>
-                            {groupsOpen ? '▼' : '▶'} КАНАЛЫ И ГРУППЫ (0)
-                        </div>
-                        {groupsOpen && (
-                            <div className="section-content" style={{ padding: '10px', color: '#999' }}>
-                                Пусто
-                            </div>
-                        )}
-                    </div>
-
-                    {/* Chat Area */}
-                    <div style={{ flex: 1, display: 'flex', flexDirection: 'column', border: '1px solid var(--color-border)' }}>
-                        <div className="section-header" style={{ display: 'flex', justifyContent: 'space-between' }}>
-                            <span>{selectedUser ? `${selectedUser.username} (${selectedUser.uin})` : 'Общий чат'}</span>
-                            {selectedUser && (
-                                <div style={{ display: 'flex', gap: '5px' }}>
-                                    <button onClick={sendBuzz} disabled={buzzCooldown} style={{ padding: '0 5px' }}>🔔 Buzz!</button>
-                                    <span style={{ fontSize: '10px' }}>{rtc.current?.isConnected(selectedUser.uin) ? 'P2P' : 'Relay'}</span>
-                                </div>
-                            )}
-                        </div>
-
-                        <div style={{ flex: 1, overflowY: 'auto', padding: '10px', backgroundColor: '#fff' }}>
-                            {messages
-                                .filter(m => {
-                                    if (!selectedUser) return m.type === 'public';
-                                    if (m.type === 'public') return false;
-                                    return (m.fromUin === selectedUser.uin) || (m.to === selectedUser.username);
-                                })
-                                .map((msg, idx) => (
-                                    <div key={idx} style={{ marginBottom: '5px' }}>
-                                        <span style={{ color: msg.from === 'Я' ? 'blue' : 'green', fontWeight: 'bold' }}>
-                                            {msg.isSecure && '🔐 '}{msg.from}:
-                                        </span>{' '}
-                                        {msg.text}
-                                    </div>
-                                ))}
-                        </div>
-
-                        <div style={{ padding: '10px', backgroundColor: '#d4d0c8', borderTop: '1px solid #808080', display: 'flex', gap: '5px' }}>
-                            <input
-                                style={{ flex: 1 }}
-                                value={input}
-                                onChange={(e) => setInput(e.target.value)}
-                                onKeyDown={(e) => e.key === 'Enter' && sendMessage()}
-                                placeholder="Введите сообщение..."
-                            />
-                            <button onClick={sendMessage} style={{ width: '80px' }}>Send</button>
                         </div>
                     </div>
-
                 </div>
             )}
         </div>
@@ -493,4 +357,3 @@ function App() {
 }
 
 export default App;
-

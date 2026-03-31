@@ -61,7 +61,7 @@ wss.on('connection', async (ws: ClientWithId) => {
         try {
             const message = rawData.toString();
             const data = JSON.parse(message);
-            
+
             if (data.type === 'direct_message') {
                 console.log(`--- Incoming Private Message ---`);
                 console.log(`To: ${data.to} | Content: ${data.isEncrypted ? '[Encrypted E2EE Content]' : data.text}`);
@@ -86,7 +86,7 @@ wss.on('connection', async (ws: ClientWithId) => {
 
                 // Seal the Room Key for the user
                 const sealedRoomKey = await CryptoService.sealRoomKey(
-                    PUBLIC_ROOM_KEY, 
+                    PUBLIC_ROOM_KEY,
                     sodium_.from_base64(data.publicKey)
                 );
 
@@ -116,12 +116,18 @@ wss.on('connection', async (ws: ClientWithId) => {
 
             if (data.type === 'direct_message') {
                 const target = onlineUsers.get(data.to);
+                console.log(`Relaying DM to ${data.to}. Target found? ${!!target}`);
+
                 if (target && target.readyState === WebSocket.OPEN) {
-                    target.send(JSON.stringify({
+                    const relayData = {
                         ...data,
                         from: ws.id,
                         fromUsername: ws.username
-                    }));
+                    };
+                    console.log(`Sending relay packet to target UIN: ${data.to}`);
+                    target.send(JSON.stringify(relayData));
+                } else {
+                    console.error(`Relay FAILED: Target ${data.to} not online or connection closed.`);
                 }
             }
 

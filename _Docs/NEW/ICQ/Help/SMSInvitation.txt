@@ -1,0 +1,14 @@
+Hello! 
+%C
+
+I‘d like to invite you to download  ICQ2001a  at - http://www.icq.com/download so we can easily exchange SMS messages from our computers to our cell phones - and vice versa - as well as chat, send  messages online, and find more friends to join us -  the old ICQ way.
+    
+Seek you @ ICQ 
+%X
+ICQ #: %U
+
+Here are the 4 ways you can find me in the ICQ community:
+- My ICQ number is %U
+- My Personal Communication Center on the Web, from which you can send me a message without having the ICQ program is: http://wwp.icq.com/%U
+- You can send me an Email Express which will appear directly on my computer screen to %U@pager.icq.com.
+- My ICQ Web Front is members.icq.com/%U. If I am online and activated my ICQ Web Front, you will be able to have a 2 way dialog with me from this page.

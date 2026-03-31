@@ -1,0 +1,124 @@
+<root>
+	<item>
+		<version>2</version>
+		<cookie>809</cookie>
+		<actiontype>15</actiontype>
+		<position>1</position>
+		<imagestrip>Welcome</imagestrip>
+		<atetoopen>http://web.icq.com/welcome/%ate%2003a/0,,%icqver%-%icqcsl%,00.html?uin=%icquin%&amp;sk=%icqsk%,00.html</atetoopen>
+		<title>ICQ Welcome</title>
+		<sizex>613</sizex>
+		<sizey>405</sizey>
+	</item>
+	<item>
+		<version>2</version>
+		<cookie>810</cookie>
+		<actiontype>15</actiontype>
+		<position>1</position>
+		<imagestrip>Careers</imagestrip>
+		<atetoopen>http://web.icq.com/cf/ate/channels/%ate%careers/0,,%icqver%-%icqcsl%,00.html</atetoopen>
+		<title>Careers Channel</title>
+		<sizex>544</sizex>
+		<sizey>340</sizey>
+	</item>
+	<item>
+		<version>2</version>
+		<cookie>805</cookie>
+		<actiontype>15</actiontype>
+		<position>1</position>
+		<imagestrip>Games</imagestrip>
+		<atetoopen>http://web.icq.com/cf/ate/channels/%ate%games/0,,%icqver%-%icqcsl%,00.html</atetoopen>
+		<title>Games Channel</title>
+		<sizex>544</sizex>
+		<sizey>340</sizey>
+	</item>
+	<item>
+		<version>2</version>
+		<cookie>806</cookie>
+		<actiontype>15</actiontype>
+		<position>1</position>
+		<imagestrip>Romance</imagestrip>
+		<atetoopen>http://web.icq.com/cf/ate/channels/%ate%life/0,,%icqver%-%icqcsl%,00.html</atetoopen>
+		<title>Romance Channel</title>
+		<sizex>544</sizex>
+		<sizey>340</sizey>
+	</item>
+	<item>
+		<version>2</version>
+		<cookie>812</cookie>
+		<actiontype>15</actiontype>
+		<position>1</position>
+		<imagestrip>Mobile</imagestrip>
+		<atetoopen>http://web.icq.com/cf/ate/channels/%ate%wireless/0,,%icqver%-%icqcsl%,00.html</atetoopen>
+		<title>Mobile and Telecom Channel</title>
+		<sizex>544</sizex>
+		<sizey>340</sizey>
+	</item>
+	<item>
+		<version>2</version>
+		<cookie>808</cookie>
+		<actiontype>15</actiontype>
+		<position>1</position>
+		<imagestrip>Movies&amp;TV</imagestrip>
+		<atetoopen>http://web.icq.com/cf/ate/channels/%ate%entertain/0,,%icqver%-%icqcsl%,00.html</atetoopen>
+		<title>Movies&amp;TV Channel</title>
+		<sizex>544</sizex>
+		<sizey>340</sizey>
+	</item>
+	<item>
+		<version>2</version>
+		<cookie>803</cookie>
+		<actiontype>15</actiontype>
+		<position>1</position>
+		<imagestrip>Music</imagestrip>
+		<atetoopen>http://web.icq.com/cf/ate/channels/%ate%music/0,,%icqver%-%icqcsl%,00.html</atetoopen>
+		<title>Music Channel</title>
+		<sizex>544</sizex>
+		<sizey>340</sizey>
+	</item>
+	<item>
+		<version>2</version>
+		<cookie>807</cookie>
+		<actiontype>15</actiontype>
+		<position>1</position>
+		<imagestrip>Shopping</imagestrip>
+		<atetoopen>http://web.icq.com/cf/ate/channels/%ate%shopping/0,,%icqver%-%icqcsl%,00.html</atetoopen>
+		<title>Shopping Channel</title>
+		<sizex>544</sizex>
+		<sizey>340</sizey>
+	</item>
+	<item>
+		<version>2</version>
+		<cookie>802</cookie>
+		<actiontype>15</actiontype>
+		<position>1</position>
+		<imagestrip>Sports</imagestrip>
+		<atetoopen>http://web.icq.com/cf/ate/channels/%ate%sports/0,,%icqver%-%icqcsl%,00.html</atetoopen>
+		<title>Sports Channel</title>
+		<sizex>544</sizex>
+		<sizey>340</sizey>
+	</item>
+	<item>
+		<version>2</version>
+		<cookie>800</cookie>
+		<actiontype>15</actiontype>
+		<position>1</position>
+		<imagestrip>Computing</imagestrip>
+		<atetoopen>http://web.icq.com/cf/ate/channels/%ate%tech/0,,%icqver%-%icqcsl%,00.html</atetoopen>
+		<title>Computing Channel</title>
+		<sizex>544</sizex>
+		<sizey>340</sizey>
+	</item>
+	<item>
+		<version>2</version>
+		<cookie>801</cookie>
+		<actiontype>15</actiontype>
+		<position>1</position>
+		<imagestrip>Travel</imagestrip>
+		<atetoopen>http://web.icq.com/cf/ate/channels/%ate%travel/0,,%icqver%-%icqcsl%,00.html</atetoopen>
+		<title>Travel Channel</title>
+		<sizex>544</sizex>
+		<sizey>340</sizey>
+	</item>
+</root>
+

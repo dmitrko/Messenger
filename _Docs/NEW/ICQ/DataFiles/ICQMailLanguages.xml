@@ -1,0 +1,30 @@
+<root>
+	<item>
+		<display>English</display>
+		<send>default</send>
+	</item>
+	<item>
+		<display>French</display>
+		<send>french</send>
+	</item>
+	<item>
+		<display>Deutch</display>
+		<send>german</send>
+	</item>
+	<item>
+		<display>Netherlands</display>
+		<send>dutch</send>
+	</item>
+	<item>
+		<display>Spanish</display>
+		<send>spanisheur</send>
+	</item>
+	<item>
+		<display>Portuguese</display>
+		<send>portuguese</send>
+	</item>
+	<item>
+		<display>Svenska</display>
+		<send>swedish</send>
+	</item>
+</root>

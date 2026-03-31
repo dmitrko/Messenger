@@ -1,0 +1,219 @@
+
+ICQ ® End User License Agreement 
+October 7, 2003
+
+*********************************
+
+IMPORTANT NOTICE
+
+Please note that the ICQ service is not for use by children under 13 years of age.  If it comes to ICQ's attention through reliable means that a registered user is a child under 13 years of age, ICQ will cancel that user's account. 
+
+Also please note that the ICQ service and software, as with most Internet applications, are vulnerable to various security issues and hence should be considered unsecured. By using the ICQ service and software and the Internet in general, you may be subject to various risks, including among others: 
+
+* Exposure to objectionable material and/or parties, including without limitation, contaminated files. 
+	
+* Unauthorized invasion of your privacy during, or as a result of, your use or another's use of the system. 
+
+* Spoofing, eavesdropping, sniffing, spamming, breaking passwords, harassment, fraud, forgery, "imposturing", electronic trespassing, tampering, hacking, nuking, system contamination including without limitation use of viruses, worms and Trojan horses causing unauthorized, damaging or harmful access and/or retrieval of information and data on your computer and other forms of activity that may even be considered unlawful. 
+
+* Unauthorized exposure of information and material you listed or sent, on or through the ICQ system to other users, the general public or any other specific entities for which the information and material was not intended by you. 
+
+If you do not wish to be subjected to these risks, you are advised not to use the ICQ service and software. Furthermore, please do not use the ICQ service and software for "Mission Critical" or "Content Sensitive" applications and purposes. For the purpose of this section "Mission Critical" applications and purposes shall mean applications and use that may result in damage; "Content Sensitive" shall mean any information or data you do not wish to be freely accessible and generally available to Internet users. 
+
+Please note that in each and every Internet application, the IP address of the sender is an integral part of the TCP/IP standard protocol of the Internet, and can be extracted by any party to the communication session using certain software and/or hardware.  Also note that the IP privacy feature, designed to allow an ICQ user to reduce the exposure of his/her IP address on ICQ, is provided to you as a convenience only and does not guarantee a complete non-exposure of your IP address. 
+
+For the ICQ software's terms of service please review the following End User License Agreement, the ICQ Privacy Policy, Acceptable Use Policy, Usage Notices, ICQ Tools Notices and any other terms of service document available on or through http://www.icq.com/legal/. 
+Always check for the latest terms of service available on or through http://www.icq.com/legal/. 
+
+European Union ICQ users understand and consent to the processing of personal information in the United States.
+
+******************
+
+License
+
+The ICQ end user software (the “Software”) is being licensed to you by ICQ, Inc., free of charge, and is provided to you on an "AS IS" basis, for your private personal use only, subject to the terms and conditions of this end user license agreement (the “Agreement”). Please read this Agreement in full before using the Software.  
+
+By using the Software or any of the ICQ Services, you acknowledge that you and such use are bound by and subject to the provisions of the ICQ Terms of Service, available on or through http://www.icq.com/legal/.
+
+Any reference made in this Agreement to “ICQ” shall be deemed to have been made to ICQ, Inc., its subsidiaries, successors, assignees, and affiliates, as well as any company that controls ICQ, Inc., directly or indirectly, and any other subsidiary of that controlling company. 
+
+Your Representations  
+
+You represent and warrant that you have the adequate legal capacity to enter into this Agreement.  You further represent and warrant that you will use the Software only for lawful purposes and in accordance with this Agreement, and that you will not use the Software to violate any law, regulation or ordinance or any right of ICQ or any third party, including, without limitation, any right of privacy, publicity, copyright, patent or trademark.
+
+You represent and warrant that you are at least 13 years old.
+
+The Software and the ICQ Services are NOT FOR USE BY CHILDREN UNDER 13 YEARS OF AGE.  If it comes to ICQ's attention through reliable means that a registered user is a child under 13 years of age, ICQ will cancel that user's account.
+
+ICQ Terms of Service
+
+This Agreement and the ICQ terms of service documents available on or through http://www.icq.com/legal/, including the ICQ Privacy Policy, Acceptable Use Policy, Usage Notices and any other applicable terms of service document available therein (together with this Agreement, the "ICQ Terms of Service") shall apply to any use of any version of the Software and the ICQ Services. Unless expressly stated otherwise, it is clarified that the applicable ICQ Terms of Service documents shall also apply to any use of the ICQ Web site, any application, plug-in, service, software, component, functionality or program created or made available by ICQ and to any software application that relies on, is supported by, influences the functionality and user experience of, or utilizes, to any extent, directly or indirectly, for its operation, the Software, the ICQ network, system, Web site, servers, various directories and listings, various message and news boards, tools, information and databases or any part thereof (together with applications created or made available by ICQ, the "ICQ Applications"). 
+
+In case of contradiction between any provision of this Agreement and any provision in any of the ICQ Terms of Service documents, the provision of this Agreement shall prevail.
+
+Translation
+
+ICQ offers localized and translated versions of the Software, the ICQ Services and this Agreement. ICQ is not necessarily the author of the translation. 
+
+You are aware that any non-English text provided, whether during the installation process, the registration process, in any of the ICQ Services dialogs, the ICQ Web site or in connection with the ICQ Terms of Service documents, is a translation of the original English text, and is provided for convenience only. The translated text may be incomplete or inaccurate.  ICQ does not warrant or guarantee the accuracy, correctness or completeness of the translation.  In the event of any inconsistency between the translated text and the original English text, the English text shall prevail.  
+
+You may have been provided with LingoWare translation software for the Software. Use of the LingoWare software is subject to the LingoWare Terms of Service documents available at http://www.lingoware.com/english/admin/license.htm.  
+
+ICQ Services
+
+As part of the Software, ICQ is granting you limited access to the ICQ network, system, Web site, servers, ICQ Applications, commercial activities related thereto or any part thereof (with the Software or any part thereof, collectively, the "ICQ Services"). The ICQ Services or any part thereof, may also be accessible by or through other software applications.
+
+By accepting the terms of this Agreement you agree that ICQ is permitted to limit, deny, create different priorities for different users, update or cancel some or all of the functionality of the ICQ Services at any time, without prior notice. 
+
+Changes of Functionality
+
+The ICQ Services or any part thereof including without limitation, any version of the Software installed on your computer, the access to the ICQ Services granted to you or to any other user and the availability and functionality of any ICQ feature and function, including without limitation ICQ Applications, may be changed, updated, added to, limited or terminated, at any time, temporarily or permanently, without notice, for any reason or no reason by ICQ in its sole discretion ("Changes of Functionality").  For the avoidance of doubt, a Change of Functionality may be done to the Software already installed on your computer. ICQ may elect to, but is not obligated to, introduce or grant different grades of service and listings policies, different levels of access or no access at all and different priorities to different users or to different functions, or to users of different versions of the Software and the ICQ Services, or introduce and add new features in the current or in future versions of the Software and the ICQ Services, including in Software already installed on your computer, that may cause functionality change, limitation or termination of, or addition to, the functionality of features in earlier versions still in use, including functionality changes in privacy and security features ("Grant of Different Services"), at any time without notice, at its sole discretion. You agree to bear the risks of and hold ICQ harmless for any and all effects that the Changes of Functionality and Grant of Different Services may have on you and your ability to use the Software and the ICQ Services, in whole or in part, for communicating with third parties or their ability to communicate with you.
+
+Restrictions on Use
+
+You agree not to (1) create or use any software other than the Software provided by ICQ or by America Online, Inc., or any affiliate thereof, to enter your ICQ number and password or to access the ICQ Services, without the express written authorization of ICQ; (2) extract information from the ICQ Services, reverse engineer, decompile, disassemble, alter, duplicate, make copies, create derivative works from, distribute or provide others with the Software, the ICQ communications protocol or any information available on, derived or extracted from the ICQ Services, or any part thereof; (3) block, disable or otherwise affect any advertising, advertisement banner window, links to other sites and services, or other features that constitute an integral part of the Software and ICQ Services; (4) connect, use, attempt to connect or use in any way the ICQ Services, for any commercial purpose and any other purpose that is not for your private personal use in good faith and as explicitly offered on the ICQ Web site; and (5) incorporate, integrate or otherwise include the Software or any portion thereof (including the ICQ communications protocols) into any software, program or product that communicates, accesses, or otherwise connects with the ICQ Service or any other instant messaging, Internet, or online service. 
+ 
+You further agree to abide by all laws and regulations in effect regarding your use of the Software and the ICQ Services, and you agree to indemnify ICQ, its officers, agents, employees and directors for any damages incurred as a result of a violation of this section.  Finally, you may not authorize or assist any third party to do any of the things described in this section. 
+
+You May Use the ICQ Network for Lawful Purposes Only
+
+You may use the ICQ Services’ features, offerings and content for lawful purposes only. You may not (1) enter user details of another person with the intention of impersonating that person, (2) enter details, information or materials in violation of the intellectual property rights of any person, (3) enter details, information or materials that ICQ considers to be offensive, or (4) send unsolicited bulk e-mail, junk e-mail or unsolicited bulk instant messages. 
+You may not post on or transmit through the ICQ Services any material that (1) violates or infringes in any way upon the rights of others, (2) is unlawful, threatening, abusive, defamatory, invasive of privacy or publicity rights, vulgar, obscene, profane, indecent or otherwise objectionable, (3) encourages conduct that would constitute a criminal offense, (4) gives rise to civil liability, or (5) otherwise violates any law. You also may not undertake any conduct that, in ICQ’s judgment, restricts or inhibits any other user from using or enjoying the ICQ Services or the Software, including without limitation the community areas.  You agree to indemnify ICQ, its officers, agents, employees and directors for any damages incurred as a result of a violation of this section.   
+You Must Have the Appropriate Rights to Post Materials on the ICQ Network
+
+You shall not upload, post or otherwise make available on the ICQ Services any material protected by copyright, trademark or other proprietary right without the express permission of the owner of the copyright, trademark or other proprietary right. You are responsible for determining whether copyright, trademark or other proprietary right protects such material. You shall be solely liable for any damages resulting from any infringement of copyright, trademark or other proprietary right, or any other harm resulting from any uploading, posting or submission.
+
+The posting or submitting of materials on the ICQ Services is further governed by the relevant ICQ Terms of Service documents.
+
+Proprietary Rights
+
+ICQ owns all intellectual property in the ICQ Services and the proprietary ICQ databases, including but not limited to ICQ components and algorithms, and access to the ICQ Services’ server complex.  
+
+The ICQ Services may contain or link to content provided by third parties or third party web sites. All title and intellectual property rights in and to any content which may be accessed through the ICQ Services, and is not otherwise owned by ICQ, is the property of the respective content owner and may be protected by applicable copyright or other intellectual property laws and treaties. ICQ owns a copyright in the selection, coordination, arrangement and enhancement of such content.  This Agreement grants you no rights to use such content.
+You may not modify, publish, transmit, display, participate in the transfer or sale of, create derivative works or in any way exploit the content of the ICQ Services or any portion of it. Except as otherwise expressly permitted under copyright law, you may not copy, redistribute, publish, display or commercially exploit any material from the ICQ Services without the express permission of ICQ. No portion of the content on the ICQ Services may be stored in a computer except for personal and non-commercial use.
+ICQ, THE FLOWER LOGO, THE ICQ NETWORK and/or other ICQ products referenced herein are trademarks and/or servicemarks of ICQ. Other products and companies’ names or marks may be the trademarks or servicemarks of their respective owners. No license is granted to you in this Agreement, either expressly or implicitly, to use any trademark, servicemark, names, or logos of ICQ, including ICQ and the flower logo.   
+If you believe that your work has been copied and is accessible on the ICQ Services in a way that constitutes copyright infringement, go to http://www.icq.com/legal/copyright.html for instructions on how to contact ICQ.
+
+Privacy Policy
+
+By using the ICQ Services, or any part thereof, you agree and acknowledge that the details you elect to post on the various ICQ directories, during the registration procedure or thereafter, including during use of the ICQ Services, are generally available and freely accessible to Internet users and the public, unless explicitly stated otherwise.
+
+ICQ is not responsible for any information, including without limitation, online and offline messages and other forms of interpersonal communications available on or through the ICQ Services, users' personal data, user posted Web site material, users' ICQ White Pages postings, submitted on or through the ICQ Services or residing on the ICQ servers. ICQ may erase, remove, delete, delay, jam or alter any or all of such information without prior notice, for functional or any other reasons.
+
+In order for you to feel comfortable in communicating using the ICQ Services, ICQ has adopted a privacy policy that governs user privacy in communicating via the ICQ Services.  The ICQ Privacy Policy explains how ICQ collects, uses, and discloses personal information in connection with your use of the ICQ Services, as well as the choices ICQ gives you about such uses and disclosures. You can review the current version of this policy by visiting http://www.icq.com/legal/privacy.html. By your use of any of the ICQ Services, you authorize the collection, use, and disclosure of personal information by ICQ as provided for under ICQ's then-current Privacy Policy.
+
+Monitoring
+
+Unless produced by ICQ, the information you access or receive by using the ICQ Services, the various ICQ directories and listings, and information sent to you by other users, is provided by the users, is entered or posted by them, and is not controlled, verified or endorsed by ICQ in any way. ICQ has the right, but not the obligation, to monitor such content available on or through the ICQ Services, to determine compliance with the ICQ Terms of Service and any other operating rules that may be established by ICQ from time to time. ICQ has the right in its sole discretion to edit, refuse to post or remove any content or other material sent via, submitted to, uploaded to, or posted on or through the ICQ Services. Without limiting the foregoing, ICQ has the right, but not the obligation, to edit or remove any content or other material that it, in its sole discretion, finds to be in violation of the provisions of this Agreement or the ICQ Terms of Service, any law, or as is necessary for the protection of user privacy, the avoidance of spam, or as otherwise determined by ICQ in its sole discretion. Users shall remain solely responsible for the content of their messages. You acknowledge and agree that ICQ shall not assume or have any liability for any action or inaction by ICQ with respect to any conduct within the ICQ Services.
+
+Links to Other Services
+
+The ICQ Services contain features and functionalities that may link you or provide you with certain reference and functionality to third parties' Web sites, directories, servers, networks, systems, information and databases, applications, software, programs, products or services ("Other Services"). These features and functionalities are provided by ICQ only as a convenience. The Other Services are not controlled by ICQ in any way and ICQ is not responsible for the content of any such Other Services, or any link contained therein. The offering of these features does not imply endorsement of the Other Services by ICQ. In addition, ICQ does not endorse any service or product that may be offered by any third party advertising through the ICQ Services. In no event shall ICQ be liable to anyone for any damage arising from or occasioned by the creation or use of the Other Services or the information or material accessed through the Other Services. 
+
+Third Parties’ Networks
+
+The ICQ Services contain functionalities and services that allow sending, delivering or receiving information between ICQ users and between ICQ users and non-ICQ users, which may be relayed or carried through public, partners', third parties' or other networks, systems, servers, Web sites or applications (e.g. telephone and cellular networks, e-mail servers) ("Third Parties' Networks"). The Third Parties' Networks are not controlled by ICQ in any way and ICQ shall not be responsible for the performance, availability, functionality, quality, or reliability of any of the Third Parties' Networks or the information sent, delivered, relayed, carried or received through the Third Parties' Networks. Notwithstanding anything herein, ICQ does not warrant or guarantee that the information sent, relayed, carried or delivered through Third Parties' Networks will reach its destination, or its correct address or recipient, or that the details of the recipient or sender are correct or accurate. 
+
+Submission of Information
+
+ICQ does not want to receive any confidential, secret or proprietary information and material from you through the ICQ Web site, ICQ's mail and e-mail addresses, the ICQ Services or in any other way. ANY INFORMATION OR MATERIAL SUBMITTED OR SENT TO ICQ, EXCLUDING PRIVATE COMMUNICATIONS BETWEEN A USER AND OTHER USERS THAT ARE NOT SUBSEQUENTLY MADE AVAILABLE TO ICQ, WILL BE DEEMED NOT TO BE CONFIDENTIAL OR SECRET. By submitting or sending documents, information or other material ("Material") to ICQ or by posting information entered on the various ICQ directories and tools, and messages on the ICQ message boards you (1) warrant that you have no rights of any kind to the Material, and that to the best of your knowledge no other party has any rights to the Material; (2) grant ICQ an unrestricted, perpetual, irrevocable license to use, reproduce, display, perform, adapt, modify, transmit and distribute the Material in all media; and (3) agree that ICQ is free to use any ideas, know-how, concepts, techniques or other materials you send us for any purpose. 
+
+Disclaimer of Warranties
+
+THE SOFTWARE, ICQ SERVICES AND THE INFORMATION PROVIDED IN THE VARIOUS ICQ DIRECTORIES, LISTINGS AND DATABASES IS PROVIDED ON AN "AS IS, AS AVAILABLE" BASIS. ICQ MAKES NO AND HEREBY SPECIFICALLY DISCLAIMS ALL WARRANTIES, EXPRESS OR IMPLIED, INCLUDING, WITHOUT LIMITATION, THOSE OF MERCHANTABILITY, NON INFRINGEMENT AND FITNESS FOR A PARTICULAR PURPOSE, WITH RESPECT TO THE SOFTWARE, THE ICQ SERVICES, THE ICQ SERVERS' SOFTWARE, THE ICQ WEB SITE OR ANY INFORMATION SENT, DELIVERED OR RECEIVED BY USERS ON OR THROUGH THE SOFTWARE, THE ICQ SERVERS' SOFTWARE, THE ICQ WEB SITE, THE ICQ SERVICES OR THE VARIOUS ICQ DIRECTORIES AND LISTINGS, UNLESS SUCH WARRANTIES ARE LEGALLY INCAPABLE OF EXCLUSION. 
+
+ICQ DOES NOT WARRANT, GUARANTEE OR MAKE ANY REPRESENTATIONS REGARDING THE USE, AVAILABILITY, RELIABILITY OR THE RESULTS OF THE USE OF THE SOFTWARE, THE ICQ SERVICES AND THE ACCESS TO THE ICQ SERVERS, OR THE INFORMATION PROVIDED IN THE VARIOUS ICQ DIRECTORIES, LISTINGS AND DATABASES IN TERMS OF THE ACCURACY, RELIABILITY, QUALITY, VALIDITY, STABILITY, COMPLETENESS, CURRENTNESS, OR OTHERWISE OF THEIR CONTENTS OR PRODUCTS, UNLESS SUCH WARRANTIES ARE LEGALLY INCAPABLE OF EXCLUSION. THE ENTIRE RISK AS TO THE RESULTS AND PERFORMANCE OF THE SOFTWARE, THE ICQ SERVICES AND ACCESS TO THE ICQ SERVERS OR THE VARIOUS ICQ DIRECTORIES AND LISTINGS DATA, IS ASSUMED BY YOU. 
+
+ICQ does not warrant or guarantee that all Software versions shall be provided with similar grades and level of service, features, functionality and the ability to use, the ICQ Services. ICQ does not warrant or guarantee (1) that any program or information will be free of infection by viruses, worms, Trojan horses or anything else manifesting contaminating or destructive properties; (2) that the information available on or through the ICQ Services will not contain adult-oriented material, or material which some individuals may deem objectionable; (3) that the ICQ Services and the functions or services performed by ICQ will be uninterrupted or error-free; or (4) that defects in the ICQ Services will be corrected. You are solely responsible to isolate software and information, execute anti-contamination software and otherwise take steps to ensure that software or information, if contaminated or infected, will not damage your information or system. 
+
+Security and Privacy Limitations
+
+You acknowledge that you are aware (1) of security and privacy limitations in the ICQ Services including the limitation of security, privacy and authentication measures and features; (2) that data and information on the ICQ Services may be subject to eavesdropping, sniffing, spoofing, forgery, spamming, "imposturing", tampering, breaking passwords, harassment, fraud, electronic trespassing, hacking, nuking, system contamination including viruses, worms and Trojan horses causing unauthorized, damaging or harmful access to, or retrieval of, information and data on your computer; (3) that information, data or messages may not reach their destination or may reach an erroneous address or recipient; (4) that the security and privacy features available on the ICQ Services, are provided to you as a convenience only and may not operate according to their description or may not operate at all; and (5) that by activating certain features such as the “Shared Files” feature, you may provide third parties with certain limited remote access to certain files on your computer. Activating these features increases the risk that third parties will be able to tamper with your computer. 
+
+You acknowledge that, as with most Internet applications (i.e. e-mail), there are certain risks associated with accepting or downloading files through ICQ.  Such risks include but are not limited to (1) damage to your computer, (2) damage to any data or files stored on your computer, (3) ICQ users viewing your IP address, and (4) files you share with other ICQ users being redistributed and used without your knowledge.  
+
+Limited Liability
+
+IN NO EVENT WILL ICQ BE LIABLE TO ANY PARTY (i) FOR ANY INDIRECT, SPECIAL, PUNITIVE, INCIDENTAL OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, DAMAGES FOR LOSS OF BUSINESS PROFITS, BUSINESS INTERRUPTION, LOSS OF PROGRAMS OR INFORMATION, AND THE LIKE), OR ANY OTHER DAMAGES ARISING IN ANY WAY OUT OF THE AVAILABILITY, USE, RELIANCE ON, OR INABILITY TO USE THE SOFTWARE, THE ICQ NETWORK, THE ICQ SERVICES, VARIOUS DIRECTORIES AND LISTINGS OR ANY OTHER 'INFORMATION', EVEN IF ICQ SHALL HAVE BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES, AND REGARDLESS OF THE FORM OF ACTION, WHETHER IN CONTRACT, TORT, OR OTHERWISE; (ii) FOR ANY CLAIM ATTRIBUTABLE TO DELAYS, ERRORS, OMISSIONS, OR OTHER INACCURACIES IN, OR DESTRUCTIVE PROPERTIES OF ANY INFORMATION; (iii) FOR THE TRANSMISSION OR DELIVERY OF ALL OR ANY PART OF ANY INFORMATION, FOR ANY DAMAGE ARISING THEREFROM OR OCCASIONED THEREBY, OR FOR THE RESULTS OBTAINED FROM THE USE OF THE INFORMATION; OR (iv) IF ANY INFORMATION INFECTS OR CONTAMINATES A USER'S SYSTEM OR INFORMATION. BECAUSE SOME STATES OR JURISDICTIONS DO NOT ALLOW THE EXCLUSION OR THE LIMITATION OF LIABILITY FOR CONSEQUENTIAL OR INCIDENTAL DAMAGES, IN SUCH STATES OR JURISDICTIONS, ICQ 'S LIABILITY SHALL BE LIMITED TO THE EXTENT PERMITTED BY LAW.
+
+In no event will ICQ 's liability with respect to this Agreement exceed the greater of (i) the amount you paid (if you paid) to ICQ for the Software, or (ii) the average monthly access fee paid by you to your local telephone company or communication provider, solely and specifically for access to the ICQ Services. 
+
+The entire risk as to the quality and performance of the ICQ Services, and the accuracy, adequacy, completeness, correctness, validity and quality thereof or of any other information is with the user.
+
+Charging Policies
+
+Unless expressly stated to you by ICQ, the ICQ Services are provided to you free of charge. If any payments were made for any materials, equipment, products or services that bundle or offer any part of the ICQ Services, or for accessing the ICQ Services through any platform or network, you acknowledge, that such payments were made for the equipment, products, services or access offered, and not for the actual ICQ Services.  Any telephone or other communications charges incurred by you to access the ICQ Services are your responsibility. Since these charges are your responsibility, you should contact your local telephone company or communication provider if you have a question about whether your access carries any long distance charges or other toll charges from your location.
+
+Premium Services
+
+There may be extra charges to use or access certain premium or subscription content, products or services ("Premium Services”) on or through the ICQ Services. The Premium Services may be subject to additional terms and conditions, which will supplement this Agreement. You will need to agree to such additional terms and conditions in order to access any Premium Services. 
+
+Communications From ICQ
+
+ICQ may send (i) notices about your use of the ICQ Services, including any notices concerning violations of use, (ii) updates, and (iii) promotional information, to your ICQ number or to an e-mail address provided by you on or through any of the ICQ Services.  You may withdraw your consent to receive e-mail communications from ICQ at http://www.icq.com/legal/removenotices.html; however, if you choose to withdraw consent, ICQ may terminate your ICQ number or access to any or all of the ICQ Services.
+
+European Users
+
+By using the ICQ Services, ICQ users in the European Union understand and consent to the processing of personal information in the United States.
+
+Termination  
+
+ICQ may at any time terminate your ICQ number or access to the ICQ Services, cancel, change, hold, de-list, introduce different options and features to different users or refrain from publishing ICQ numbers or any other details of the users listed on the various ICQ directories and listings for any reason, including, without limitation, if it, in its sole discretion, considers your use to be unacceptable, or in the event of any breach by you of this Agreement or the ICQ Terms of Service (either directly or through breach of any other terms and conditions or operating rules applicable to you). ICQ has no obligation to provide you a warning prior to termination of your use of the ICQ Services.
+
+Support 
+
+You understand that you use the ICQ Service at your own risk and that any assistance or support for your use of the ICQ Service is provided to you only as a convenience.
+
+Rights and Remedies
+
+You agree that this Agreement is not intended to confer and does not confer any rights or remedies upon any person other than the parties to this Agreement. You also understand and agree that the ICQ Terms of Service, including ICQ's enforcement of those policies, are not intended to confer, and do not confer, any rights or remedies upon any person other than ICQ.  
+
+You acknowledge that the ICQ Services contain ICQ proprietary and confidential information, and that disclosure of such information or misuse of the ICQ Services will give rise to irreparable injury to ICQ, inadequately compensable in damages.  Accordingly, ICQ may seek and obtain injunctive relief against such disclosure or misuse or threatened such disclosure or misuse, in addition to any other legal remedies that may be available.
+
+Construction
+
+If any part of this Agreement is held invalid or unenforceable, that portion shall be construed in a manner consistent with applicable law to reflect, as nearly as possible, the original intentions of the parties, and the remaining portions shall remain in full force and effect. 
+
+Transfer of Rights
+
+ICQ may transfer, assign sublicense or pledge in any manner whatsoever, any of its rights and obligations under this Agreement to a subsidiary, affiliate, successor thereof or to any third party whatsoever, without notifying you or receiving your consent. You shall not transfer, assign, delegate, sublicense nor pledge in any manner whatsoever, any of your rights or obligations under this Agreement. For example, and without any limitation, you shall not transfer, assign, sell or offer for sale ICQ numbers, nor purchase or receive such ICQ numbers from any third party. 
+
+Changes to Agreement
+
+ICQ may change, from time to time, the ICQ Terms of Service with or without a release of a new version of the Software. By continuing to use the ICQ Services, for a period of 30 days after a notice of such change has been provided on the ICQ network or Web site for the first time, you signify your consent to the new or revised set of the ICQ Terms of Service. Subject to the foregoing, you further agree to be bound by the provisions of the license agreement available on the ICQ Web site at http://www.icq.com/legal/, if such license is marked with a more recent date than that on the license agreement that accompanies your Software. 
+
+Electronic Notices
+
+By using any of the ICQ Services, you consent to receive legally required communications, including notices, agreements, disclosures or other information in connection with any of the ICQ Services electronically from ICQ (collectively, "Notices"). You agree that ICQ generally can send you electronic Notices by (i) e-mail to an e-mail address provided by you, and/or (ii) by "pop up” notice, “System” notice, or any other form of notice, on any of the ICQ Services and/or by (iii) posting the Notices on a main page or other page of the relevant service. You agree that certain supplemental or enhanced services made available to ICQ users may also have their own Notice procedures. 
+
+You must have a personal computer with a modem connected to a communications source (telephone, wireless or broadband), a Windows-based or a Macintosh-based operating system in order to access electronic communications.
+
+You will need a printer attached to your personal computer to print any Notices. You can retrieve an electronic copy and a printable version of the ICQ Terms of Service at http://www.icq.com/legal. 
+
+The delivery of any Notice from ICQ is effective when sent by ICQ, regardless of whether you read the communication when you receive it. You may withdraw your consent to receive Notices electronically at http://www.icq.com/legal/electronicnotices.html; however, if you choose to withdraw consent, ICQ may terminate your ICQ number or access to any or all of the ICQ Services.  
+
+Notices and Warnings
+
+You acknowledge that the various notes, notices and warnings available on the ICQ Services, are provided as a convenience only. The inclusion of such does not constitute an obligation on ICQ to provide such notes, notices and warnings in other places or features of the ICQ Services. 
+
+Survival
+
+The provisions of this Agreement addressing restrictions on use, disclaimers of representations and warranties, indemnity obligations, intellectual property, Premium Services and governing law shall survive the termination of this Agreement, your use of the ICQ Services, and your use of or access to Premium Services.
+
+Governing Law and Forum
+
+This Agreement and the Terms of Service shall be governed by and construed in accordance with the laws of the Commonwealth of Virginia, excluding its conflicts-of-law rules. Please note that your use of the ICQ Services may be subject to other local, state, national, and international laws. You expressly agree that exclusive jurisdiction for any claim or dispute with ICQ or relating in any way to your use of the ICQ Services resides in the courts of Virginia and you further agree and expressly consent to the exercise of personal jurisdiction in the courts of Virginia in connection with any such dispute including any claim involving ICQ or its affiliates, subsidiaries, employees, contractors, officers, directors, telecommunication providers and content providers. 
+
+Export Control
+
+You agree to abide by U.S. and other applicable export control laws and not to export, re-export or otherwise transfer, by electronic transmission or otherwise, any content or software subject to restrictions under such laws to a national destination prohibited under such laws or to any person to whom exports, re-exports or transfers are prohibited under such laws, without first obtaining, and then complying with, any requisite government authorization. You further agree not to upload to ICQ any data or software that cannot be exported without prior written government authorization, including, but not limited to, certain types of encryption software. 
+
+Headings
+
+The headings and captions used in this Agreement are inserted for convenience only and will not affect the meaning or interpretation of this agreement.
+
+
+The ICQ system and the methodology of its operation are protected by US patent No. 6,449,344.
+
+Copyright (c) 1996 - 2003 ICQ, Inc. ALL RIGHTS RESERVED.
+

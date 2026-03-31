@@ -1,30 +1,34 @@
-import Peer from 'simple-peer/simplepeer.min.js';
+// @ts-ignore
+import _Peer from 'simple-peer/simplepeer.min.js';
 import { Buffer } from 'buffer';
+import type { Instance } from 'simple-peer';
 
 if (typeof window !== 'undefined') {
     (window as any).Buffer = Buffer;
 }
 
+const Peer = _Peer as any;
+
 export class WebRTCService {
-    private peers = new Map<string, Peer.Instance>();
+    private peers = new Map<string, Instance>();
 
     constructor(
         private signalCallback: (peerId: string, signal: any) => void,
         private messageCallback: (peerId: string, data: string) => void
     ) { }
 
-    getOrCreatePeer(peerId: string, initiator: boolean): Peer.Instance {
+    getOrCreatePeer(peerId: string, initiator: boolean): Instance {
         if (this.peers.has(peerId)) {
             return this.peers.get(peerId)!;
         }
 
-        const peer = new Peer({ initiator, trickle: true });
+        const peer: Instance = new Peer({ initiator, trickle: true });
 
-        peer.on('signal', (data) => {
+        peer.on('signal', (data: any) => {
             this.signalCallback(peerId, data);
         });
 
-        peer.on('data', (data) => {
+        peer.on('data', (data: any) => {
             this.messageCallback(peerId, data.toString());
         });
 
@@ -32,7 +36,7 @@ export class WebRTCService {
             console.log(`[WebRTC] P2P connected with: ${peerId}`);
         });
 
-        peer.on('error', (err) => {
+        peer.on('error', (err: Error) => {
             console.error(`[WebRTC] Peer error (${peerId}):`, err);
             this.destroyPeer(peerId);
         });

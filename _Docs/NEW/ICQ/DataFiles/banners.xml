@@ -1,0 +1,78 @@
+<root>
+
+<adshtml>
+<html>
+<head>
+	<title>ICQ</title>
+	<script language="JavaScript1.1" src="http://%Site%/file/adsWrapper.js"></script> 
+</head>
+ 
+<body topmargin="0" leftmargin="0" scroll="no">
+<table width="100%" border="0">
+	<tr>
+			<script language="JavaScript1.1">
+			<!--
+				adSetTarget ('_blank');
+				htmlAdWH('%MN%', '468', '60');
+				//-->
+			</script>
+			<noscript>
+				<a href="http://%Site%/link/%MN%/icq">
+					<img src="http://%Site%/image/%MN%/icq" alt="" width="468" height="60" border="0">
+					</img>
+				</a>
+			</noscript>
+	</tr>
+</table>
+	<script language="JavaScript1.1" src="http://%Site%/file/adsEnd.js"></script>
+</body>
+</html>
+</adshtml>
+
+<smallhtml>
+<html>
+<head>
+	<title>ICQ</title>
+	<script language="JavaScript1.1" src="http://%Site%/file/adsWrapper.js"></script> 
+</head>
+ 
+<body topmargin="0" leftmargin="0" scroll="no">
+<table width="100%" border="0">
+	<tr>
+			<script language="JavaScript1.1">
+			<!--
+				adSetTarget ('_blank');
+				htmlAdWH('%MN%', '234', '60');
+				//-->
+			</script>
+			<noscript>
+				<a href="http://%Site%/link/%MN%/icq">
+					<img src="http://%Site%/image/%MN%/icq" alt="" width="468" height="60" border="0">
+					</img>
+				</a>
+			</noscript>
+	</tr>
+</table>
+	<script language="JavaScript1.1" src="http://%Site%/file/adsEnd.js"></script>
+</body>
+</html>
+</smallhtml>
+
+
+<dialog><clsid>{05736BBE-C20F-4F10-A6DE-4DB1E3564B0E}</clsid><ext>1</ext><dlgid>0</dlgid></dialog>
+<dialog><clsid>{05736BBE-C20F-4F10-A6DE-4DB1E3564B0E}</clsid><ext>0</ext><dlgid>0</dlgid></dialog>
+<dialog><clsid>{05736BBE-C20F-4F10-A6DE-4DB1E3564B0E}</clsid><ext>0</ext><dlgid>1</dlgid></dialog>
+<dialog><clsid>{d9122df0-9130-11d3-8dd7-00104b06462e}</clsid><ext>0</ext><dlgid>0</dlgid></dialog>
+<dialog><clsid>{72581C37-87E9-11D4-A4C1-00D0B759B1D9}</clsid><ext>0</ext><dlgid>0</dlgid></dialog>
+<dialog><clsid>{B4FEEF4A-D8FA-11D3-BCEE-0004AC969DC2}</clsid><ext>10</ext><dlgid>100</dlgid></dialog>
+<dialog><clsid>{00F6280E-E711-11D3-BCF3-0004AC969DC2}</clsid><ext>0</ext><dlgid>1</dlgid></dialog>
+<dialog><clsid>{483BE501-E42A-11D1-B679-006097E1E294}</clsid><ext>0</ext><dlgid>0</dlgid></dialog>
+<dialog><clsid>{393436BC-07A4-40a2-900C-35A9F003BE09}</clsid><ext>0</ext><dlgid>0</dlgid></dialog>
+<dialog><clsid>{149C3EF2-ED4F-11d3-AE0A-0090271A8BEA}</clsid><ext>400</ext><dlgid>2007</dlgid></dialog>
+<dialog><clsid>{770190FA-0717-11d5-BCE2-0004AC969DC2}</clsid><ext>0</ext><dlgid>5501</dlgid><up>1</up></dialog>
+<dialog><clsid>{ED2DED47-1FF2-11d4-BCFD-000629EE4DA1}</clsid><ext>0</ext><dlgid>8508</dlgid></dialog>
+
+
+<item><header>3</header><mn>93126641</mn></item>
+
+</root>

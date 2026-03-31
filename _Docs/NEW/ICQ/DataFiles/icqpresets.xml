@@ -1,0 +1,104 @@
+<root>
+
+	<item>
+		<caption>Action PresetsMsg 0</caption>
+		<title>grin</title>
+	 	<text>grins mischievously</text>
+	</item>
+	<item>
+		<caption>Action PresetsMsg 1</caption>
+		<title>drool</title>
+	 	<text>drools with desire</text>
+	</item>
+	<item>
+		<caption>Action PresetsMsg 2</caption>
+		<title>scream</title>
+	 	<text>opens wide eyes and screams excitedly</text>
+	</item>
+	<item>
+		<caption>Action PresetsMsg 3</caption>
+		<title>yawn</title>
+	 	<text>yawns showing deep boredom</text>
+	</item>
+	<item>
+		<caption>Action PresetsMsg 4</caption>
+		<title>cough</title>
+	 	<text>coughs loudly trying to get some attention</text>
+	</item>
+	<item>
+		<caption>Action PresetsMsg 5</caption>
+		<title>kicks</title>
+	 	<text>kicks and screams</text>
+	</item>
+	<item>
+		<caption>Action PresetsMsg 6</caption>
+		<title>hug</title>
+	 	<text>gives you a big warm hug</text>
+	</item>
+	<item>
+		<caption>Action PresetsMsg 7</caption>
+		<title>laugh</title>
+	 	<text>laughs hysterically, pounding fists and feet on the ground</text>
+	</item>
+	<item>
+		<caption>Action PresetsMsg 8</caption>
+		<title>kiss</title>
+	 	<text>blows you a kiss</text>
+	</item>
+	<item>
+		<caption>Action PresetsMsg 9</caption>
+		<title>ignore</title>
+	 	<text>puts nose in the air making a hmmpf sound, ignoring that remark</text>
+	</item>
+	<item>
+		<caption>Action PresetsMsg 10</caption>
+		<title>amazed</title>
+	 	<text>opens eyes wide with amazement</text>
+	</item>
+	<item>
+		<caption>Action PresetsMsg 11</caption>
+		<title>think</title>
+	 	<text>scratches head, deep in thought</text>
+	</item>
+	<item>
+		<caption>Action PresetsMsg 12</caption>
+		<title>flower</title>
+	 	<text>picks a flower and hands it to you</text>
+	</item>
+	<item>
+		<caption>Action PresetsMsg 13</caption>
+		<title>confused</title>
+	 	<text>moves eyebrows inward in puzzlement</text>
+	</item>
+	<item>
+		<caption>Action PresetsMsg 14</caption>
+		<title>jump</title>
+	 	<text>jumps up and down ecstatically</text>
+	</item>
+	<item>
+		<caption>Action PresetsMsg 15</caption>
+		<title>scold</title>
+	 	<text>points finger at you, scolding you for your actions</text>
+	</item>
+	<item>
+		<caption>Action PresetsMsg 16</caption>
+		<title>apology</title>
+	 	<text>begs for your forgiveness</text>
+	</item>
+	<item>
+		<caption>Action PresetsMsg 17</caption>
+		<title>brb</title>
+	 	<text>will be right back</text>
+	</item>
+	<item>
+		<caption>Action PresetsMsg 18</caption>
+		<title>excuse</title>
+	 	<text>asks to be excused and heads for the toilet</text>
+	</item>
+	<item>
+		<caption>Action PresetsMsg 19</caption>
+		<title>listen</title>
+	 	<text>gives you complete attention</text>
+	</item>
+
+</root>

@@ -1,0 +1,5 @@
+COPYRIGHT NOTICE. 
+The ICQ software is being distributed and unpacked through the use of the Red-Bend software (the "Red-Bend Software").
+The Red-Bend Software is the copyrighted work of Red-Bend Ltd., Copyright © 1999 by Red-Bend Ltd., 11, Ha'amal St. Rosh Ha'ayin, Israel, All rights reserved.
+The ICQ software or other materials distributed and unpacked through the use of the Red-Bend Software ("Content") are the sole responsibility of the originator of such Content. Red-Bend disclaims any and all responsibility for any and all Content distributed and unpacked via the use of the Red-Bend Software, including without limitation, the ICQ software.  
+The Red-Bend Software may only be used as combined with the ICQ software and for the purpose of unpacking the ICQ software as stated above. Any other use of the Red-Bend Software is explicitly forbidden. 

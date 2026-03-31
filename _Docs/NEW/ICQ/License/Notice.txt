@@ -1,0 +1,25 @@
+
+IMPORTANT NOTICE
+
+ICQ Pro supports hosting your Contact List on the ICQ servers. If you are upgrading from an ICQ version earlier than ICQ 2001b, ICQ will automatically upload and save your Contact List to the ICQ servers. This feature enables you to access your Contact List from any computer or wireless device which supports such an option.
+
+Please note that the ICQ service is not for use by children under 13 years of age.  If it comes to ICQ's attention through reliable means that a registered user is a child under 13 years of age, ICQ will cancel that user's account.
+
+Also please note that the ICQ service and software, as with most Internet applications, is vulnerable to various security issues and hence should be considered unsecured. By using the ICQ service and software and the Internet in general, you may be subject to various risks, including among others: 
+
+* Exposure to objectionable material and/or parties, including without limitation, contaminated files. 
+
+* Unauthorized invasion of your privacy during, or as a result of, your use or another's use of the system. 
+
+* Spoofing, eavesdropping, sniffing, spamming, breaking passwords, harassment, fraud, forgery, "imposturing", electronic trespassing, tampering, hacking, nuking, system contamination including without limitation use of viruses, worms and Trojan horses causing unauthorized, damaging or harmful access and/or retrieval of information and data on your computer and other forms of activity that may even be considered unlawful.
+
+* Unauthorized exposure of information and material you listed or sent, on or through the ICQ system to other users, the general public or any other specific entities for which the information and material was not intended by you. 
+
+If you do not wish to be subjected to these risks, you are advised not to use the ICQ service and software. Furthermore, please do not use the ICQ service and software for "Mission Critical" or "Content Sensitive" applications and purposes. For the purpose of this section "Mission Critical" applications and purposes shall mean applications and use that may result in damage; "Content Sensitive" shall mean any information or data you do not wish to be freely accessible and generally available to Internet users.
+
+Please note that in each and every Internet application, the IP address of the sender is an integral part of the TCP/IP standard protocol of the Internet, and can be extracted by any party to the communication session using certain software and/or hardware.  Also note that the IP privacy feature, designed to allow an ICQ user to reduce the exposure of his/her IP address on ICQ, is provided to you as a convenience only and does not guarantee a complete non-exposure of your IP address. 
+
+For the ICQ software's terms of service please review the following License Agreement, the ICQ Privacy Policy, the Acceptable Use Policy, Usage Notices, Tools Notices and any other terms of service document available on or through http://www.icq.com/legal/. Always check for the latest terms of service available on or through http://www.icq.com/legal/.
+
+European Union ICQ users understand and consent to the processing of personal information in the United States.
+

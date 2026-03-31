@@ -1,0 +1,55 @@
+<field><name=code><type=int></field>
+<field><name=icon><type=int></field>
+<field><name=name><type=string></field>
+<field><name=imagelist><type=imagelist><default="interest.bmp"></field>
+<item><code=100><icon=00><name="Art"></item>
+<item><code=101><icon=01><name="Cars"></item>
+<item><code=102><icon=02><name="Celebrity Fans"></item>
+<item><code=103><icon=03><name="Collections"></item>
+<item><code=104><icon=04><name="Computers"></item>
+<item><code=105><icon=05><name="Culture"></item>
+<item><code=106><icon=06><name="Fitness"></item>
+<item><code=107><icon=07><name="Games"></item>
+<item><code=108><icon=08><name="Hobbies"></item>
+<item><code=109><icon=09><name="ICQ - Help"></item>
+<item><code=110><icon=10><name="Internet"></item>
+<item><code=111><icon=11><name="Lifestyle"></item>
+<item><code=112><icon=12><name="Movies and TV"></item>
+<item><code=113><icon=13><name="Music"></item>
+<item><code=114><icon=14><name="Outdoors"></item>
+<item><code=115><icon=15><name="Parenting"></item>
+<item><code=116><icon=16><name="Pets and Animals"></item>
+<item><code=117><icon=17><name="Religion"></item>
+<item><code=118><icon=18><name="Science"></item>
+<item><code=119><icon=19><name="Skills"></item>
+<item><code=120><icon=20><name="Sports"></item>
+<item><code=121><icon=21><name="Web Design"></item>
+<item><code=122><icon=22><name="Ecology"></item>
+<item><code=123><icon=23><name="News and Media"></item>
+<item><code=124><icon=24><name="Government"></item>
+<item><code=125><icon=25><name="Business"></item>
+<item><code=126><icon=26><name="Mystics"></item>
+<item><code=127><icon=27><name="Travel"></item>
+<item><code=128><icon=28><name="Astronomy"></item>
+<item><code=129><icon=29><name="Space"></item>
+<item><code=130><icon=30><name="Clothing"></item>
+<item><code=131><icon=31><name="Parties"></item>
+<item><code=132><icon=32><name="Women"></item>
+<item><code=133><icon=33><name="Social science"></item>
+<item><code=134><icon=34><name="60's"></item>
+<item><code=135><icon=35><name="70's"></item>
+<item><code=136><icon=36><name="80's"></item>
+<item><code=137><icon=37><name="50's"></item>
+<item><code=138><icon=38><name="Finance and Corporate"></item>
+<item><code=139><icon=39><name="Entertainment"></item>
+<item><code=140><icon=40><name="Consumer Electronics"></item>
+<item><code=141><icon=41><name="Retail Stores"></item>
+<item><code=142><icon=42><name="Health and Beauty"></item>
+<item><code=143><icon=43><name="Media"></item>
+<item><code=144><icon=44><name="Household Products"></item>
+<item><code=145><icon=45><name="Mail Order Catalog"></item>
+<item><code=146><icon=46><name="Business Services"></item>
+<item><code=147><icon=47><name="Audio and Visual"></item>
+<item><code=148><icon=48><name="Sporting and Athletic"></item>
+<item><code=149><icon=49><name="Publishing"></item>
+<item><code=150><icon=50><name="Home Automation"></item>

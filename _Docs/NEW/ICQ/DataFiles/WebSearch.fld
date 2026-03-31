@@ -1,0 +1,420 @@
+<FIELD><name=group><type=int></FIELD>
+<FIELD><name=name><type=string></FIELD>
+<FIELD><name=homepage><type=string></FIELD>
+<FIELD><name=url><type=string></FIELD>
+<FIELD><name=description><type=string></FIELD>
+<ITEM><group=1>
+<name=ICQ Search>
+<homepage=http://google.icq.com/?CLIENT=icq2000b>
+<url=http://google.icq.com/search/results/?q=REPLACEME&CLIENT=icq2000b>
+<description=Enter Search Keyword>
+
+</ITEM><ITEM><group=15>
+<name=Entire ICQ.com Site>
+<homepage=http://google.icq.com/?CLIENT=icq2000b>
+<url=http://google.icq.com/search/sitesearch/?q=REPLACEME&CLIENT=icq2000b>
+<description=Enter Search Keyword>
+
+</ITEM><ITEM><group=24>
+<name=_Other Services>
+<homepage=>
+<url=>
+<description=>
+
+</ITEM><ITEM><group=26>
+<name=Web Search Engines>
+<homepage=>
+<url=>
+<description=>
+
+</ITEM><ITEM><group=26>
+<name=ICQ Search>
+<homepage=http://google.icq.com/?CLIENT=icq2000b>
+<url=http://google.icq.com/search/results/?q=REPLACEME&CLIENT=icq2000b>
+<description=Enter Search Keyword>
+
+</ITEM><ITEM><group=26>
+<name=Google Search>
+<homepage=http://google.icq.com/?CLIENT=icq2000b>
+<url=http://google.icq.com/search/results/?q=REPLACEME&CLIENT=icq2000b>
+<description=Enter Search Keyword>
+
+</ITEM><ITEM><group=26>
+<name=LookSmart>
+<homepage=Http://www.looksmart.com/r?comefrom=icqchat-home>
+<url=http://www.looksmart.com/r?comefrom=icqchat-search&key=REPLACEME&search=0>
+<description=Search LookSmart>
+
+</ITEM><ITEM><group=26>
+<name=GoTo>
+<homepage=http://www.goto.com>
+<url=http://www.goto.com/d/search/;$sessionid$EVV5ZDIABJG13QFIEEOQPUQ?Keywords=REPLACEME>
+<description=Search GoTo>
+
+</ITEM><ITEM><group=26>
+<name=SavvySearch>
+<homepage=http://savvysearch.com/>
+<url=http://savvysearch.com/welcome.cgi?partner=icq&q=REPLACEME>
+<description=Search Savvysearch>
+
+</ITEM><ITEM><group=26>
+<name=AltaVista>
+<homepage=http://jump.altavista.com/ICQ_home>
+<url=http://jump.altavista.com/ICQ.go?www.altavista.com/cgi-bin/query?pg=q&user=icq&q=REPLACEME>
+<description=Search Altavista>
+
+</ITEM><ITEM><group=26>
+<name=MetaCrawler>
+<homepage=http://www.metacrawler.com>
+<url=http://www.metacrawler.com/crawler?general=REPLACEME&method=0&target=&region=0&rpp=20&timeout=5&hpe=10>
+<description=Search MetaCrawler>
+
+</ITEM><ITEM><group=26>
+<name=Excite>
+<homepage=http://search.excite.com>
+<url=http://search.excite.com/search.gw?search=REPLACEME&searchType=Keyword&category=default&mode=relevance&showqbe=1&display=html3>
+<description=Search Excite>
+
+</ITEM><ITEM><group=26>
+<name=HotBot>
+<homepage=http://www.hotbot.com>
+<url=http://redirect.hotbot.com/redir/492/http://www.hotbot.com/?MT=REPLACEME>
+<description=Search HotBot>
+
+</ITEM><ITEM><group=26>
+<name=Lycos>
+<homepage=http://www.lycos.com>
+<url=http://www.lycos.com/cgi-bin/pursuit?query=REPLACEME>
+<description=Search Lycos>
+
+</ITEM><ITEM><group=26>
+<name=WebCrawler>
+<homepage=http://www.webcrawler.com>
+<url=http://www.webcrawler.com/cgi-bin/WebQuery?mode=compact&maxHits=25&searchText=REPLACEME>
+<description=Search WebCrawler>
+
+</ITEM><ITEM><group=26>
+<name=Northern Light>
+<homepage=http://www.nlsearch.com/>
+<url=http://www.northernlight.com/nlquery.fcg?qr=REPLACEME&si=&cb=0&cc=&us=025>
+<description=Search Northern Light>
+
+</ITEM><ITEM><group=30>
+<name=Usenet Discussion Groups>
+<homepage=>
+<url=>
+<description=>
+
+</ITEM><ITEM><group=30>
+<name=DejaNews>
+<homepage=http://search.dejanews.com>
+<url=http://search.dejanews.com/=icq/dnquery.xp?query=REPLACEME>
+<description=Search DejaNews Usenet>
+
+</ITEM><ITEM><group=30>
+<name=HotBot Usenet>
+<homepage=http://www.hotbot.com/usenet/>
+<url=http://x12.dejanews.com/=hotbot/dnquery.xp?QRY=REPLACEME&defaultOp=AND&svcclass=dncurrent&maxhits=20&ST=QS&format=terse&DBS=2&defaultOp=AND&maxhits=20&ST=QS&format=terse>
+<description=Search HotBot Usenet>
+
+</ITEM><ITEM><group=40>
+<name=Software / Files>
+<homepage=>
+<url=>
+<description=>
+
+</ITEM><ITEM><group=40>
+<name=CNET Download.com>
+<homepage=http://www.download.com/?tt.icq.prg..fd>
+<url=http://www.download.com/pc/list/1,339,0-a-0-0-e-1,00.html?tag=tt.icq.prg.srch.list&search=REPLACEME&queryType=quicksearch >
+<description=Enter software name>
+
+</ITEM><ITEM><group=40>
+<name=ZDNet Software Library>
+<homepage=http://chkpt.zdnet.com/chkpt/hud0007330/www.hotfiles.com>
+<url=http://hotfiles.zdnet.com/cgi-bin/texis/swlib/hotfiles/search.html?Utext=REPLACEME>
+<description=Enter software name>
+
+</ITEM><ITEM><group=40>
+<name=File Mine>
+<homepage=http://www.filemine.com/>
+<url=http://itprodownloads.com/searchResults?queryText=REPLACEME&Action=FilterSearch&Filter=fmfilter.hts&ResultTemplate=fmresults.hts&ViewTemplate=view.hts&baseref=1&platformid=0>
+<description=Enter software name>
+
+</ITEM><ITEM><group=40>
+<name=Rocket Download>
+<homepage=http://www.rocketdownload.com/>
+<url=http://www.rocketdownload.com/cgi-bin/search.idq?ciRestriction=REPLACEME>
+<description=Enter software name>
+
+</ITEM><ITEM><group=40>
+<name=32Bit.com>
+<homepage=http://www.32bit.com/>
+<url=http://www.32bit.com/pages/search.php3?submit=Go&search=REPLACEME>
+<description=Enter software name>
+
+</ITEM><ITEM><group=50>
+<name=Reference>
+<homepage=>
+<url=>
+<description=>
+
+</ITEM><ITEM><group=50>
+<name=Dictionary.com>
+<homepage=http://www.dictionary.com/>
+<url=http://www.dictionary.com/cgi-bin/dict.pl?db=*&term=REPLACEME>
+<description=Enter word to look up>
+
+</ITEM><ITEM><group=50>
+<name=Merriam-Webster OnLine>
+<homepage=http://www.m-w.com/>
+<url=http://www.m-w.com/cgi-bin/netdict?book=Dictionary&va=REPLACEME>
+<description=Enter word to look up>
+
+</ITEM><ITEM><group=50>
+<name=Roget’s Thesaurus>
+<homepage=http://www.thesaurus.com/>
+<url=http://www.thesaurus.com/cgi-bin/htsearch?config=roget&words=REPLACEME>
+<description=Enter word to look up>
+
+</ITEM><ITEM><group=50>
+<name=Infoplease.com>
+<homepage=http://www.infoplease.com/index.html>
+<url=http://www.infoplease.com/search.php3?src=icq&query=REPLACEME&in=all>
+<description=Enter word to look up>
+
+</ITEM><ITEM><group=60>
+<name=Translation>
+<homepage=>
+<url=>
+<description=>
+
+</ITEM><ITEM><group=60>
+<name=_Babylon Translator>
+<homepage=>
+<url=>
+<description=Enter word to translate>
+
+</ITEM><ITEM><group=60>
+<name="English -> English">
+<homepage=http://www.babylon.com/trans/>
+<url=http://www.babylon.com/trans/trans.cgi?source=icq&lang=eng&word=REPLACEME>
+<description=Enter word to translate>
+
+</ITEM><ITEM><group=60>
+<name="English -> French">
+<homepage=http://www.babylon.com/trans/>
+<url=http://www.babylon.com/trans/trans.cgi?source=icq&lang=fre&word=REPLACEME>
+<description=Enter word to translate>
+
+</ITEM><ITEM><group=60>
+<name="English -> Spanish">
+<homepage=http://www.babylon.com/trans/>
+<url=http://www.babylon.com/trans/trans.cgi?source=icq&lang=spa&word=REPLACEME>
+<description=Enter word to translate>
+
+</ITEM><ITEM><group=60>
+<name="English -> Italian">
+<homepage=http://www.babylon.com/trans/>
+<url=http://www.babylon.com/trans/trans.cgi?source=icq&lang=ita&word=REPLACEME>
+<description=Enter word to translate>
+
+</ITEM><ITEM><group=60>
+<name="English -> Dutch">
+<homepage=http://www.babylon.com/trans/>
+<url=http://www.babylon.com/trans/trans.cgi?source=icq&lang=dut&word=REPLACEME>
+<description=Enter word to translate>
+
+</ITEM><ITEM><group=60>
+<name="English -> German">
+<homepage=http://www.babylon.com/trans/>
+<url=http://www.babylon.com/trans/trans.cgi?source=icq&lang=ger&word=REPLACEME>
+<description=Enter word to translate>
+
+</ITEM><ITEM><group=60>
+<name="English -> Portuguese">
+<homepage=http://www.babylon.com/trans/>
+<url=http://www.babylon.com/trans/trans.cgi?source=icq&lang=ptg&word=REPLACEME>
+<description=Enter word to translate>
+
+</ITEM><ITEM><group=60>
+<name="English -> Hebrew">
+<homepage=http://www.babylon.com/trans/>
+<url=http://www.babylon.com/trans/trans.cgi?source=icq&lang=heb&word=REPLACEME>
+<description=>
+
+</ITEM><ITEM><group=60>
+<name="English -> Japanese">
+<homepage=http://www.babylon.com/trans/>
+<url=http://www.babylon.com/trans/trans.cgi?source=icq&lang=jpn&word=REPLACEME>
+<description=Enter word to translate>
+
+</ITEM><ITEM><group=60>
+<name="English -> Chinese (simplified)">
+<homepage=http://www.babylon.com/trans/>
+<url=http://www.babylon.com/trans/trans.cgi?source=icq&lang=chs&word=REPLACEME>
+<description=Enter word to translate>
+
+</ITEM><ITEM><group=60>
+<name="English -> Chinese (traditional)">
+<homepage=http://www.babylon.com/trans/>
+<url=http://www.babylon.com/trans/trans.cgi?source=icq&lang=cht&word=REPLACEME>
+<description=Enter word to translate>
+
+</ITEM><ITEM><group=60>
+<name=_Altavista Translation>
+<homepage=>
+<url=>
+<description=Enter word to translate>
+
+</ITEM><ITEM><group=60>
+<name="English -> French">
+<homepage=http://babel.altavista.com/translate.dyn?lp=en_fr>
+<url=http://babel.altavista.com/translate.dyn?doit=done&urltext=REPLACEALL&lp=en_fr>
+<description=Enter word to translate>
+
+</ITEM><ITEM><group=60>
+<name="English -> German">
+<homepage=http://babel.altavista.com/translate.dyn?lp=en_de>
+<url=http://babel.altavista.com/translate.dyn?doit=done&urltext=REPLACEALL&lp=en_de>
+<description=Enter word to translate>
+
+</ITEM><ITEM><group=60>
+<name="English -> Italian">
+<homepage=http://babel.altavista.com/translate.dyn?lp=en_it>
+<url=http://babel.altavista.com/translate.dyn?doit=done&urltext=REPLACEALL&lp=en_it>
+<description=Enter word to translate>
+
+</ITEM><ITEM><group=60>
+<name="English -> Portuguese">
+<homepage=http://babel.altavista.com/translate.dyn?lp=en_pt>
+<url=http://babel.altavista.com/translate.dyn?doit=done&urltext=REPLACEALL&lp=en_pt>
+<description=Enter word to translate>
+
+</ITEM><ITEM><group=60>
+<name="English -> Spanish">
+<homepage=http://babel.altavista.com/translate.dyn?lp=en_es>
+<url=http://babel.altavista.com/translate.dyn?doit=done&urltext=REPLACEALL&lp=en_es>
+<description=Enter word to translate>
+
+</ITEM><ITEM><group=60>
+<name="French -> English">
+<homepage=http://babel.altavista.com/translate.dyn?lp=fr_en>
+<url=http://babel.altavista.com/translate.dyn?doit=done&urltext=REPLACEALL&lp=fr_en>
+<description=>
+
+</ITEM><ITEM><group=60>
+<name="German -> English">
+<homepage=http://babel.altavista.com/translate.dyn?lp=de_en>
+<url=http://babel.altavista.com/translate.dyn?doit=done&urltext=REPLACEALL&lp=de_en>
+<description=Enter word to translate>
+
+</ITEM><ITEM><group=60>
+<name="Italian -> English">
+<homepage=http://babel.altavista.com/translate.dyn?lp=it_en>
+<url=http://babel.altavista.com/translate.dyn?doit=done&urltext=REPLACEALL&lp=it_en>
+<description=Enter word to translate>
+
+</ITEM><ITEM><group=60>
+<name="Portuguese -> English">
+<homepage=http://babel.altavista.com/translate.dyn?lp=pt_en>
+<url=http://babel.altavista.com/translate.dyn?doit=done&urltext=REPLACEALL&lp=pt_en>
+<description=Enter word to translate>
+
+</ITEM><ITEM><group=60>
+<name="Spanish -> English">
+<homepage=http://babel.altavista.com/translate.dyn?lp=es_en>
+<url=http://babel.altavista.com/translate.dyn?doit=done&urltext=REPLACEALL&lp=es_en>
+<description=Enter word to translate>
+
+</ITEM><ITEM><group=62>
+<name=News Articles>
+<homepage=>
+<url=>
+<description=>
+
+</ITEM><ITEM><group=62>
+<name=World News Search>
+<homepage=http://news.icqit.com/default.asp?CLIENT=icq2000b&DEF=World>
+<url=http://news.icqit.com/default.asp?CLIENT=icq2000b&_v=2&DEF=World&NEWS=World+News&MT=REPLACEME>
+<description=Search world news>
+
+</ITEM><ITEM><group=62>
+<name=Finance News Search>
+<homepage=http://news.icqit.com/default.asp?CLIENT=icq2000b&_v=2&DEF=Finance>
+<url=http://news.icqit.com/default.asp?CLIENT=icq2000b&_v=2&DEF=Finance&NEWS=Finance+News&MT=REPLACEME>
+<description=Search finance news>
+
+</ITEM><ITEM><group=62>
+<name=Sports News Search>
+<homepage=http://news.icqit.com/default.asp?CLIENT=icq2000b&_v=2&DEF=Sports>
+<url=http://news.icqit.com/default.asp?CLIENT=icq2000b&_v=2&DEF=Sports&NEWS=Sports+News&MT=REPLACEME>
+<description=Search sports news>
+
+</ITEM><ITEM><group=62>
+<name=Technology News Search>
+<homepage=http://news.icqit.com/default.asp?CLIENT=icq2000b&_v=2&DEF=Technology>
+<url=http://news.icqit.com/default.asp?CLIENT=icq2000b&_v=2&DEF=Technology&NEWS=Technology+News&MT=REPLACEME>
+<description=Search tech news>
+
+</ITEM><ITEM><group=65>
+<name=Stock Quotes>
+<homepage=>
+<url=>
+<description=>
+
+</ITEM><ITEM><group=65>
+<name=BigCharts>
+<homepage=http://www.bigcharts.com/>
+<url=http://www.bigcharts.com/quickchart/quickchart.asp?symb=REPLACEME>
+<description=Enter stock symbol>
+
+</ITEM><ITEM><group=65>
+<name=AOL Personal Finance>
+<homepage=http://quicken.aol.com/>
+<url=http://pfweb.aol.com/detail?from=quicken-redirect&sym=REPLACEME>
+<description=Enter stock symbol>
+
+
+</ITEM><ITEM><group=70>
+<name=Weather>
+<homepage=>
+<url=>
+<description=>
+
+</ITEM><ITEM><group=70>
+<name=Lycos Weather>
+<homepage=http://weather.lycos.com/>
+<url=http://weather.lycos.com/index.cfm?scale=F&zipcode=REPLACEME>
+<description=Enter city or zip code>
+
+</ITEM><ITEM><group=110>
+<name=Miscellaneous>
+<homepage=>
+<url=>
+<description=>
+
+</ITEM><ITEM><group=110>
+<name=Whowhere? People Finder>
+<homepage=http://www.whowhere.lycos.com/redirects/ICQ_ww.rdct>
+<url=http://www.whowhere.lycos.com/srvredirect?find=phone&name=REPLACEME>
+<description=Enter last name>
+
+</ITEM><ITEM><group=110>
+<name=Whowhere? Homepage Search>
+<homepage=http://www.whowhere.lycos.com/redirects/ICQ_ww.rdct>
+<url=http://php-partner.whowhere.com/WhoWhere3.0/homepage.codsrch?keyword=REPLACEME&cat=%2FOnline_Communities%2FAngelfire&brand=WhoWhere3.0&opt=y>
+<description=Enter keyword or name>
+
+</ITEM><ITEM><group=110>
+<name=Internet Movie Database (title)>
+<homepage=http://icq.imdb.com/>
+<url=http://icq.imdb.com/Tsearch?title=REPLACEME>
+<description=Enter movie title>
+
+</ITEM><ITEM><group=110>
+<name=Internet Movie Database (person)>
+<homepage=http://icq.imdb.com/>
+<url=http://us.imdb.com/Nsearch?name=REPLACEME>
+<description=Enter actor or director name>
+</ITEM>

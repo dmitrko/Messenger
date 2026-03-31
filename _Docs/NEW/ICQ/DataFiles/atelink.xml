@@ -1,0 +1,66 @@
+<root>
+	<item>
+		<key>MOTD</key>
+	 	<caption>ICQ Welcome</caption>
+	 	<id>500</id>
+		<url>http://web.icq.com/welcome/%ate%2003a/0,,%icqver%-%icqcsl%,00.html?uin=%icquin%&amp;sk=%icqsk%</url>
+	 	<sizex>555</sizex>
+	 	<sizey>364</sizey>
+	</item>
+	<item>
+		<key>TODAY</key>
+	 	<caption>ICQ Welcome</caption>
+	 	<id>508</id>
+		<url>http://web.icq.com/welcome/%ate%2003a/0,,%icqver%-%icqcsl%,00.html?uin=%icquin%&amp;sk=%icqsk%</url>
+	 	<sizex>555</sizex>
+	 	<sizey>364</sizey>
+	</item>
+	<item>
+		<key>icqbr1</key>
+	 	<caption></caption>
+	 	<id>0</id>
+		<url>%icqdir%/datafiles/br1.html</url>
+	 	<sizex>0</sizex>
+	 	<sizey>0</sizey>
+	</item>
+	<item>
+		<key>icqbr2</key>
+	 	<caption></caption>
+	 	<id>0</id>
+		<url>%icqdir%/datafiles/br2.html</url>
+	 	<sizex>0</sizex>
+	 	<sizey>0</sizey>
+	</item>
+	<item>
+		<key>AG</key>
+	 	<caption></caption>
+	 	<id>0</id>
+		<url>%icqdir%/datafiles/ag.html</url>
+	 	<sizex>0</sizex>
+	 	<sizey>0</sizey>
+	</item>
+	<item>
+		<key>Signature</key>
+	 	<caption>Email Signature</caption>
+	 	<id>509</id>
+		<url>http://web.icq.com/client/%ate%2002a/preview_signature/0,,,00.html</url>
+	 	<sizex>544</sizex>
+	 	<sizey>340</sizey>
+	</item>
+	<item>
+		<key>RegErr</key>
+	 	<caption>ICQ</caption>
+	 	<id>510</id>
+		<url>http://www.icq.com/cf/2003/submityourproblem.html</url>
+	 	<sizex>413</sizex>
+	 	<sizey>370</sizey>
+	</item>
+	<item>
+		<key>ICQErr</key>
+	 	<caption>ICQ</caption>
+	 	<id>511</id>
+		<url>http://www.icq.com/cf/2003/submityourproblem.html</url>
+	 	<sizex>413</sizex>
+	 	<sizey>370</sizey>
+	</item>
+</root>

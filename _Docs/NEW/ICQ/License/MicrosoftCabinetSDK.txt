@@ -1,0 +1,1 @@
+The CabExtract.dll included in this software was created by using Microsoft Cabinet Software Development Kit - Copyright © 2000 Microsoft Corporation, One Microsoft Way, Redmond Washington 98052-6399 U.S.A. All Right reserved.

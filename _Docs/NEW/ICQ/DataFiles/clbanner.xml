@@ -1,0 +1,53 @@
+<root>
+
+<localhtml>
+<html>
+<head>
+	<title>ICQ</title>
+</head>
+ 
+<body topmargin="0" leftmargin="0" scroll="no">
+<table width="100%" border="0">
+	<tr>
+			<a href="%CLLink%" target="_new">
+			<img src="file://%ICQDataFiles%/%CLImage%" alt="" width="120" height="90" border="0"></img></a>
+			
+	</tr>
+</table>
+</body>
+</html>
+</localhtml>
+
+<adshtml>
+<html>
+<head>
+	<title>ICQ</title>
+	<script language="JavaScript1.1" src="http://%Site%/file/adsWrapper.js"></script> 
+</head>
+ 
+<body topmargin="0" leftmargin="0" scroll="no">
+<table width="100%" border="0">
+	<tr>
+			<script language="JavaScript1.1">
+			<!--
+				adSetTarget ('_blank');
+				htmlAdWH('%MN%', '120', '90');
+				//-->
+			</script>
+			<noscript>
+				<a href="http://%Site%/link/%MN%/icq">
+					<img src="http://%Site%/image/%MN%/icq" alt="" width="120" height="90" border="0">
+					</img>
+				</a>
+			</noscript>
+	</tr>
+</table>
+	<script language="JavaScript1.1" src="http://%Site%/file/adsEnd.js"></script>
+</body>
+</html>
+</adshtml>
+
+<item><header>3</header><mn>93169980</mn><rt>300</rt><rom>0</rom></item> 
+<item><link>http://www.icq.com/download</link><image>climage.gif</image><rt>60</rt><rom>0</rom></item>
+
+</root>

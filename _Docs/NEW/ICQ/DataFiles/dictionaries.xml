@@ -1,0 +1,107 @@
+<root>
+	<item>
+		<id>1030</id>
+		<language>Danish</language>
+		<cabname>SpellDanish.emo</cabname>
+		<files>ssceda.tlx,ssceda2.clx</files>
+		<package>Spell Checker Danish Dictionary</package>
+		<size>119059</size>
+	</item>
+	<item>
+		<id>1043</id>
+		<language>Dutch</language>
+		<cabname>SpellDutch.emo</cabname>
+		<files>sscedu.tlx,sscedu2.clx</files>
+		<package>Spell Checker Dutch Dictionary</package>
+		<size>282263</size>
+	</item>
+	<item>
+		<id>2057</id>
+		<language>English (UK)</language>
+		<cabname>SpellChecker.emo</cabname>
+		<files>sscebr.tlx,sscebr2.clx</files>
+		<package>ICQ Message Spell Checker</package>
+		<size>320689</size>
+	</item>
+	<item>
+		<id>1033</id>
+		<language>English (US)</language>
+		<cabname>SpellChecker.emo</cabname>
+		<files>ssceam.tlx,ssceam2.clx</files>
+		<package>ICQ Message Spell Checker</package>
+		<size>320689</size>
+	</item>
+	<item>
+		<id>1035</id>
+		<language>Finnish</language>
+		<cabname>SpellFinnish.emo</cabname>
+		<files>sscefi.tlx,sscefi2.clx</files>
+		<package>Spell Checker Finnish Dictionary</package>
+		<size>519077</size>
+	</item>
+	<item>
+		<id>1036</id>
+		<language>French</language>
+		<cabname>SpellFrench.emo</cabname>
+		<files>sscefr.tlx,sscefr2.clx</files>
+		<package>Spell Checker French Dictionary</package>
+		<size>105667</size>
+	</item>
+	<item>
+		<id>1031</id>
+		<language>German</language>
+		<cabname>SpellGerman.emo</cabname>
+		<files>sscege.tlx,sscege2.clx</files>
+		<package>Spell Checker German Dictionary</package>
+		<size>327647</size>
+	</item>
+	<item>
+		<id>1040</id>
+		<language>Italian</language>
+		<cabname>SpellItalian.emo</cabname>
+		<files>ssceit.tlx,ssceit2.clx</files>
+		<package>Spell Checker Italian Dictionary</package>
+		<size>260001</size>
+	</item>
+	<item>
+		<id>1044</id>
+		<language>Norwegian</language>
+		<cabname>SpellNorwegian.emo</cabname>
+		<files>sscenb.tlx,sscenb2.clx</files>
+		<package>Spell Checker Norwegian Dictionary</package>
+		<size>173173</size>
+	</item>
+	<item>
+		<id>2070</id>
+		<language>Portuguese</language>
+		<cabname>SpellPortugese.emo</cabname>
+		<files>sscepo.tlx,sscepo2.clx</files>
+		<package>Spell Checker Portuguese Dictionary</package>
+		<size>154675</size>
+	</item>
+	<item>
+		<id>1046</id>
+		<language>Portuguese (Brazilian)</language>
+		<cabname>SpellBrazilian.emo</cabname>
+		<files>sscepb.tlx,sscepb2.clx</files>
+		<package>Spell Checker Brazilian Dictionary</package>
+		<size>87441</size>
+	</item>
+	<item>
+		<id>1034</id>
+		<language>Spanish</language>
+		<cabname>SpellSpanish.emo</cabname>
+		<files>sscesp.tlx,sscesp2.clx</files>
+		<package>Spell Checker Spanish Dictionary</package>
+		<size>286807</size>
+	</item>
+	<item>
+		<id>1053</id>
+		<language>Swedish</language>
+		<cabname>SpellSwedish.emo</cabname>
+		<files>sscesw.tlx,sscesw2.clx</files>
+		<package>Spell Checker Swedish Dictionary</package>
+		<size>102347</size>
+	</item>
+</root>
+

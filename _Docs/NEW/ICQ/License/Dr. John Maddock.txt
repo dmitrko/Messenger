@@ -1,0 +1,1 @@
+This product uses the Regex++ library. Copyright c) 1998-9 Dr John Maddock.

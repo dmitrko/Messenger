@@ -1,0 +1,23 @@
+Hello! 
+%C
+
+I found you on the ICQ Network and asked for your authorization to add you to my Contact List. So far I have received no response. 
+
+I’d be happy if you respond to my request.
+
+Hope to become one of your ICQ pals.
+
+Seek you @ ICQ 
+%X
+ICQ #: %U
+
+Here are the 4 ways you can find me in the ICQ community:
+- My ICQ number is %U
+- My Personal Communication Center on the Web, from which you can send me a message without having the ICQ program is: http://wwp.icq.com/%U
+- You can send me an Email Express which will appear directly on my computer screen to %U@pager.icq.com.
+- My ICQ Web Front is members.icq.com/%U. If I am online and activated my ICQ Web Front, you will be able to have a 2 way dialog with me from this page.
+
+
+
+
+

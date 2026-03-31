@@ -1,0 +1,10 @@
+
+The Shared Files feature lets you share files from a specified folder with your friends.
+
+1.	Save any file you would like to share in this folder (shortcut to: C:\PROGRAM FILES\ICQ\Shared Files)
+
+2.	Activate the Shared Files Service by clicking "Services" menu --> "Shared Files". This will allow users to browse and download your files.
+
+3.	You can access your friends Shared Folder by either right-clicking the Folder icon next to their name on your Contact List, or open a specific User's Menu --> File --> Browse and Get Files.	 
+
+4.	Enjoy!

@@ -1,0 +1,28 @@
+001	Academic
+002	Administrative
+003	Art/Entertainment
+004	College Student
+005	Computers
+006	Community & Social
+007	Education
+008	Engineering
+009	Financial Services
+010	Government
+011	High School Student
+012	Home
+013	ICQ - Providing Help
+014	Law
+015	Managerial
+016	Manufacturing
+017	Medical/Health
+018	Military
+019	Non-Government Organization
+020	Professional
+021	Retail
+022	Retired
+023	Science & Research
+024	Sports
+025	Technical
+026	University Student
+027	Web Building
+099	Other Services

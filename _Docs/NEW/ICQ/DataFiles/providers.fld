@@ -1,0 +1,34 @@
+<field><name=name><type=string></field>
+<field><name=email><type=string></field>
+<item><name="(Brazil) Access">						<email="@email.pageacess.com.br"></item>
+<item><name="(Brazil) E-Trim">						<email="@etrim.com.br"></item>
+<item><name="(Canada) BC Tel Mobility">				<email="@message.bctm.com"></item>
+<item><name="(Canada) Select Communication">		<email="@selectcomm.ab.ca"></item>
+<item><name="(Canada) TeleLink">					<email="@ds5k.telelink.com"></item>
+<item><name="(Canada) Bell Mobility">				<email="@pager.mobility.com"></item>
+<item><name="(India) MessageIndia">					<email="@messageindia.com"></item>
+<item><name="(India) MobiLink">						<email="@MobilinkIndia.com"></item>
+<item><name="(India) PageLink">						<email="@pagelink-india.com"></item>
+<item><name="(Malaysia) EasyCall">					<email="@easycall.com.my"></item>
+<item><name="(Mexico) WebLink Wireless (PageMart) (Traditional)">	<email="@pagemart.net"></item>
+<item><name="(Mexico) WebLink Wireless (PageMart) (Advanced)">		<email="@airmessage.net"></item>
+<item><name="(Russia) F1">							<email="@pager.oryol.ru"></item>
+<item><name="(Russia) FCN (Full Cry Neva)">			<email="@pager.fcn.ru"></item>
+<item><name="(Russia) Multi-Page">					<email="@pager.multi-page.ru"></item>
+<item><name="(Russia) Mobile Telecom">				<email="@pager.mtelecom.ru"></item>
+<item><name="(Russia) Mobile Telecom (subject)">				<email="@notify.mtelecom.ru"></item>
+<item><name="(Singapore) Hutchinson Paging SG">		<email="@hutch.com.sg"></item>
+<item><name="(Singapore) M1">						<email="@m1.com.sg"></item>
+<item><name="(Ukraine) U-Page (Eurotext)">			<email="@eurotext.kiev.ua"></item>
+<item><name="(USA) Ameritech/SBC">					<email="@paging.acswireless.com"></item>
+<item><name="(USA) Arch">							<email="@epage.arch.com"></item>
+<item><name="(USA) AT&T">							<email="@mobile.att.net"></item>
+<item><name="(USA) Infinitel">						<email="@alphame.com"></item>
+<item><name="(USA) Metrocall">						<email="@page.metrocall.com"></item>
+<item><name="(USA) PageNet">						<email="@pagenet.net"></item>
+<item><name="(USA) ProComWireless">					<email="@page.procomwireless.com"></item>
+<item><name="(USA) SkyTel/MCI">						<email="@skytel.com"></item>
+<item><name="(USA) TeleBeep">						<email="@page.pnet5.com"></item>
+<item><name="(USA) TeleTouch">						<email="@pageme.teletouch.com"></item>
+<item><name="(USA) WebLink Wireless (PageMart) (Traditional)">	<email="@pagemart.net"></item>
+<item><name="(USA) WebLink Wireless (PageMart) (Advanced)">		<email="@airmessage.net"></item>
