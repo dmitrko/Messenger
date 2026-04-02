@@ -63,14 +63,42 @@ function createMainWindow() {
 
     // Helper to open specific windows from renderer
     ipcMain.on('open-window', (event, args) => {
-        const { mode, chatUin } = args;
-        let url = isDev ? 'http://localhost:5173' : `file://${path.join(__dirname, 'dist/index.html')}`;
-        if (mode) url += `?mode=${mode}`;
-        if (chatUin) url += `${mode ? '&' : '?'}chat=${chatUin}`;
-        
-        mainWindow.webContents.send('console-log', `Opening window: ${url}`);
-        // This triggers setWindowOpenHandler
-        mainWindow.webContents.executeJavaScript(`window.open("${url}")`);
+        const { mode, chatUin, urlParams } = args;
+
+        let subWin = new BrowserWindow({
+            width: 300,
+            height: 450,
+            resizable: false,
+            autoHideMenuBar: true,
+            title: 'NostaChat',
+            icon: path.join(__dirname, 'public/assets/icq-classic/app_icon.png'),
+            webPreferences: {
+                preload: path.join(__dirname, 'preload.js'),
+                contextIsolation: true,
+                nodeIntegration: false
+            }
+        });
+
+        if (mode === 'incoming_auth') {
+            subWin.setSize(320, 300);
+            subWin.setAlwaysOnTop(true);
+        }
+
+        const query = {};
+        if (urlParams) {
+            const p = new URLSearchParams(urlParams);
+            p.forEach((val, key) => { query[key] = val; });
+        } else {
+            if (mode) query.mode = mode;
+            if (chatUin) query.chat = chatUin;
+        }
+
+        if (isDev) {
+            const params = new URLSearchParams(query).toString();
+            subWin.loadURL(`http://localhost:5173?${params}`);
+        } else {
+            subWin.loadFile(path.join(__dirname, 'dist/index.html'), { query });
+        }
     });
 
     if (isDev) {

@@ -9,3 +9,16 @@ electron-bin/
 .env.local
 coverage/
 .temp/
+nostachat-data/
+*.tsbuildinfo
+out/
+*.exe
+*.tar
+*.zip
+*.rar
+packages/desktop/dist/
+packages/desktop/dist_electron/
+packages/desktop/out/
+packages/server/dist/
+packages/shared/dist/
+*.tsbuildinfo

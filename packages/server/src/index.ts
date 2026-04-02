@@ -247,7 +247,7 @@ wss.on('connection', async (ws: ClientWithId) => {
                 }
             }
 
-            if (data.type === 'direct_message') {
+            if (data.type === 'direct_message' || data.type === 'auth_request' || data.type === 'auth_sync') {
                 const target = onlineUsers.get(data.to);
                 if (target && target.readyState === WebSocket.OPEN) {
                     const relayData = {
@@ -255,6 +255,7 @@ wss.on('connection', async (ws: ClientWithId) => {
                         from: ws.id,
                         fromUsername: ws.username
                     };
+                    addLog(`Relaying ${data.type} to UIN: ${data.to}`, 'msg');
                     target.send(JSON.stringify(relayData));
                 } else {
                     addLog(`Relay failed: Target ${data.to} offline`, 'warn');
