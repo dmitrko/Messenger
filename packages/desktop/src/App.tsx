@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { CryptoService } from '@nostachat/shared';
 import { WebRTCService } from './services/webrtc';
+import { CONFIG } from './config';
 import sodium_ from 'libsodium-wrappers';
 const sodium = (sodium_ as any).default || sodium_;
 import { Buffer } from 'buffer';
@@ -27,6 +28,8 @@ function App() {
     const [isRegistering, setIsRegistering] = useState(false);
     const [isShaking, setIsShaking] = useState(false);
     const [buzzCooldown, setBuzzCooldown] = useState(false);
+    const [wsStatus, setWsStatus] = useState<'connecting' | 'connected' | 'error' | 'closed'>('connecting');
+    const [wsError, setWsError] = useState<string | null>(null);
 
     // Authorization Dialogs states
     const [showAddDialog, setShowAddDialog] = useState(false);
@@ -85,9 +88,10 @@ function App() {
 
         if (action === 'authorize') {
             const online = onlineUsers.find(u => u.uin === fromUin);
+            // Add them to MY contact list
             await db.contacts.put({ ownerUin: uin, uin: fromUin, username: online?.username || fromUsername, publicKey: online?.publicKey, kyberPublicKey: online?.kyberPublicKey, zone: 'friends', isArchived: false, isBlocked: false, lastSeen: Date.now() });
+            // Tell THEM to add us back (bidirectional sync)
             ws.current?.send(JSON.stringify({ type: 'direct_message', to: fromUin, isAuthResponse: true, authorized: true, fromUsername: username }));
-            alert('User authorized!');
         } else if (action === 'block') {
             await db.contacts.put({ ownerUin: uin, uin: fromUin, username: fromUsername, zone: 'friends', isArchived: false, isBlocked: true, lastSeen: Date.now() });
             alert('User blocked.');
@@ -113,19 +117,19 @@ function App() {
 
     const onMessageRef = useRef<((msg: any) => void) | null>(null);
     onMessageRef.current = async (data: any) => {
-        // console.log('WS Message:', data.type); // Debug all packets
         if (data.type === 'registered') {
             setUin(data.uin); setUsername(data.username); setIsRegistering(false); 
-            playSound('Startup'); // Played on successful login
+            playSound('Startup');
+            // Update system window title with UIN
+            (window as any).electron?.send('update-title', `ICQ — ${data.username} [${data.uin}]`);
 
-            // Save to localStorage for persistence
             if (myKeysRef.current) {
                 localStorage.setItem('nostachat_auth', JSON.stringify({
                     uin: data.uin,
                     username: data.username,
                     keys: myKeysRef.current,
-                    publicKeyBase64: sodium.to_base_64(myKeysRef.current.classic.publicKey),
-                    kyberPublicKeyBase64: sodium.to_base_64(myKeysRef.current.kyber.publicKey)
+                    publicKeyBase64: sodium.to_base64(myKeysRef.current.classic.publicKey),
+                    kyberPublicKeyBase64: sodium.to_base64(myKeysRef.current.kyber.publicKey)
                 }));
             }
 
@@ -137,8 +141,6 @@ function App() {
             }
         } else if (data.type === 'user_list') { setOnlineUsers(data.users); }
         else if (data.type === 'direct_message') {
-            console.log('Incoming Private Message Data:', data);
-
             const blocked = await db.contacts.get([uinRef.current, data.from]);
             if (blocked && blocked.isBlocked) {
                 console.log('Message from blocked user ignored:', data.from);
@@ -146,14 +148,14 @@ function App() {
             }
 
             if (data.isAuthRequest) {
-                console.log('Auth request detected from:', data.from);
                 onAuthRequestReceived(data.from, data.fromUsername, data.reason);
                 return;
             }
             if (data.isAuthResponse && data.authorized) {
                 const online = onlineUsersRef.current.find(u => u.uin === data.from);
                 await db.contacts.put({ ownerUin: uinRef.current, uin: data.from, username: online?.username || data.fromUsername, publicKey: online?.publicKey, kyberPublicKey: online?.kyberPublicKey, zone: 'friends', isArchived: false, isBlocked: false, lastSeen: Date.now() });
-                alert(`User ${data.fromUsername} authorized you!`); return;
+                playSound('Contact');
+                return;
             }
 
             if (data.text) {
@@ -197,7 +199,27 @@ function App() {
                 } catch (e) { console.error('P2P Error', e); }
             }
         );
-        const socket = new WebSocket('ws://localhost:3002'); ws.current = socket; socket.onmessage = (event) => onMessageRef.current?.(JSON.parse(event.data)); return () => socket.close();
+        const socket = new WebSocket(CONFIG.WS_URL); 
+        ws.current = socket; 
+        
+        socket.onopen = () => {
+            setWsStatus('connected');
+            setWsError(null);
+        };
+
+        socket.onmessage = (event) => onMessageRef.current?.(JSON.parse(event.data)); 
+        
+        socket.onerror = (err) => {
+            setWsStatus('error');
+            setWsError('Connection failed: ' + CONFIG.WS_URL);
+            console.error('WebSocket Error:', err);
+        };
+
+        socket.onclose = () => {
+            setWsStatus('closed');
+        };
+
+        return () => socket.close();
     }, []);
 
     const sendMessage = async (toUin: string, text: string) => {
@@ -211,7 +233,6 @@ function App() {
                 const encrypted = await CryptoService.hybridEncrypt(text, sodium.from_base64(target.publicKey), sodium.from_base64(target.kyberPublicKey), myKeys.classic.privateKey);
                 if (rtc.current?.isConnected(toUin)) { rtc.current.sendMessage(toUin, JSON.stringify({ ...encrypted, type: 'message' })); } else { ws.current.send(JSON.stringify({ type: 'direct_message', to: toUin, text: encrypted.ciphertext, kyberCT: encrypted.kyberCT, isEncrypted: true })); }
                 saveMessageToDB({ chatId: toUin, fromUin: uin, fromUsername: 'Me', text, timestamp: Date.now(), isSecure: true, type: 'private' });
-                // Promote to active on send
                 const contact = await db.contacts.get([uin, toUin]);
                 if (contact && contact.isArchived) { await db.contacts.update([uin, toUin], { isArchived: false }); }
             }
@@ -226,12 +247,18 @@ function App() {
     };
 
     const handleIncomingChat = (remoteUin: string) => {
-        setWindows(prev => { if (prev.some(w => w.uin === remoteUin)) return prev; return [...prev, { uin: remoteUin, zIndex: maxZIndex + 1, position: { x: 250 + prev.length * 20, y: 50 + prev.length * 20 } }]; });
-        setMaxZIndex(prev => prev + 1); setUnreadCounts(prev => ({ ...prev, [remoteUin]: (prev[remoteUin] || 0) + 1 }));
+        setWindows(prev => {
+            if (prev.some(w => w.uin === remoteUin)) return prev;
+            return [...prev, { uin: remoteUin, zIndex: maxZIndex + 1, position: { x: 250 + prev.length * 20, y: 50 + prev.length * 20 } }];
+        });
+        setMaxZIndex(prev => prev + 1);
+        setUnreadCounts(prev => ({ ...prev, [remoteUin]: (prev[remoteUin] || 0) + 1 }));
     };
 
     const register = async () => {
-        if (!loginNickname.trim()) { alert('Enter nickname!'); return; }
+        if (!loginNickname.trim()) { alert('Enter UIN / Account!'); return; }
+        if (wsStatus !== 'connected') { alert('Not connected to server.'); return; }
+        
         setIsRegistering(true);
         try {
             await sodium.ready;
@@ -239,44 +266,23 @@ function App() {
             setMyKeys(keys);
             ws.current?.send(JSON.stringify({
                 type: 'register',
+                uin: loginNickname,
                 username: loginNickname,
-                publicKey: sodium.to_base_64(keys.classic.publicKey),
-                kyberPublicKey: sodium.to_base_64(keys.kyber.publicKey)
+                publicKey: sodium.to_base64(keys.classic.publicKey),
+                kyberPublicKey: sodium.to_base64(keys.kyber.publicKey)
             }));
-        } catch (err: any) { alert('Auth failed'); setIsRegistering(false); }
+        } catch (err: any) { 
+            alert('Auth failed: ' + (err.message || 'Unknown error')); 
+            setIsRegistering(false); 
+        }
     };
 
-    // Auto-login logic for persistence
+    // AUTO-LOGIN DISABLED: Old sessions with long UINs conflict with the new 2-digit UIN system.
+    // The localStorage is cleared on startup to force fresh registration.
+    // TODO: Re-enable auto-login once the UIN system is stable.
     useEffect(() => {
-        if (!ws.current) return;
-        const saved = localStorage.getItem('nostachat_auth');
-        if (saved) {
-            try {
-                const authData = JSON.parse(saved);
-                setUin(authData.uin);
-                setUsername(authData.username);
-                setMyKeys(authData.keys);
-                
-                const tryLogin = () => {
-                    if (ws.current?.readyState === WebSocket.OPEN) {
-                        ws.current.send(JSON.stringify({
-                            type: 'register',
-                            uin: authData.uin,
-                            username: authData.username,
-                            publicKey: authData.publicKeyBase64,
-                            kyberPublicKey: authData.kyberPublicKeyBase64
-                        }));
-                    }
-                };
-
-                if (ws.current.readyState === WebSocket.OPEN) {
-                    tryLogin();
-                } else {
-                    ws.current.addEventListener('open', tryLogin);
-                }
-            } catch (e) { console.error('Failed to restore session', e); }
-        }
-    }, [ws.current]);
+        localStorage.removeItem('nostachat_auth');
+    }, []);
 
     const [dragUin, setDragUin] = useState<string | null>(null);
 
@@ -300,7 +306,6 @@ function App() {
                         <span style={{ fontWeight: 'bold' }}>{title} ({zoneContacts.length})</span>
                     </div>
                     
-                    {/* Active/Archive Toggle Switch */}
                     <div className="zone-toggle-container" onClick={(e) => { e.stopPropagation(); setZoneModes(prev => ({ ...prev, [name]: prev[name] === 'active' ? 'archive' : 'active' })) }}>
                         <div className={`zone-toggle-btn ${mode === 'active' ? 'active' : ''}`}>Active</div>
                         <div className={`zone-toggle-btn ${mode === 'archive' ? 'active' : ''}`}>Archive</div>
@@ -326,7 +331,6 @@ function App() {
                                         {unreadCounts[contact.uin] > 0 && <span style={{ color: 'red', fontWeight: 'bold', fontSize: '10px' }}>[{unreadCounts[contact.uin]}]</span>}
                                     </div>
                                     
-                                    {/* Small Archive/Restore Action Button */}
                                     <button 
                                         className="btn-archive-mini" 
                                         onClick={(e) => { 
@@ -349,10 +353,12 @@ function App() {
 
     const openChat = (remoteUin: string) => {
         setWindows(prev => {
-            const exists = prev.find(w => w.uin === remoteUin); if (exists) return prev.map(w => w.uin === remoteUin ? { ...w, zIndex: maxZIndex + 1 } : w);
+            const exists = prev.find(w => w.uin === remoteUin);
+            if (exists) return prev.map(w => w.uin === remoteUin ? { ...w, zIndex: maxZIndex + 1 } : w);
             return [...prev, { uin: remoteUin, zIndex: maxZIndex + 1, position: { x: 300, y: 100 } }];
         });
-        setMaxZIndex(prev => prev + 1); setUnreadCounts(prev => { const updated = { ...prev }; delete updated[remoteUin]; return updated; });
+        setMaxZIndex(prev => prev + 1);
+        setUnreadCounts(prev => { const updated = { ...prev }; delete updated[remoteUin]; return updated; });
     };
 
     const closeWindow = (uin: string) => setWindows(prev => prev.filter(w => w.uin !== uin));
@@ -361,14 +367,79 @@ function App() {
     if (!uin) {
         return (
             <div className="login-container">
-                <div className="login-header"><img src="/assets/icq-classic/flower.png" style={{ width: '12px', height: '12px' }} /><span>ICQ</span></div>
-                <div className="login-body">
-                    {isRegistering ? (<div style={{ textAlign: 'center', margin: '20px' }}><img src="/assets/icq-classic/connecting_01.gif" style={{ width: '80px' }} /><div style={{ marginTop: '10px', fontSize: '10px' }}>Connecting...</div></div>) : (<img src={logo} className="login-logo" />)}
-                    <div className="login-fields">
-                        <div className="login-input-group"><label>UIN / Account:</label><input type="text" value={loginNickname} onChange={(e) => setLoginNickname(e.target.value)} disabled={isRegistering} onKeyDown={(e) => e.key === 'Enter' && register()} /></div>
-                    </div>
+                <div className="login-menu-bar">
+                    <span className="login-menu-item">Главное</span>
+                    <span className="login-menu-item">Контакты</span>
                 </div>
-                <div className="login-footer"><button className="btn-login" onClick={register} disabled={loginNickname.length < 2 || isRegistering}>{isRegistering ? 'Signing On...' : 'Login / Sign On'}</button></div>
+
+                <div className="login-body">
+                    {isRegistering ? (
+                        <div style={{ textAlign: 'center', margin: '40px' }}>
+                            <img src="/assets/icq-classic/connecting_01.gif" style={{ width: '80px' }} />
+                            <div style={{ marginTop: '10px', fontSize: '11px', color: '#666' }}>Вход в систему...</div>
+                        </div>
+                    ) : (
+                        <>
+                            <img src="./assets/icq-classic/flower_v2.png" className="login-flower-large" style={{ backgroundColor: '#f0f0f0' }} />
+                            
+                            <div className="login-fields">
+                                <div className="login-input-wrapper">
+                                    <label className="login-label">Номер ICQ/E-mail:</label>
+                                    <div className="uin-input-container">
+                                        <input 
+                                            type="text" 
+                                            className="uin-input-field"
+                                            value={loginNickname} 
+                                            onChange={(e) => setLoginNickname(e.target.value)}
+                                            onKeyDown={(e) => e.key === 'Enter' && register()}
+                                        />
+                                        <div className="uin-dropdown-btn">▼</div>
+                                    </div>
+                                    <span className="login-link">Регистрация</span>
+                                </div>
+
+                                <div className="login-input-wrapper" style={{ marginTop: '5px' }}>
+                                    <label className="login-label">Пароль:</label>
+                                    <input 
+                                        type="password" 
+                                        className="password-input-field"
+                                        defaultValue="********"
+                                    />
+                                    <span className="login-link">Забыли пароль?</span>
+                                </div>
+
+                                <div className="login-checkbox-group">
+                                    <label className="login-checkbox-item">
+                                        <input type="checkbox" defaultChecked /> Сохранить пароль
+                                    </label>
+                                    <label className="login-checkbox-item">
+                                        <input type="checkbox" /> Автоматический вход
+                                    </label>
+                                    <label className="login-checkbox-item">
+                                        <input type="checkbox" defaultChecked /> Запускать ICQ при старте
+                                    </label>
+                                </div>
+                            </div>
+                        </>
+                    )}
+                </div>
+
+                <div className="login-footer">
+                    <button className="btn-signin-gold" onClick={register} disabled={isRegistering}>
+                        <img src="/assets/icq-classic/flower.png" className="flower-icon-tiny" />
+                        Войти
+                    </button>
+                </div>
+
+                <div className="login-status-bar">
+                    <div className={`status-dot ${wsStatus}`}></div>
+                    <span>
+                        {wsStatus === 'connected' ? 'Подключено к VPS' : 
+                         wsStatus === 'connecting' ? 'Подключение к серверу...' : 
+                         'Ошибка: Сервер недоступен'}
+                    </span>
+                    {wsError && <span style={{ color: 'red', marginLeft: 'auto' }}>🛈</span>}
+                </div>
             </div>
         );
     }
@@ -377,10 +448,18 @@ function App() {
         <div style={{ height: '100vh', display: 'flex', flexDirection: 'column', position: 'relative' }} className={isShaking ? 'shake-animation' : ''}>
             {/* Main ICQ Sidebar */}
             <div style={{ width: '220px', height: '100%', display: 'flex', flexDirection: 'column', borderRight: '2px solid #808080', backgroundColor: '#d4d0c8', zIndex: 50, overflowY: 'auto' }}>
-                <div className="section-header">ICQ v0.5 - [{uin}]</div>
-                <div style={{ padding: '8px', display: 'flex', alignItems: 'center', gap: '10px', borderBottom: '1px solid #808080' }}>
-                    <img src="/assets/icq-classic/flower.png" style={{ width: '24px', height: '24px' }} />
-                    <div><div style={{ fontWeight: 'bold' }}>{username}</div><div style={{ color: 'green', fontSize: '10px' }}>Online</div></div>
+                <div style={{ padding: '6px 8px', display: 'flex', alignItems: 'center', gap: '8px', borderBottom: '1px solid #808080', backgroundColor: '#d4d0c8' }}>
+                    <img src="/assets/icq-classic/flower_v2.png" style={{ width: '28px', height: '28px', backgroundColor: '#d4d0c8' }} />
+                    <div style={{ flex: 1 }}>
+                        <div style={{ fontWeight: 'bold', fontSize: '12px' }}>{username}</div>
+                        <div style={{ color: 'green', fontSize: '10px' }}>● Online</div>
+                        <div style={{ color: '#555', fontSize: '9px', userSelect: 'all', cursor: 'text' }}>UIN: <b>{uin}</b></div>
+                    </div>
+                    <button
+                        title="Sign out"
+                        onClick={() => { localStorage.removeItem('nostachat_auth'); window.location.reload(); }}
+                        style={{ width: '18px', height: '18px', padding: 0, fontSize: '10px', lineHeight: '16px', border: '1px solid #808080', background: '#e0deda', cursor: 'pointer', flexShrink: 0 }}
+                    >✕</button>
                 </div>
                 <div onClick={() => openChat('public')} className="sidebar-contact-item" style={{ backgroundColor: '#fff', borderBottom: '1px solid #eee' }}>📢 Main Channel</div>
                 <SidebarZone name="family" title="FAMILY" />

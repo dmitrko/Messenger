@@ -157,78 +157,209 @@ textarea {
 
 /* Highlight for DnD */
 
-/* Login Screen Styles */
+/* Login Screen Styles (Classic 2011 Style) */
 .login-container {
-  width: 280px;
-  background-color: #f6f7f3;
-  border: 2px solid #8cb654;
+  width: 100%;
+  height: 100%;
+  background-color: #f0f0f0; /* Classic silver/grey */
   display: flex;
   flex-direction: column;
-  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
-  margin: 50px auto;
+  box-sizing: border-box;
+  border: 1px solid #717071;
 }
 
 .login-header {
-  background: linear-gradient(to right, #6eb73b, #b7e87a);
-  padding: 3px 6px;
+  background: linear-gradient(to bottom, #fcfcfc, #d6d6d6);
+  padding: 4px 8px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  color: #fff;
-  font-weight: bold;
+  color: #333;
   font-size: 11px;
+  border-bottom: 1px solid #a6a6a6;
+}
+
+.login-header-left {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.login-header-right {
+  display: flex;
+  gap: 2px;
+}
+
+.window-btn-mini {
+  width: 22px;
+  height: 18px;
+  background: #e1e1e1;
+  border: 1px solid #a6a6a6;
+  border-radius: 2px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+}
+
+.login-menu-bar {
+  background-color: #f0f0f0;
+  border-bottom: 1px solid #dcdcdc;
+  display: flex;
+  padding: 2px 10px;
+  gap: 15px;
+  font-size: 11px;
+  color: #333;
+}
+
+.login-menu-item {
+  cursor: pointer;
 }
 
 .login-body {
-  padding: 15px;
+  padding: 10px 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  flex: 1;
 }
 
-.login-logo {
-  width: 150px;
-  margin-bottom: 20px;
+.login-flower-large {
+  width: 120px;
+  height: 120px;
+  margin: 20px 0;
+  object-fit: contain;
 }
 
 .login-fields {
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 12px;
 }
 
-.login-input-group {
+.login-input-wrapper {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 4px;
 }
 
-.login-input-group label {
+.login-label {
+  font-weight: bold;
+  font-size: 12px;
+  color: #000;
+}
+
+.uin-input-container {
+  display: flex;
+  height: 24px;
+  border: 1px solid #7c995e;
+  background-color: #fff;
+}
+
+.uin-input-field {
+  flex: 1;
+  border: none !important;
+  padding: 0 6px;
+  font-size: 12px;
+  outline: none;
+}
+
+.uin-dropdown-btn {
+  width: 24px;
+  background: linear-gradient(to bottom, #fcfcfc, #d6d6d6);
+  border-left: 1px solid #a6a6a6;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.login-link {
+  color: #004fb1;
+  text-decoration: underline;
+  font-size: 11px;
+  cursor: pointer;
+  margin-top: -8px;
+}
+
+.password-input-field {
+  height: 24px;
+  border: 1px solid #a6a6a6;
+  padding: 0 6px;
+  font-size: 12px;
+  width: calc(100% - 30px);
+}
+
+.login-checkbox-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 100%;
+  margin-top: 10px;
+}
+
+.login-checkbox-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
   font-size: 11px;
   color: #333;
 }
 
-.login-input-group input {
-  height: 18px;
-  border: 1px solid #7c995e;
-  padding: 2px 4px;
+.login-checkbox-item input {
+  margin: 0;
 }
 
 .login-footer {
-  padding: 10px 15px;
-  border-top: 1px solid #d4d0c8;
+  padding: 10px 20px 20px 20px;
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
+  width: 100%;
+  box-sizing: border-box;
 }
 
-.btn-login {
-  background: linear-gradient(to bottom, #ffffff, #d4d0c8);
-  border: 1px solid #7c995e;
-  padding: 5px 15px;
-  font-weight: bold;
-  cursor: pointer;
+.btn-signin-gold {
+  background: linear-gradient(to bottom, #fdfdfd, #e3e3e3);
+  border: 1px solid #a6a6a6;
+  padding: 6px 30px;
+  border-radius: 4px;
+  font-weight: normal;
+  color: #000;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.1);
 }
+
+.btn-signin-gold .flower-icon-tiny {
+  width: 16px;
+  height: 16px;
+}
+
+/* Diagnostic Status Bar */
+.login-status-bar {
+  background-color: #fff;
+  border-top: 1px solid #dcdcdc;
+  padding: 4px 10px;
+  font-size: 10px;
+  color: #666;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.status-dot.connected { background-color: #00ff00; box-shadow: 0 0 4px #00ff00; }
+.status-dot.connecting { background-color: #ffaa00; }
+.status-dot.error { background-color: #ff0000; box-shadow: 0 0 4px #ff0000; }
 
 /* Win9x Chat Window Styles */
 .chat-window {
