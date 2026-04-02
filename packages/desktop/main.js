@@ -18,12 +18,59 @@ function createMainWindow() {
         title: 'ICQ',
         resizable: true,
         autoHideMenuBar: true,
-        icon: path.join(__dirname, 'public/assets/icq-classic/flower.png'),
+        icon: path.join(__dirname, 'public/assets/icq-classic/app_icon.png'),
         webPreferences: {
             preload: path.join(__dirname, 'preload.js'),
             nodeIntegration: false,
             contextIsolation: true,
+            nativeWindowOpen: true
         },
+    });
+
+    // Configure Native Multi-Window Dispatcher
+    mainWindow.webContents.setWindowOpenHandler(({ url }) => {
+        const parsedUrl = new URL(url);
+        const mode = parsedUrl.searchParams.get('mode');
+        const chat = parsedUrl.searchParams.get('chat');
+
+        let options = {
+            width: 480,
+            height: 420,
+            autoHideMenuBar: true,
+            titleBarStyle: 'default',
+            webPreferences: {
+                preload: path.join(__dirname, 'preload.js'),
+                contextIsolation: true,
+                nodeIntegration: false
+            }
+        };
+
+        if (mode === 'add_contact') {
+            options.width = 300;
+            options.height = 450;
+            options.resizable = false;
+        } else if (mode === 'incoming_auth') {
+            options.width = 320;
+            options.height = 300;
+            options.resizable = false;
+            options.alwaysOnTop = true;
+        } else if (chat) {
+            // Already standard 480x420
+        }
+
+        return { action: 'allow', overrideBrowserWindowOptions: options };
+    });
+
+    // Helper to open specific windows from renderer
+    ipcMain.on('open-window', (event, args) => {
+        const { mode, chatUin } = args;
+        let url = isDev ? 'http://localhost:5173' : `file://${path.join(__dirname, 'dist/index.html')}`;
+        if (mode) url += `?mode=${mode}`;
+        if (chatUin) url += `${mode ? '&' : '?'}chat=${chatUin}`;
+        
+        mainWindow.webContents.send('console-log', `Opening window: ${url}`);
+        // This triggers setWindowOpenHandler
+        mainWindow.webContents.executeJavaScript(`window.open("${url}")`);
     });
 
     if (isDev) {
@@ -45,11 +92,11 @@ ipcMain.on('open-chat', (event, { uin, username }) => {
         return;
     }
 
-    const { width, height } = screen.getPrimaryDisplay().workAreaSize;
     const chatWin = new BrowserWindow({
         width: 480,
         height: 420,
         title: `${username} (${uin}) - Chat`,
+        autoHideMenuBar: true,
         icon: path.join(__dirname, 'public/assets/icq-classic/flower.png'),
         webPreferences: {
             preload: path.join(__dirname, 'preload.js'),
@@ -58,20 +105,24 @@ ipcMain.on('open-chat', (event, { uin, username }) => {
         },
     });
 
+    const suffix = `?chat=${uin}`;
     if (isDev) {
-        chatWin.loadURL(`http://localhost:5173#/chat/${uin}`);
+        chatWin.loadURL(`http://localhost:5173${suffix}`);
     } else {
-        chatWin.loadURL(`file://${path.join(__dirname, 'dist/index.html')}#/chat/${uin}`);
+        chatWin.loadFile(path.join(__dirname, 'dist/index.html'), { query: { chat: uin } });
     }
 
     chatWindows.set(uin, chatWin);
     chatWin.on('closed', () => chatWindows.delete(uin));
 });
 
-// Update Title with UIN info
-ipcMain.on('update-title', (event, title) => {
+// Dynamic window resizing
+ipcMain.on('resize-window', (event, { width, height }) => {
     const win = BrowserWindow.fromWebContents(event.sender);
-    if (win) win.setTitle(title);
+    if (win) {
+        win.setSize(width, height);
+        win.center();
+    }
 });
 
 app.whenReady().then(createMainWindow);

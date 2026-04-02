@@ -18,7 +18,17 @@ interface OnlineUser { uin: string; username: string; publicKey?: string; kyberP
 interface WindowData { uin: string; zIndex: number; position: { x: number; y: number }; }
 type ZoneName = 'family' | 'work' | 'friends' | 'other';
 
+// Initialize BroadcastChannel for cross-window sync
+const bc = new BroadcastChannel('nostachat_sync');
+
 function App() {
+    // 1. Detect Mode: Sidebar, Chat, Add Contact, or Incoming Auth
+    const urlParams = new URLSearchParams(window.location.search);
+    const chatModeUin = urlParams.get('chat');
+    const mode = urlParams.get('mode'); // 'add_contact', 'incoming_auth'
+    const isChatOnly = !!chatModeUin;
+    const isModeActive = !!mode;
+
     const [username, setUsername] = useState('');
     const [uin, setUin] = useState('');
     const [onlineUsers, setOnlineUsers] = useState<OnlineUser[]>([]);
@@ -89,24 +99,42 @@ function App() {
         if (action === 'authorize') {
             const online = onlineUsers.find(u => u.uin === fromUin);
             // Add them to MY contact list
-            await db.contacts.put({ ownerUin: uin, uin: fromUin, username: online?.username || fromUsername, publicKey: online?.publicKey, kyberPublicKey: online?.kyberPublicKey, zone: 'friends', isArchived: false, isBlocked: false, lastSeen: Date.now() });
+            const newContact = { ownerUin: uin, uin: fromUin, username: online?.username || fromUsername, publicKey: online?.publicKey, kyberPublicKey: online?.kyberPublicKey, zone: 'friends', isArchived: false, isBlocked: false, lastSeen: Date.now() };
+            await db.contacts.put(newContact as Contact);
+            bc.postMessage({ type: 'new_contact', data: newContact });
             // Tell THEM to add us back (bidirectional sync)
-            ws.current?.send(JSON.stringify({ type: 'direct_message', to: fromUin, isAuthResponse: true, authorized: true, fromUsername: username }));
+            ws.current?.send(JSON.stringify({ type: 'auth_sync', to: fromUin, fromUin: uin, fromUsername: username }));
+            playSound('Contact');
         } else if (action === 'block') {
             await db.contacts.put({ ownerUin: uin, uin: fromUin, username: fromUsername, zone: 'friends', isArchived: false, isBlocked: true, lastSeen: Date.now() });
             alert('User blocked.');
         }
         setPendingRequest(null);
+        if (isModeActive) window.close();
     };
 
     const submitAddRequest = () => {
-        const target = addFormUin.trim();
-        if (!target || !uin || target === uin) return;
-        console.log('Sending Add Request to:', target);
-        ws.current?.send(JSON.stringify({ type: 'direct_message', to: target, isAuthRequest: true, fromUsername: username, reason: addFormMsg }));
+        if (!addFormUin) return;
+        const target = addFormUin.startsWith('#') ? addFormUin.substring(1) : addFormUin;
+        ws.current?.send(JSON.stringify({ type: 'auth_request', to: target, msg: addFormMsg }));
         setShowAddDialog(false); setAddFormUin(''); setAddFormMsg('Hi, I\'d like to add you!');
     };
-
+    // Listen for cross-window sync events
+    useEffect(() => {
+        const handleSync = (event: MessageEvent) => {
+            const { type, data } = event.data;
+            if (type === 'new_contact') {
+                // useLiveQuery handles this automatically when we update DB
+                db.contacts.put(data);
+            } else if (type === 'auth_request') {
+                setPendingRequest(data);
+            } else if (type === 'status_update') {
+                setOnlineUsers(data);
+            }
+        };
+        bc.addEventListener('message', handleSync);
+        return () => bc.removeEventListener('message', handleSync);
+    }, []);
     const saveMessageToDB = async (msg: Omit<ChatMessage, 'id' | 'ownerUin'>) => {
         if (!uinRef.current) return;
         const owner = uinRef.current;
@@ -117,20 +145,30 @@ function App() {
 
     const onMessageRef = useRef<((msg: any) => void) | null>(null);
     onMessageRef.current = async (data: any) => {
+        if (data.type === 'auth_sync') {
+            const newContact = { ownerUin: uinRef.current, uin: data.fromUin, username: data.fromUsername, zone: 'friends', isArchived: false, isBlocked: false, lastSeen: Date.now() };
+            await db.contacts.put(newContact as Contact);
+            bc.postMessage({ type: 'new_contact', data: newContact });
+            playSound('Contact');
+            return;
+        }
+
         if (data.type === 'registered') {
             setUin(data.uin); setUsername(data.username); setIsRegistering(false); 
             playSound('Startup');
-            // Update system window title with UIN
             (window as any).electron?.send('update-title', `ICQ — ${data.username} [${data.uin}]`);
+            (window as any).electron?.send('resize-window', { width: 250, height: 650 });
 
             if (myKeysRef.current) {
-                localStorage.setItem('nostachat_auth', JSON.stringify({
+                const authData = {
                     uin: data.uin,
                     username: data.username,
                     keys: myKeysRef.current,
                     publicKeyBase64: sodium.to_base64(myKeysRef.current.classic.publicKey),
                     kyberPublicKeyBase64: sodium.to_base64(myKeysRef.current.kyber.publicKey)
-                }));
+                };
+                localStorage.setItem('nostachat_auth', JSON.stringify(authData));
+                bc.postMessage({ type: 'auth_confirmed', data: authData });
             }
 
             if (data.sealedRoomKey && myKeysRef.current) {
@@ -139,45 +177,48 @@ function App() {
                     roomKeyRef.current = decryptedKey; setRoomKey(decryptedKey);
                 } catch (e) { console.error('Key decryption failed', e); }
             }
-        } else if (data.type === 'user_list') { setOnlineUsers(data.users); }
-        else if (data.type === 'direct_message') {
+        } else if (data.type === 'user_list') {
+            setOnlineUsers(data.users);
+            bc.postMessage({ type: 'status_update', data: data.users });
+        } else if (data.type === 'auth_request') {
+            const req = { fromUin: data.fromUin, fromUsername: data.fromUsername, reason: data.msg };
+            setPendingRequest(req);
+            bc.postMessage({ type: 'auth_request', data: req });
+            (window as any).electron.send('open-window', { mode: 'incoming_auth' });
+            playSound('Contact');
+        } else if (data.type === 'direct_message') {
             const blocked = await db.contacts.get([uinRef.current, data.from]);
-            if (blocked && blocked.isBlocked) {
-                console.log('Message from blocked user ignored:', data.from);
-                return;
-            }
+            if (blocked && blocked.isBlocked) return;
 
-            if (data.isAuthRequest) {
-                onAuthRequestReceived(data.from, data.fromUsername, data.reason);
-                return;
-            }
             if (data.isAuthResponse && data.authorized) {
                 const online = onlineUsersRef.current.find(u => u.uin === data.from);
-                await db.contacts.put({ ownerUin: uinRef.current, uin: data.from, username: online?.username || data.fromUsername, publicKey: online?.publicKey, kyberPublicKey: online?.kyberPublicKey, zone: 'friends', isArchived: false, isBlocked: false, lastSeen: Date.now() });
+                const newC = { ownerUin: uinRef.current, uin: data.from, username: online?.username || data.fromUsername, publicKey: online?.publicKey, kyberPublicKey: online?.kyberPublicKey, zone: 'friends', isArchived: false, isBlocked: false, lastSeen: Date.now() };
+                await db.contacts.put(newC as Contact);
+                bc.postMessage({ type: 'new_contact', data: newC });
                 playSound('Contact');
                 return;
             }
 
-            if (data.text) {
-                let messageText = data.text;
-                if (data.isBuzz) { triggerBuzz(); messageText = '🔔 BUZZ!'; }
-                else {
-                    const sender = onlineUsersRef.current.find(u => u.uin === data.from);
-                    if (data.isEncrypted && sender && myKeysRef.current) {
-                        try { messageText = await CryptoService.hybridDecrypt(data.text, data.kyberCT, sodium.from_base64(sender.publicKey!), myKeysRef.current.kyber.secretKey, myKeysRef.current.classic.privateKey); }
-                        catch (e) { messageText = '[Decrypted Error]'; }
-                    }
+            let messageText = data.text;
+            if (data.isBuzz) { triggerBuzz(); messageText = '🔔 BUZZ!'; }
+            else if (data.isEncrypted && myKeysRef.current) {
+                const sender = onlineUsersRef.current.find(u => u.uin === data.from);
+                if (sender) {
+                    try { messageText = await CryptoService.hybridDecrypt(data.text, data.kyberCT, sodium.from_base64(sender.publicKey!), myKeysRef.current.kyber.secretKey, myKeysRef.current.classic.privateKey); }
+                    catch (e) { messageText = '[Decrypted Error]'; }
                 }
-                saveMessageToDB({ chatId: data.from, fromUin: data.from, fromUsername: data.fromUsername || 'User', text: messageText, timestamp: Date.now(), isSecure: true, type: 'private' });
-                handleIncomingChat(data.from); if (!data.isBuzz) playSound('Message');
             }
+            saveMessageToDB({ chatId: data.from, fromUin: data.from, fromUsername: data.fromUsername || 'User', text: messageText, timestamp: Date.now(), isSecure: true, type: 'private' });
+            handleIncomingChat(data.from); if (!data.isBuzz) playSound('Message');
         } else if (data.type === 'message') {
             if (data.from === uinRef.current) return;
             let text = data.text; let isSecure = false;
             if (data.isEncrypted && roomKeyRef.current) { try { text = await CryptoService.decryptSymmetric(data.text, roomKeyRef.current); isSecure = true; } catch (e) { text = '[Decrypted Error]'; } }
             saveMessageToDB({ chatId: 'public', fromUin: data.from, fromUsername: data.fromUsername, text, timestamp: Date.now(), isSecure, type: 'public' });
             playSound('Message');
-        } else if (data.type === 'signal') { rtc.current?.handleSignal(data.from, data.signal); }
+        } else if (data.type === 'signal') {
+            rtc.current?.handleSignal(data.from, data.signal);
+        }
     };
 
     useEffect(() => {
@@ -314,33 +355,23 @@ function App() {
                 
                 {!collapsed && (
                     <div style={{ backgroundColor: '#fff', borderBottom: '1px solid #808080', minHeight: '10px' }}>
-                        {zoneContacts.map(contact => {
-                            const isOnline = onlineUsers.some(u => u.uin === contact.uin);
+                        {zoneContacts.map(c => {
+                            const isOnline = onlineUsers.some(u => u.uin === c.uin);
+                            const unread = unreadCounts[c.uin] || 0;
                             return (
-                                <div
-                                    key={contact.uin}
-                                    draggable
-                                    onDragStart={() => setDragUin(contact.uin)}
-                                    onDragEnd={() => setDragUin(null)}
-                                    className="sidebar-contact-item"
-                                    style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}
-                                >
-                                    <div onClick={() => openChat(contact.uin)} style={{ flex: 1, display: 'flex', alignItems: 'center', gap: '5px' }}>
-                                        <img src="/assets/icq-classic/flower.png" style={{ width: '12px', height: '12px', filter: isOnline ? 'none' : 'grayscale(100%)' }} />
-                                        <span style={{ color: isOnline ? '#000' : '#808080' }}>{contact.username}</span>
-                                        {unreadCounts[contact.uin] > 0 && <span style={{ color: 'red', fontWeight: 'bold', fontSize: '10px' }}>[{unreadCounts[contact.uin]}]</span>}
+                                <div key={c.uin} onClick={() => openChat(c.uin)} className="sidebar-contact-item" style={{ 
+                                    display: 'flex', alignItems: 'center', gap: '5px', padding: '4px 6px', fontSize: '11px', cursor: 'pointer',
+                                    borderBottom: '1px solid #eee'
+                                }}>
+                                    <img src="./assets/icq-classic/flower_sidebar.png" style={{ 
+                                        width: '12px', height: '12px', 
+                                        filter: isOnline ? 'none' : 'grayscale(100%) brightness(1.2)',
+                                        opacity: isOnline ? 1 : 0.6
+                                    }} alt="status" />
+                                    <div style={{ flex: 1, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', color: isOnline ? '#000' : '#666' }}>
+                                        {c.username}
                                     </div>
-                                    
-                                    <button 
-                                        className="btn-archive-mini" 
-                                        onClick={(e) => { 
-                                            e.stopPropagation(); 
-                                            db.contacts.update([uin, contact.uin], { isArchived: !contact.isArchived }); 
-                                        }}
-                                        title={contact.isArchived ? "Move to Active" : "Move to Archive"}
-                                    >
-                                        {contact.isArchived ? '↑' : '↓'}
-                                    </button>
+                                    {unread > 0 && <span style={{ background: '#f00', color: '#fff', padding: '0 4px', borderRadius: '4px', fontSize: '9px', fontWeight: 'bold' }}>{unread}</span>}
                                 </div>
                             );
                         })}
@@ -352,17 +383,16 @@ function App() {
     };
 
     const openChat = (remoteUin: string) => {
-        setWindows(prev => {
-            const exists = prev.find(w => w.uin === remoteUin);
-            if (exists) return prev.map(w => w.uin === remoteUin ? { ...w, zIndex: maxZIndex + 1 } : w);
-            return [...prev, { uin: remoteUin, zIndex: maxZIndex + 1, position: { x: 300, y: 100 } }];
-        });
-        setMaxZIndex(prev => prev + 1);
+        const contact = allContacts.find(c => c.uin === remoteUin);
+        const name = contact ? contact.username : remoteUin;
+        (window as any).electron?.send('open-chat', { uin: remoteUin, username: name });
         setUnreadCounts(prev => { const updated = { ...prev }; delete updated[remoteUin]; return updated; });
     };
 
-    const closeWindow = (uin: string) => setWindows(prev => prev.filter(w => w.uin !== uin));
-    const focusWindow = (uin: string) => { setWindows(prev => prev.map(w => w.uin === uin ? { ...w, zIndex: maxZIndex + 1 } : w)); setMaxZIndex(prev => prev + 1); };
+    const copyUin = () => {
+        navigator.clipboard.writeText(uin);
+        // Silent copy as requested
+    };
 
     if (!uin) {
         return (
@@ -380,7 +410,7 @@ function App() {
                         </div>
                     ) : (
                         <>
-                            <img src="./assets/icq-classic/flower_v2.png" className="login-flower-large" style={{ backgroundColor: '#f0f0f0' }} />
+                            <img src="./assets/icq-classic/flower_light.png" className="login-flower-large" style={{ backgroundColor: '#f0f0f0' }} />
                             
                             <div className="login-fields">
                                 <div className="login-input-wrapper">
@@ -444,16 +474,74 @@ function App() {
         );
     }
 
+    if (mode === 'add_contact') {
+        return (
+            <div className="auth-dialog-window" style={{ width: '100vw', height: '100vh', border: 'none' }}>
+                <div className="chat-titlebar"><span>Add New Contact</span></div>
+                <div style={{ padding: '15px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                    <div className="login-input-group"><label>Target UIN:</label><input type="text" value={addFormUin} onChange={e => setAddFormUin(e.target.value)} placeholder="Enter #UIN" /></div>
+                    <div className="login-input-group"><label>Introduction Message:</label>
+                        <textarea style={{ height: '120px', fontSize: '11px', resize: 'none' }} value={addFormMsg} onChange={e => setAddFormMsg(e.target.value)} />
+                    </div>
+                    <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '15px', marginTop: '20px' }}>
+                        <button style={{ height: '35px', padding: '0 20px' }} onClick={() => window.close()}>Cancel</button>
+                        <button style={{ height: '35px', padding: '0 20px' }} className="btn-talk" onClick={submitAddRequest}>Send Request</button>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
+    if (mode === 'incoming_auth' && pendingRequest) {
+        return (
+            <div className="overlay" style={{ pointerEvents: 'auto', display: 'flex', backgroundColor: '#d4d0c8', width: '100vw', height: '100vh' }}>
+                <div className="auth-dialog-window" style={{ margin: 'auto', width: '300px', position: 'static' }}>
+                    <div className="chat-titlebar"><span>Incoming Request</span></div>
+                    <div style={{ padding: '15px', textAlign: 'center' }}>
+                        <div style={{ fontWeight: 'bold', marginBottom: '10px' }}>{pendingRequest.fromUsername} ({pendingRequest.fromUin})</div>
+                        <div style={{ fontSize: '11px', marginBottom: '15px', background: '#fff', padding: '8px', border: '1px inset #808080' }}>"{pendingRequest.reason}"</div>
+                        <div style={{ display: 'flex', justifyContent: 'center', gap: '15px' }}>
+                            <button style={{ height: '35px', padding: '0 20px' }} onClick={() => handleAuthAction('decline')}>Decline</button>
+                            <button style={{ height: '35px', padding: '0 20px', minWidth: '100px' }} className="btn-signin-gold" onClick={() => handleAuthAction('authorize')}>Authorize</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
+    if (isChatOnly) {
+        const targetUser = allContacts.find(c => c.uin === chatModeUin) || { uin: chatModeUin, username: `User ${chatModeUin}` };
+        const chatMessages = allStoredMessages.filter(m => m.chatId === chatModeUin);
+        return (
+            <div style={{ height: '100vh', backgroundColor: '#d4d0c8', overflow: 'hidden' }}>
+                <ChatWindow 
+                    user={targetUser as any} 
+                    messages={chatMessages} 
+                    onSendMessage={(txt) => sendMessage(chatModeUin!, txt)} 
+                    onBuzz={() => sendBuzz(chatModeUin!)} 
+                    buzzCooldown={buzzCooldown} 
+                    onClose={() => window.close()} 
+                    onFocus={() => {}} 
+                    zIndex={100} 
+                    initialPosition={{ x: 0, y: 0 }} 
+                />
+            </div>
+        );
+    }
+
     return (
         <div style={{ height: '100vh', display: 'flex', flexDirection: 'column', position: 'relative' }} className={isShaking ? 'shake-animation' : ''}>
             {/* Main ICQ Sidebar */}
-            <div style={{ width: '220px', height: '100%', display: 'flex', flexDirection: 'column', borderRight: '2px solid #808080', backgroundColor: '#d4d0c8', zIndex: 50, overflowY: 'auto' }}>
+            <div style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column', borderRight: '2px solid #808080', backgroundColor: '#d4d0c8', zIndex: 50, overflowY: 'auto' }}>
                 <div style={{ padding: '6px 8px', display: 'flex', alignItems: 'center', gap: '8px', borderBottom: '1px solid #808080', backgroundColor: '#d4d0c8' }}>
-                    <img src="/assets/icq-classic/flower_v2.png" style={{ width: '28px', height: '28px', backgroundColor: '#d4d0c8' }} />
+                    <img src="./assets/icq-classic/flower_sidebar.png" alt="status" style={{ width: '28px', height: '28px', backgroundColor: '#d4d0c8' }} />
                     <div style={{ flex: 1 }}>
                         <div style={{ fontWeight: 'bold', fontSize: '12px' }}>{username}</div>
                         <div style={{ color: 'green', fontSize: '10px' }}>● Online</div>
-                        <div style={{ color: '#555', fontSize: '9px', userSelect: 'all', cursor: 'text' }}>UIN: <b>{uin}</b></div>
+                        <div onClick={copyUin} style={{ color: '#0055ff', fontSize: '9px', userSelect: 'all', cursor: 'pointer', textDecoration: 'underline' }} title="Click to copy UIN">
+                            UIN: <b>{uin.replace(/(\d{3})(?=\d)/g, '$1-')}</b>
+                        </div>
                     </div>
                     <button
                         title="Sign out"
@@ -467,37 +555,14 @@ function App() {
                 <SidebarZone name="work" title="WORK" />
                 <SidebarZone name="other" title="OTHER" />
                 <div style={{ marginTop: 'auto', padding: '10px', borderTop: '1px solid #808080', backgroundColor: '#d4d0c8' }}>
-                    <button onClick={() => setShowAddDialog(true)} style={{ width: '100%', fontWeight: 'bold' }}>Add Contact</button>
+                    <button onClick={() => (window as any).electron.send('open-window', { mode: 'add_contact' })} style={{ width: '100%', fontWeight: 'bold' }}>Add Contact</button>
                 </div>
             </div>
 
-            {/* Content Area / Windows */}
-            <div style={{ position: 'absolute', top: 0, left: 220, right: 0, bottom: 0, overflow: 'hidden' }}>
-                {windows.map(win => {
-                    const targetUser = (win.uin === 'public' ? { uin: 'public', username: 'Main Channel' } : (allContacts.find(u => u.uin === win.uin) || { uin: win.uin, username: 'Unknown' })) as any;
-                    const winMessages = allStoredMessages.filter(m => m.chatId === win.uin);
-                    return (<ChatWindow key={win.uin} user={targetUser} messages={winMessages} onSendMessage={(txt) => sendMessage(win.uin, txt)} onBuzz={() => sendBuzz(win.uin)} buzzCooldown={win.uin === 'public' || buzzCooldown} onClose={() => closeWindow(win.uin)} onFocus={() => focusWindow(win.uin)} zIndex={win.zIndex} initialPosition={win.position} />);
-                })}
-            </div>
+            {/* Content Area - Not used in multi-window mode */}
+            <div style={{ display: 'none' }}></div>
 
-            {/* Custom Dialog: Add Contact Form */}
-            {showAddDialog && (
-                <div className="overlay" style={{ pointerEvents: 'auto' }} onClick={() => setShowAddDialog(false)}>
-                    <div className="auth-dialog-window" onClick={e => e.stopPropagation()}>
-                        <div className="chat-titlebar"><span>Add New Contact</span></div>
-                        <div style={{ padding: '15px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                            <div className="login-input-group"><label>Target UIN:</label><input type="text" value={addFormUin} onChange={e => setAddFormUin(e.target.value)} placeholder="Enter #UIN" /></div>
-                            <div className="login-input-group"><label>Introduction Message:</label>
-                                <textarea style={{ height: '80px', fontSize: '11px', resize: 'none' }} value={addFormMsg} onChange={e => setAddFormMsg(e.target.value)} />
-                            </div>
-                            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px', marginTop: '10px' }}>
-                                <button onClick={() => setShowAddDialog(false)}>Cancel</button>
-                                <button className="btn-talk" onClick={submitAddRequest}>Send Request</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            )}
+            {/* Legacy dialogs removed - moved to separate window mode */}
 
             {/* Custom Dialog: Incoming Request */}
             {pendingRequest && (

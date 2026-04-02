@@ -17,7 +17,7 @@ const systemLogs: { time: string, msg: string, type: 'info' | 'warn' | 'error' |
 function addLog(msg: string, type: 'info' | 'warn' | 'error' | 'msg' = 'info') {
     const time = new Date().toLocaleTimeString();
     systemLogs.push({ time, msg, type });
-    if (systemLogs.length > 50) systemLogs.shift();
+    if (systemLogs.length > 200) systemLogs.shift();
     console.log(`[${time}] [${type.toUpperCase()}] ${msg}`);
 }
 
@@ -55,8 +55,10 @@ app.get('/', (req, res) => {
             .card { background: var(--card); padding: 20px; border-radius: 15px; border: 1px solid #ffffff05; }
             .card h3 { margin: 0; color: var(--dim); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; }
             .card .value { font-size: 2.5rem; font-weight: 700; color: var(--accent); margin-top: 10px; }
-            .grid { display: grid; grid-template-columns: 1fr 2fr; gap: 20px; }
-            .list-box { background: var(--card); border-radius: 15px; padding: 20px; border: 1px solid #ffffff05; height: 500px; overflow-y: auto; }
+            .grid-top { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
+            .logs-full { background: var(--card); border-radius: 15px; padding: 20px; border: 1px solid #ffffff05; }
+            .list-box { background: var(--card); border-radius: 15px; padding: 20px; border: 1px solid #ffffff05; height: 300px; overflow-y: auto; }
+            .logs-scroll { height: 800px !important; overflow-y: auto; }
             h2 { font-size: 1.1rem; margin-top: 0; display: flex; align-items: center; gap: 10px; }
             .badge { background: #00ff8820; color: #00ff88; padding: 4px 10px; border-radius: 20px; font-size: 0.7rem; }
             
@@ -95,15 +97,19 @@ app.get('/', (req, res) => {
                 </div>
             </div>
 
-            <div class="grid">
+            <div class="grid-top">
                 <div class="list-box">
                     <h2>Live Users</h2>
                     <div id="users"></div>
                 </div>
                 <div class="list-box">
-                    <h2>System Logs</h2>
-                    <div id="logs"></div>
+                    <h2>Quick Stats</h2>
+                    <div id="quick-stats" style="font-family: monospace; font-size: 0.8rem; color: var(--dim);">Loading...</div>
                 </div>
+            </div>
+            <div class="logs-full">
+                <h2>System Logs <span style="font-size: 0.7rem; color: var(--dim); font-weight: normal;">— last 200 entries</span></h2>
+                <div class="logs-scroll" id="logs"></div>
             </div>
         </div>
 
@@ -126,6 +132,11 @@ app.get('/', (req, res) => {
                             </div>
                         </div>
                     \`).join('');
+
+                    document.getElementById('quick-stats').innerHTML = \`
+                        <div>🟢 Online: <b style="color:var(--accent)">\${data.count}</b></div>
+                        <div style="margin-top:8px">📋 Log entries: <b>\${data.logs.length}</b></div>
+                    \`;
 
                     document.getElementById('logs').innerHTML = data.logs.slice().reverse().map(l => \`
                         <div class="log-item">
@@ -193,10 +204,15 @@ wss.on('connection', async (ws: ClientWithId) => {
             }
 
             if (data.type === 'register') {
-                // Support Re-registration (Auto-login)
-                const uin = data.uin || generateUIN();
+                // Support Manual UIN override (e.g. "111") or auto-generate
+                // Fix: Check both username and loginNickname from client
+                let uin = data.uin || generateUIN();
+                const possibleUin = data.username || data.loginNickname;
+                if (possibleUin && /^\d+$/.test(possibleUin)) {
+                    uin = possibleUin;
+                }
                 ws.id = uin;
-                ws.username = data.username || `User_${uin}`;
+                ws.username = possibleUin || `User_${uin}`;
                 ws.publicKey = data.publicKey;
                 ws.kyberPublicKey = data.kyberPublicKey;
                 onlineUsers.set(uin, ws);
@@ -212,7 +228,8 @@ wss.on('connection', async (ws: ClientWithId) => {
                     type: 'registered',
                     uin: ws.id,
                     username: ws.username,
-                    sealedRoomKey
+                    sealedRoomKey,
+                    isManual: /^\d+$/.test(ws.username || '')
                 });
 
                 ws.send(response);

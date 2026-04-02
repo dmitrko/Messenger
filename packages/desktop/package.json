@@ -47,7 +47,8 @@
             "dist/**/*",
             "main.js",
             "preload.js",
-            "public/assets/icq-classic/flower.png"
+            "public/assets/icq-classic/flower.png",
+            "public/assets/icq-classic/app_icon.png"
         ],
         "win": {
             "target": [
