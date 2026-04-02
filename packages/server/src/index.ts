@@ -45,8 +45,8 @@ function broadcastUserList() {
 }
 
 function generateUIN(): string {
-    const min = 100000;
-    const max = 999999999;
+    const min = 10;
+    const max = 99;
     let uin = Math.floor(Math.random() * (max - min + 1) + min).toString();
     while (onlineUsers.has(uin)) {
         uin = Math.floor(Math.random() * (max - min + 1) + min).toString();
@@ -74,8 +74,9 @@ wss.on('connection', async (ws: ClientWithId) => {
             }
 
             if (data.type === 'register') {
-                console.log('Processing registration for:', data.username);
-                const uin = generateUIN();
+                console.log('Processing registration/login for:', data.username);
+                // If UIN is provided, reuse it (Legacy or persistent)
+                const uin = data.uin || generateUIN();
                 ws.id = uin;
                 ws.username = data.username || `User_${uin}`;
                 ws.publicKey = data.publicKey;

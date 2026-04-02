@@ -57,7 +57,7 @@ const ChatWindow: React.FC<ChatWindowProps> = ({
                 {/* Title Bar */}
                 <div className="chat-titlebar">
                     <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
-                        <img src="/assets/icq-classic/flower.BMP" style={{ width: '13px', height: '13px' }} alt="" />
+                        <img src="/assets/icq-classic/flower.png" style={{ width: '13px', height: '13px' }} alt="" />
                         <span>{user.username} (Online) - Message Session</span>
                     </div>
                     <div style={{ display: 'flex' }}>
@@ -74,7 +74,7 @@ const ChatWindow: React.FC<ChatWindowProps> = ({
                         <div className="chat-info-value">{user.uin}</div>
                     </div>
                     <div className="chat-info-field">
-                        <img src="/assets/icq-classic/flower.BMP" style={{ width: '16px', height: '16px' }} alt="" />
+                        <img src="/assets/icq-classic/flower.png" style={{ width: '16px', height: '16px' }} alt="" />
                         <span>Nick:</span>
                         <div className="chat-info-value" style={{ minWidth: '100px' }}>{user.username}</div>
                     </div>

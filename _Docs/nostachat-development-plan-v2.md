@@ -521,7 +521,7 @@ export function openChatWindow(contactId: string, contactName: string) {
 
 ---
 
-## ✅ ИТЕРАЦИЯ 6: SMS-переброска (3-4 дня)
+## ✅ ИТЕРАЦИЯ 6: SMS-переброска (3-4 дня) - откладываем на потом как дополнительную доработку
 
 ```typescript
 // server/src/sms-gateway.ts
@@ -569,7 +569,7 @@ export class EmailSignaling {
 }
 ```
 
-### 7.2 Transport Manager
+### 7.2 Transport Manager откладываем на потом как дополнительную доработку
 
 ```typescript
 // desktop/src/services/transport-manager.ts
@@ -1191,5 +1191,6 @@ From/To/Subject headers, tagline at bottom of messages."
 - [ ] **Persistent Layout**: Сохранение координат окон в БД (на основе `uin`), чтобы после перезагрузки они восстанавливались.
 
 ### 4. Multi-Account UI
-- [ ] Улучшенный экран выбора аккаунта (если в базе несколько UIN).
+- [ ] Улучшенный экран выбора аккаунта (если в базе несколько UIN)
+- [ ] Расширение страницы авторизации - возможность войти как по нику так и по UIN
 - [ ] Быстрый логаут/смена пользователя.

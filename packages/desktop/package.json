@@ -2,11 +2,14 @@
     "name": "@nostachat/desktop",
     "version": "1.0.0",
     "private": true,
-    "type": "module",
+    "main": "main.js",
+    "type": "commonjs",
     "scripts": {
         "dev": "vite",
         "build": "tsc && vite build",
-        "preview": "vite preview"
+        "preview": "vite preview",
+        "electron:dev": "concurrently \"npm.cmd run dev\" \"wait-on http://localhost:5173 && cross-env NODE_ENV=development electron .\"",
+        "electron:build": "npm.cmd run build && electron-builder --win"
     },
     "dependencies": {
         "@nostachat/shared": "*",
@@ -25,7 +28,32 @@
         "@types/react": "^18.3.28",
         "@types/react-dom": "^18.3.7",
         "@vitejs/plugin-react": "^4.7.0",
+        "concurrently": "^9.2.1",
+        "cross-env": "^7.0.3",
+        "electron": "31.7.7",
+        "electron-builder": "^26.8.1",
         "typescript": "^5.9.3",
-        "vite": "^5.4.21"
+        "vite": "^5.4.21",
+        "wait-on": "^9.0.4"
+    },
+    "build": {
+        "appId": "com.nostachat.desktop",
+        "productName": "NostaChat",
+        "electronVersion": "31.7.7",
+        "directories": {
+            "output": "dist_electron"
+        },
+        "files": [
+            "dist/**/*",
+            "main.js",
+            "preload.js",
+            "public/assets/icq-classic/flower.png"
+        ],
+        "win": {
+            "target": [
+                "portable"
+            ],
+            "icon": "public/assets/icq-classic/flower.png"
+        }
     }
 }
